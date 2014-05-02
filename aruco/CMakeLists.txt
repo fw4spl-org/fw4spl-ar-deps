@@ -1,0 +1,26 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+
+PROJECT(arucoBuilder)
+
+INCLUDE(ExternalProject)
+
+GET_CACHED_URL(https://github.com/greenjava/aruco/archive/1.2.4a.tar.gz CACHED_URL)
+
+SET(ARUCO_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
+                   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+                   -DBUILD_SHARED_LIBS:BOOL=ON
+                   -DINSTALL_DOC:BOOL=OFF
+                   -DBUILD_UTILS:BOOL=OFF
+)
+
+SET(ARUCO_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/aruco-prefix/src/aruco/trunk)
+
+ExternalProject_Add(
+    aruco
+    URL ${CACHED_URL}
+    DOWNLOAD_DIR ${ARCHIVE_DIR}
+    DEPENDS opencv
+    INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
+    CONFIGURE_COMMAND cmake  ${ARUCO_CMAKE_ARGS} ${ARUCO_SRC_DIR}
+    BUILD_COMMAND ${MAKE} ${ARUCO_SRC_DIR}
+)
