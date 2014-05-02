@@ -4,6 +4,8 @@ PROJECT(ArBinPkgs)
 
 ADD_SUBDIRECTORY(aruco)
 ADD_SUBDIRECTORY(eigen)
+ADD_SUBDIRECTORY(flann)
+
 
 
 
