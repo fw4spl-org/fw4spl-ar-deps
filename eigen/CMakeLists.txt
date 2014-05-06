@@ -21,4 +21,10 @@ ExternalProject_Add(
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${EIGEN_CMAKE_ARGS}
+    STEP_TARGETS CopyConfigFileToInstall
+)
+
+ExternalProject_Add_Step(eigen CopyConfigFileToInstall
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/findBinpkgs/FindEigen.cmake ${CMAKE_INSTALL_PREFIX}/FindEigen.cmake
+    COMMENT "Install configuration file"
 )

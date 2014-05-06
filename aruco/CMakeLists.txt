@@ -24,4 +24,10 @@ ExternalProject_Add(
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CONFIGURE_COMMAND ${CMAKE_COMMAND} -G ${CMAKE_GENERATOR} ${ARUCO_CMAKE_ARGS} ${ARUCO_SRC_DIR}
     BUILD_COMMAND ${MAKE} ${ARUCO_SRC_DIR}
+    STEP_TARGETS CopyConfigFileToInstall
+)
+
+ExternalProject_Add_Step(aruco CopyConfigFileToInstall
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/findBinpkgs/FindAruco.cmake ${CMAKE_INSTALL_PREFIX}/FindAruco.cmake
+    COMMENT "Install configuration file"
 )
