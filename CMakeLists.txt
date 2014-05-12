@@ -2,12 +2,24 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 PROJECT(ArBinPkgs)
 
-ADD_SUBDIRECTORY(aruco)
-ADD_SUBDIRECTORY(eigen)
-ADD_SUBDIRECTORY(flann)
-ADD_SUBDIRECTORY(igstkAurora)
-ADD_SUBDIRECTORY(pcl)
+list(APPEND SUBDIRECTORIES aruco)
+list(APPEND SUBDIRECTORIES eigen)
+list(APPEND SUBDIRECTORIES flann)
+list(APPEND SUBDIRECTORIES igstkAurora)
+list(APPEND SUBDIRECTORIES pcl)
 
+FOREACH(subdir ${SUBDIRECTORIES})
+    # define an uninstall target for each project
+    configure_file(
+        "${CMAKE_SOURCE_DIR}/cmake_uninstall.cmake.in"
+        "${CMAKE_BINARY_DIR}/${subdir}/cmake_uninstall.cmake"
+        IMMEDIATE @ONLY)
 
+    add_custom_target(${subdir}_uninstall
+        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_BINARY_DIR}/${subdir}/cmake_uninstall.cmake)
 
+    # define the standard location for the intermediate install directory
+    SET(INSTALL_PREFIX_${subdir} ${CMAKE_SOURCE_DIR}/${subdir}-prefix/src/${subdir}-install-tmp)
 
+    ADD_SUBDIRECTORY(${subdir})
+ENDFOREACH()
