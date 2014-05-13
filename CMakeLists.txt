@@ -19,7 +19,7 @@ FOREACH(subdir ${SUBDIRECTORIES})
         COMMAND ${CMAKE_COMMAND} -P ${CMAKE_BINARY_DIR}/${subdir}/cmake_uninstall.cmake)
 
     # define the standard location for the intermediate install directory
-    SET(INSTALL_PREFIX_${subdir} ${CMAKE_SOURCE_DIR}/${subdir}-prefix/src/${subdir}-install-tmp)
+    SET(INSTALL_PREFIX_${subdir} ${CMAKE_CURRENT_BINARY_DIR}/${subdir}/${subdir}-prefix/src/${subdir}-install-tmp)
 
     ADD_SUBDIRECTORY(${subdir})
 ENDFOREACH()
