@@ -27,7 +27,3 @@ ExternalProject_Add(
     STEP_TARGETS CopyConfigFileToInstall
 )
 
-ExternalProject_Add_Step(aruco CopyConfigFileToInstall
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/findBinpkgs/FindAruco.cmake ${CMAKE_INSTALL_PREFIX}/FindAruco.cmake
-    COMMENT "Install configuration file"
-)
