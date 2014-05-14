@@ -34,7 +34,7 @@ ExternalProject_Add(
 )
 
 ExternalProject_Add_Step(artoolkitplus CopyConfigFileToInstall
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/FindArtoolkitplus.cmake ${CMAKE_INSTALL_PREFIX}/Findartoolkitplus.cmake
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/findBinpkgs/FindArtoolkitplus.cmake ${CMAKE_INSTALL_PREFIX}/Findartoolkitplus.cmake
     COMMENT "Install configuration file"
 )
 
