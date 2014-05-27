@@ -9,6 +9,7 @@ list(APPEND SUBDIRECTORIES eigen)
 list(APPEND SUBDIRECTORIES flann)
 list(APPEND SUBDIRECTORIES igstkAurora)
 list(APPEND SUBDIRECTORIES pcl)
+list(APPEND SUBDIRECTORIES bullet)
 
 FOREACH(subdir ${SUBDIRECTORIES})
     # define an uninstall target for each project
