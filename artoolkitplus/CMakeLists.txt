@@ -1,27 +1,27 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8)
 
-PROJECT(artoolkitplusBuilder)
+project(artoolkitplusBuilder)
 
-INCLUDE(ExternalProject)
+include(ExternalProject)
 
-SET(ARTKP_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
+set(ARTKP_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
                      -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX} 
                      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                      -DBUILD_EXAMPLES:BOOL=NO
 )
 
 
-IF(CMAKE_BUILD_TYPE STREQUAL "Release")
-    SET(ARTKP_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch/release)
-ELSE()
-    SET(ARTKP_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch/debug)
-ENDIF()
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(ARTKP_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch/release)
+else()
+    set(ARTKP_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch/debug)
+endif()
 
 
-SET(ARTKP_PATCH_CMD ${CMAKE_COMMAND} -E  copy_if_different "${ARTKP_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt")
+set(ARTKP_PATCH_CMD ${CMAKE_COMMAND} -E  copy_if_different "${ARTKP_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt")
 
 
-GET_CACHED_URL(http://launchpad.net/artoolkitplus/trunk/2.2.1/+download/ARToolKitPlus-2.2.1.tar.bz2 CACHED_URL)
+getCachedUrl(http://launchpad.net/artoolkitplus/trunk/2.2.1/+download/ARToolKitPlus-2.2.1.tar.bz2 CACHED_URL)
 
 ExternalProject_Add(
     artoolkitplus

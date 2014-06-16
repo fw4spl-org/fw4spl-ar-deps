@@ -1,10 +1,10 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8)
 
-PROJECT(opencvBuilder)
+project(opencvBuilder)
 
-INCLUDE(ExternalProject)
+include(ExternalProject)
 
-SET(OPENCV_CMAKE_ARGS 
+set(OPENCV_CMAKE_ARGS 
     -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
     -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -33,28 +33,28 @@ SET(OPENCV_CMAKE_ARGS
     -DBUILD_ZLIB:BOOL=OFF
 )
 
-IF(WIN32)
-SET(OPENCV_CMAKE_ARGS ${OPENCV_CMAKE_ARGS}
+if(WIN32)
+set(OPENCV_CMAKE_ARGS ${OPENCV_CMAKE_ARGS}
     -DWITH_DSHOW:BOOL=ON
     -DWITH_MSMF:BOOL=OFF #required MSVC_2012+
     -DWITH_GSTREAMER:BOOL=OFF
     -DWITH_FFMPEG:BOOL=OFF
     )
-ELSEIF(APPLE)
-SET(OPENCV_CMAKE_ARGS ${OPENCV_CMAKE_ARGS}
+elseif(APPLE)
+set(OPENCV_CMAKE_ARGS ${OPENCV_CMAKE_ARGS}
     -DWITH_QUICKTIME:BOOL=OFF
     -DWITH_FFMPEG:BOOL=ON
     )
-ELSE()
-SET(OPENCV_CMAKE_ARGS ${OPENCV_CMAKE_ARGS}
+else()
+set(OPENCV_CMAKE_ARGS ${OPENCV_CMAKE_ARGS}
     #required ffmpeg or libav development packages: libavcodec-dev, libavformat-dev, libswscale-dev
     -DWITH_FFMPEG:BOOL=ON
     -DWITH_V4L:BOOL=ON
     -DWITH_GSTREAMER:BOOL=OFF
     )
-ENDIF()
+endif()
 
-GET_CACHED_URL(https://github.com/Itseez/opencv/archive/2.4.8.tar.gz CACHED_URL)
+getCachedUrl(https://github.com/Itseez/opencv/archive/2.4.8.tar.gz CACHED_URL)
 
 ExternalProject_Add(
     opencv

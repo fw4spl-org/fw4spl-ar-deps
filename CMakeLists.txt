@@ -1,6 +1,6 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8)
 
-PROJECT(ArBinPkgs)
+project(ArBinPkgs)
 
 list(APPEND SUBDIRECTORIES opencv)
 list(APPEND SUBDIRECTORIES artoolkitplus)
@@ -11,7 +11,7 @@ list(APPEND SUBDIRECTORIES igstkAurora)
 list(APPEND SUBDIRECTORIES pcl)
 list(APPEND SUBDIRECTORIES bullet)
 
-FOREACH(subdir ${SUBDIRECTORIES})
+foreach(subdir ${SUBDIRECTORIES})
     # define an uninstall target for each project
     configure_file(
         "${CMAKE_SOURCE_DIR}/cmake_uninstall.cmake.in"
@@ -22,7 +22,7 @@ FOREACH(subdir ${SUBDIRECTORIES})
         COMMAND ${CMAKE_COMMAND} -P ${CMAKE_BINARY_DIR}/${subdir}/cmake_uninstall.cmake)
 
     # define the standard location for the intermediate install directory
-    SET(INSTALL_PREFIX_${subdir} ${CMAKE_CURRENT_BINARY_DIR}/${subdir}/${subdir}-prefix/src/${subdir}-install-tmp)
+    set(INSTALL_PREFIX_${subdir} ${CMAKE_CURRENT_BINARY_DIR}/${subdir}/${subdir}-prefix/src/${subdir}-install-tmp)
 
-    ADD_SUBDIRECTORY(${subdir})
-ENDFOREACH()
+    add_subdirectory(${subdir})
+endforeach()

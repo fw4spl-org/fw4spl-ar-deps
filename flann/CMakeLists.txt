@@ -1,12 +1,12 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8)
 
-PROJECT(flannBuilder)
+project(flannBuilder)
 
-INCLUDE(ExternalProject)
+include(ExternalProject)
 
-GET_CACHED_URL(http://people.cs.ubc.ca/~mariusm/uploads/FLANN/flann-1.8.4-src.zip CACHED_URL)
+getCachedUrl(http://people.cs.ubc.ca/~mariusm/uploads/FLANN/flann-1.8.4-src.zip CACHED_URL)
 
-SET(FLANN_CMAKE_ARGS    -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
+set(FLANN_CMAKE_ARGS    -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
                         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                         -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
                         -DBUILD_C_BINDINGS:BOOL=OFF
@@ -15,7 +15,7 @@ SET(FLANN_CMAKE_ARGS    -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
 )
 
 # Patch to disabled tests and examples (compilation error on win32)
-SET(FLANN_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
+set(FLANN_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 
 ExternalProject_Add(
     flann

@@ -1,12 +1,12 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8)
 
-PROJECT(pclBuilder)
+project(pclBuilder)
 
-INCLUDE(ExternalProject)
+include(ExternalProject)
 
-GET_CACHED_URL(https://github.com/PointCloudLibrary/pcl/archive/pcl-1.7.1.tar.gz CACHED_URL)
+getCachedUrl(https://github.com/PointCloudLibrary/pcl/archive/pcl-1.7.1.tar.gz CACHED_URL)
 
-SET(PCL_CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
+set(PCL_CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
                         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                         -DBUILD_2d:BOOL=ON
                         -DBUILD_apps:BOOL=OFF
@@ -52,16 +52,16 @@ SET(PCL_CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
                         -DZLIB_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/zlib
                         -DQT_QMAKE_EXECUTABLE:PATH=${CMAKE_INSTALL_PREFIX}/bin/qmake
 )
-SET(PCL_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
+set(PCL_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 
-IF(UNIX)
+if(UNIX)
     #BUG due to gcc <4.8 and Qt5
     #(see https://github.com/PointCloudLibrary/pcl/issues/272 && http://www.pcl-users.org/installing-pcl-trunk-td4030028.html )
-    SET(PCL_PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${PCL_PATCH_DIR}/CMakeLists.txt ${CMAKE_CURRENT_BINARY_DIR}/pcl-prefix/src/pcl/CMakeLists.txt)
-ELSE()
+    set(PCL_PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${PCL_PATCH_DIR}/CMakeLists.txt ${CMAKE_CURRENT_BINARY_DIR}/pcl-prefix/src/pcl/CMakeLists.txt)
+else()
     # Disabled foce use of Boost_USE_STATIC_LIBS=ON for win32
-    SET(PCL_PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${PCL_PATCH_DIR}/pcl_find_boost.cmake ${CMAKE_CURRENT_BINARY_DIR}/pcl-prefix/src/pcl/cmake/pcl_find_boost.cmake)
-ENDIF()
+    set(PCL_PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${PCL_PATCH_DIR}/pcl_find_boost.cmake ${CMAKE_CURRENT_BINARY_DIR}/pcl-prefix/src/pcl/cmake/pcl_find_boost.cmake)
+endif()
 
 ExternalProject_Add(
     pcl
