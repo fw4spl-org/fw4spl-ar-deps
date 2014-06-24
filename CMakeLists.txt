@@ -10,6 +10,9 @@ list(APPEND SUBDIRECTORIES flann)
 list(APPEND SUBDIRECTORIES igstkAurora)
 list(APPEND SUBDIRECTORIES pcl)
 list(APPEND SUBDIRECTORIES bullet)
+list(APPEND SUBDIRECTORIES ois)
+list(APPEND SUBDIRECTORIES zzip)
+list(APPEND SUBDIRECTORIES ogre)
 
 foreach(subdir ${SUBDIRECTORIES})
     # define an uninstall target for each project
