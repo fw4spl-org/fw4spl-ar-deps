@@ -11,7 +11,7 @@ set(OGRE_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
                     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
                     -DBUILD_SHARED_LIBS:BOOL=ON
                     -DZLIB_ROOT=${CMAKE_INSTALL_PREFIX}
-                    -DOIS_HOME:PATH=${DEP_OIS}
+                    -DOIS_HOME:PATH=${CMAKE_INSTALL_PREFIX}
                     -DOGRE_USE_BOOST:BOOL=ON
                     -DOGRE_BUILD_SAMPLES:BOOL=OFF
                     -DOGRE_INSTALL_SAMPLES:BOOL=OFF
@@ -27,7 +27,9 @@ set(OGRE_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
                     -DOGRE_INSTALL_DEPENDENCIES:BOOL=OFF
                     -DOGRE_CONFIG_ENABLE_ZIP:BOOL=ON
    )
-
+if(WIN32)
+    set(OGRE_CMAKE_ARGS ${OGRE_CMAKE_ARGS} -DOGRE_INSTALL_PDB:BOOL=OFF)
+endif()
 
 ExternalProject_Add(
     ogre
@@ -39,6 +41,17 @@ ExternalProject_Add(
     CMAKE_ARGS ${OGRE_CMAKE_ARGS}
     STEP_TARGETS CopyConfigFileToInstall
 )
+
+if(WIN32)
+    ExternalProject_Add_Step(ogre PatchCMake
+        COMMAND ${CMAKE_COMMAND} -DINPUT_FILE:PATH=<SOURCE_DIR>/CMake/Utils/PrecompiledHeader.cmake
+                                 -DSEARCH:STRING=MSVC
+                                 -DREPLACEMENT_TEXT:STRING=MSVC_IDE
+                                 -P ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/patch.cmake
+        DEPENDEES download 
+        COMMENT "Patch PrecompiledHeader.cmake"
+    )
+endif()
 
 ExternalProject_Add_Step(ogre CopyConfigFileToInstall
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/cmake/fw-Ogre.cmake ${CMAKE_INSTALL_PREFIX}/fw-Ogre.cmake
