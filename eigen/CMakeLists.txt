@@ -9,17 +9,14 @@ getCachedUrl(http://bitbucket.org/eigen/eigen/get/3.1.2.tar.gz CACHED_URL)
 set(EIGEN_CMAKE_ARGS    -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
                         -DBUILD_SHARED_LIBS:BOOL=ON
                         -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+                        -DEIGEN_TEST_NOQT:BOOL=ON
+                        -DBUILD_TESTING:BOOL=ON
 )
 
 if(ANDROID)
     list(APPEND EIGEN_CMAKE_ARGS
         -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
         -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-    )
-else()
-    list(APPEND EIGEN_CMAKE_ARGS
-        -DBUILD_TESTING:BOOL=ON
-        -DEIGEN_TEST_NOQT:BOOL=ON
     )
 endif()
 
