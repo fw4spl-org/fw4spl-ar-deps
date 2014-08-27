@@ -13,11 +13,20 @@ set(EIGEN_CMAKE_ARGS    -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
                         -DBUILD_TESTING:BOOL=ON
 )
 
+set(EIGEN_PATCH_CMD "")
+
 if(ANDROID)
     list(APPEND EIGEN_CMAKE_ARGS
         -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
         -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
     )
+    
+    if (${CMAKE_HOST_WIN32})
+        set(EIGEN_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
+        set(EIGEN_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/eigen-prefix/src/eigen)
+        # Fixed compiler check (macro ei_get_compilerver)
+        set(EIGEN_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${EIGEN_PATCH_DIR}/EigenTesting.cmake" "${EIGEN_SRC_DIR}/CMake/EigenTesting.cmake")
+    endif()
 endif()
 
 set(EIGEN_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/eigen-prefix/src/eigen)
@@ -26,6 +35,7 @@ ExternalProject_Add(
     eigen
     URL ${CACHED_URL}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
+    PATCH_COMMAND ${EIGEN_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${EIGEN_CMAKE_ARGS}
     STEP_TARGETS CopyConfigFileToInstall
