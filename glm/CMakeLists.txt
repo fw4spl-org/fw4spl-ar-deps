@@ -25,5 +25,6 @@ ExternalProject_Add(
 ExternalProject_Add_Step(glm CopyConfigFileToInstall
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/glm-prefix/src/glm/util/FindGLM.cmake ${CMAKE_INSTALL_PREFIX}/FindGLM.cmake
     COMMENT "Install configuration file"
+    DEPENDEES install
 )
 
