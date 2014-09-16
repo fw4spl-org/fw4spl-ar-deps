@@ -15,6 +15,7 @@ if(NOT ANDROID)
     list(APPEND SUBDIRECTORIES zzip)
     list(APPEND SUBDIRECTORIES freeimage)
     list(APPEND SUBDIRECTORIES ogre)
+    list(APPEND SUBDIRECTORIES glm)
 ##Android Deps##
 else()
     list(APPEND SUBDIRECTORIES opencv)
