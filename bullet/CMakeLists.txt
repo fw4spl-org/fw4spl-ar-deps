@@ -4,8 +4,7 @@ project(bulletBuilder)
 
 include(ExternalProject)
 
-set(BULLET_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
-                      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+set(BULLET_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                       -DBUILD_CPU_DEMOS:BOOL=OFF
                       -DBUILD_DEMOS:BOOL=OFF
                       -DBUILD_EXTRAS:BOOL=OFF

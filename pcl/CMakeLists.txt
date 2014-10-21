@@ -6,8 +6,7 @@ include(ExternalProject)
 
 getCachedUrl(https://github.com/PointCloudLibrary/pcl/archive/pcl-1.7.1.tar.gz CACHED_URL)
 
-set(PCL_CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
-                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DBUILD_2d:BOOL=ON
                         -DBUILD_apps:BOOL=OFF
                         -DBUILD_CUDA:BOOL=OFF

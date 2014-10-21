@@ -4,9 +4,7 @@ project(artoolkitplusBuilder)
 
 include(ExternalProject)
 
-set(ARTKP_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
-                     -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX} 
-                     -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+set(ARTKP_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                      -DBUILD_EXAMPLES:BOOL=NO
 )
 

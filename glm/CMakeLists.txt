@@ -4,11 +4,8 @@ project(glmBuilder)
 
 include(ExternalProject)
 
-set(GLM_CMAKE_ARGS 
-    -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
-    -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
-    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-    -DBUILD_DOXYGEN:BOOL=OFF
+set(GLM_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
+                   -DBUILD_DOXYGEN:BOOL=OFF
 )
 
 getCachedUrl(http://downloads.sourceforge.net/project/ogl-math/glm-0.9.5.4/glm-0.9.5.4.zip CACHED_URL)

@@ -7,8 +7,7 @@ include(ExternalProject)
 getCachedUrl(https://bitbucket.org/sinbad/ogre/get/v1-9-0.tar.bz2 CACHED_URL)
 
 set(OGRE_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
-set(OGRE_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
-                    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DBUILD_SHARED_LIBS:BOOL=ON
                     -DZLIB_ROOT=${CMAKE_INSTALL_PREFIX}
                     -DOIS_HOME:PATH=${CMAKE_INSTALL_PREFIX}

@@ -6,12 +6,10 @@ include(ExternalProject)
 
 getCachedUrl(https://github.com/greenjava/aruco/archive/1.2.4a.tar.gz CACHED_URL)
 
-set(ARUCO_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
-                   -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
-                   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-                   -DBUILD_SHARED_LIBS:BOOL=ON
-                   -DINSTALL_DOC:BOOL=OFF
-                   -DBUILD_UTILS:BOOL=OFF
+set(ARUCO_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
+                        -DBUILD_SHARED_LIBS:BOOL=ON
+                        -DINSTALL_DOC:BOOL=OFF
+                        -DBUILD_UTILS:BOOL=OFF
 )
 if(ANDROID)
     list(APPEND ARUCO_CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}

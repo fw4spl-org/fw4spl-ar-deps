@@ -6,9 +6,7 @@ include(ExternalProject)
 
 getCachedUrl(http://people.cs.ubc.ca/~mariusm/uploads/FLANN/flann-1.8.4-src.zip CACHED_URL)
 
-set(FLANN_CMAKE_ARGS    -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
-                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-                        -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}
+set(FLANN_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
                         -DBUILD_C_BINDINGS:BOOL=OFF
                         -DBUILD_MATLAB_BINDINGS:BOOL=OFF
                         -DBUILD_PYTHON_BINDINGS:BOOL=OFF

@@ -7,8 +7,7 @@ include(ExternalProject)
 getCachedUrl(http://freefr.dl.sourceforge.net/project/wgois/Source%20Release/1.3/ois_v1-3.tar.gz CACHED_URL)
 
 set(OIS_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
-set(OIS_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} 
-                   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+set(OIS_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                    -DBUILD_SHARED_LIBS:BOOL=ON)
 
 ExternalProject_Add(
