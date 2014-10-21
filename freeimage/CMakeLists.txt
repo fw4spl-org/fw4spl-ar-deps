@@ -4,23 +4,22 @@ project(FreeImageBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(https://github.com/greenjava/FreeImage/archive/FreeImage_3.16.0.a.tar.gz CACHED_URL)
+getCachedUrl(https://github.com/greenjava/FreeImage/archive/FreeImage_3.16.0.b.tar.gz CACHED_URL)
 
-set(FREEIMAGE_CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
-                    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
-                    -DBUILD_SHARED_LIBS:BOOL=ON
-                    -DFREEIMAGE_BUILD_STATIC:BOOL=OFF
-                    -DFREEIMAGE_USE_SYSTEM_ZLIB:BOOL=ON
-                    -DFREEIMAGE_USE_SYSTEM_JPEG:BOOL=ON
-                    -DFREEIMAGE_USE_SYSTEM_PNG:BOOL=ON
-                    -DINSTALL_WRAPPER:BOOL=OFF
-                    -DINSTALL_EXAMPLES:BOOL=OFF
+set(FREEIMAGE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
+                        -DBUILD_SHARED_LIBS:BOOL=ON
+                        -DFREEIMAGE_BUILD_STATIC:BOOL=OFF
+                        -DFREEIMAGE_USE_SYSTEM_ZLIB:BOOL=ON
+                        -DFREEIMAGE_USE_SYSTEM_JPEG:BOOL=ON
+                        -DFREEIMAGE_USE_SYSTEM_PNG:BOOL=ON
+                        -DINSTALL_WRAPPER:BOOL=OFF
+                        -DINSTALL_EXAMPLES:BOOL=OFF
 )
 
 ExternalProject_Add(
     freeimage
     URL ${CACHED_URL}
-    URL_HASH SHA256=dc30b5eea4f36ea8d8fab16f8868b3beac5331ad631a4c5ab11df3686fae538c
+    URL_HASH SHA256=737a92c42b255cdc457c5d8b88cf8d6dc13a196fd74c4ac83c202e4b030419a5
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DEPENDS zlib libpng tiff jpeg
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
