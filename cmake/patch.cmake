@@ -1,0 +1,11 @@
+# CMake patch script
+# This script requires 3 variables:
+# INPUT_FILE
+# SEARCH
+# REPLACEMENT_TEXT
+
+file(READ ${INPUT_FILE} FILE_CONTENT)
+string(REPLACE ${SEARCH} ${REPLACEMENT_TEXT}
+       MODIFIED_FILE_CONTENT ${FILE_CONTENT})
+file(WRITE ${INPUT_FILE} "${MODIFIED_FILE_CONTENT}")
+message(STATUS "${INPUT_FILE} is patched.")
