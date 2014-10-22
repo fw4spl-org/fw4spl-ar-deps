@@ -1,17 +1,21 @@
 cmake_minimum_required(VERSION 2.8)
 
 project(ArBinPkgs)
+
+option(ENABLE_EXPERIMENTAL_DEPS "Set to ON to build experimentals libraries" OFF)
+
 ##Desktop Deps##
 if(NOT ANDROID)
     list(APPEND SUBDIRECTORIES opencv)
-    list(APPEND SUBDIRECTORIES artoolkitplus)
     list(APPEND SUBDIRECTORIES aruco)
     list(APPEND SUBDIRECTORIES eigen)
     list(APPEND SUBDIRECTORIES flann)
     list(APPEND SUBDIRECTORIES bullet)
     list(APPEND SUBDIRECTORIES glm)
     
-    if(NOT APPLE)
+    if(ENABLE_EXPERIMENTAL_DEPS)
+        list(APPEND SUBDIRECTORIES artoolkitplus)
+        list(APPEND SUBDIRECTORIES aram)
         list(APPEND SUBDIRECTORIES igstkAurora)
         list(APPEND SUBDIRECTORIES ois)
         list(APPEND SUBDIRECTORIES zzip)
