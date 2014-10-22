@@ -4,7 +4,7 @@ project(arucoBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(https://github.com/greenjava/aruco/archive/1.2.4a.tar.gz CACHED_URL)
+getCachedUrl(https://github.com/greenjava/aruco/archive/1.2.5a.tar.gz CACHED_URL)
 
 set(ARUCO_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
                         -DBUILD_SHARED_LIBS:BOOL=ON
