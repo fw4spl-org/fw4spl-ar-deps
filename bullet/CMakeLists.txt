@@ -11,6 +11,7 @@ set(BULLET_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                       -DBUILD_MINICL_OPENCL_DEMOS:BOOL=OFF
                       -DUSE_GLUT:BOOL=OFF
                       -DINSTALL_LIBS:BOOL=ON
+                      -DUSE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=ON
 )
 
 if(UNIX)
