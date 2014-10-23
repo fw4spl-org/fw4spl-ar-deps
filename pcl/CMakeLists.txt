@@ -6,6 +6,11 @@ include(ExternalProject)
 
 getCachedUrl(https://github.com/PointCloudLibrary/pcl/archive/pcl-1.7.1.tar.gz CACHED_URL)
 
+include( ${CMAKE_INSTALL_PREFIX}/fw-boost.cmake )
+
+find_package(Boost REQUIRED)
+find_package(ZLIB REQUIRED)
+
 set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DBUILD_2d:BOOL=ON
                         -DBUILD_apps:BOOL=OFF
@@ -35,20 +40,23 @@ set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DBUILD_tracking:BOOL=ON
                         -DBUILD_visualization:BOOL=ON
                         -DBUILD_TESTS:BOOL=OFF
+                        -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
+                        -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
+                        -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
+                        -DBoost_COMPILER:STRING=${Boost_COMPILER}
 
                         -DBOOST_LIBRARYDIR:PATH=${CMAKE_INSTALL_PREFIX}/lib
                         -DBOOST_ROOT:PATH=${CMAKE_INSTALL_PREFIX}
-                        -DBOOST_INCLUDEDIR:PATH=${CMAKE_INSTALL_PREFIX}/include/boost-1_54
+                        -DBOOST_INCLUDEDIR:PATH=${Boost_INCLUDE_DIRS}
                         -DBoost_USE_DEBUG_PYTHON:BOOL=ON
                         -DBoost_USE_MULTITHREADED:BOOL=ON
                         -DBoost_USE_STATIC_LIBS:BOOL=OFF
                         
-                        -DEIGEN_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/eigen3
                         -DFLANN_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/flann
                         -DVTK_DIR:PATH=${CMAKE_INSTALL_PREFIX}/lib/
                         -DPCL_SHARED_LIBS:BOOL=ON
                         -DBUILD_WITH_DEBUG_INFO:BOOL=OFF
-                        -DZLIB_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/zlib
+                        -DZLIB_INCLUDE_DIR:PATH=${ZLIB_INCLUDE_DIRS}
                         -DQT_QMAKE_EXECUTABLE:PATH=${CMAKE_INSTALL_PREFIX}/bin/qmake
 )
 set(PCL_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
