@@ -4,7 +4,7 @@ project(pclBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(https://github.com/PointCloudLibrary/pcl/archive/pcl-1.7.1.tar.gz CACHED_URL)
+getCachedUrl(https://github.com/PointCloudLibrary/pcl/archive/master.tar.gz CACHED_URL)
 
 include( ${CMAKE_INSTALL_PREFIX}/fw-boost.cmake )
 
@@ -21,8 +21,8 @@ set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DBUILD_features:BOOL=ON
                         -DBUILD_filters:BOOL=ON
                         -DBUILD_geometry:BOOL=ON
-                        -DBUILD_io:BOOL=OFF
-                        -DBUILD_kdtree:BOOL=OFF
+                        -DBUILD_io:BOOL=ON
+                        -DBUILD_kdtree:BOOL=ON
                         -DBUILD_keypoints:BOOL=ON
                         -DBUILD_ml:BOOL=ON
                         -DBUILD_octree:BOOL=ON
@@ -69,6 +69,11 @@ else()
     # Disabled foce use of Boost_USE_STATIC_LIBS=ON for win32
     set(PCL_PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${PCL_PATCH_DIR}/pcl_find_boost.cmake ${CMAKE_CURRENT_BINARY_DIR}/pcl-prefix/src/pcl/cmake/pcl_find_boost.cmake)
 endif()
+
+set(PCL_PATCH_COMMAND  ${PCL_PATCH_COMMAND} 
+    COMMAND ${CMAKE_COMMAND} -E copy ${PCL_PATCH_DIR}/io/CMakeLists.txt ${CMAKE_CURRENT_BINARY_DIR}/pcl-prefix/src/pcl/io/CMakeLists.txt
+    COMMAND ${CMAKE_COMMAND} -E copy ${PCL_PATCH_DIR}/tools/CMakeLists.txt ${CMAKE_CURRENT_BINARY_DIR}/pcl-prefix/src/pcl/tools/CMakeLists.txt)    
+    
 
 ExternalProject_Add(
     pcl

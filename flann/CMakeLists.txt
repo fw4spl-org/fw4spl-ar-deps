@@ -15,11 +15,16 @@ set(FLANN_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
 # Patch to disabled tests and examples (compilation error on win32)
 set(FLANN_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 
+set(FLANN_PATCH_COMMAND  ${CMAKE_COMMAND} -E copy ${FLANN_PATCH_DIR}/CMakeLists.txt ${CMAKE_CURRENT_BINARY_DIR}/flann-prefix/src/flann/CMakeLists.txt)
+set(FLANN_PATCH_COMMAND  ${FLANN_PATCH_COMMAND} 
+                 COMMAND ${CMAKE_COMMAND} -E copy ${FLANN_PATCH_DIR}/serialization.h ${CMAKE_CURRENT_BINARY_DIR}/flann-prefix/src/flann/src/cpp/flann/util/serialization.h)
+
 ExternalProject_Add(
     flann
     URL ${CACHED_URL}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${FLANN_CMAKE_ARGS}
-    PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${FLANN_PATCH_DIR}/CMakeLists.txt ${CMAKE_CURRENT_BINARY_DIR}/flann-prefix/src/flann/CMakeLists.txt 
+    PATCH_COMMAND ${FLANN_PATCH_COMMAND}
 )
+
