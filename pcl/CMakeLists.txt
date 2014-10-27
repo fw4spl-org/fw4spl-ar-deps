@@ -8,7 +8,6 @@ getCachedUrl(https://github.com/PointCloudLibrary/pcl/archive/master.tar.gz CACH
 
 include( ${CMAKE_INSTALL_PREFIX}/fw-boost.cmake )
 
-find_package(Boost REQUIRED)
 find_package(ZLIB REQUIRED)
 
 set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
@@ -44,10 +43,7 @@ set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
                         -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
                         -DBoost_COMPILER:STRING=${Boost_COMPILER}
-
-                        -DBOOST_LIBRARYDIR:PATH=${CMAKE_INSTALL_PREFIX}/lib
                         -DBOOST_ROOT:PATH=${CMAKE_INSTALL_PREFIX}
-                        -DBOOST_INCLUDEDIR:PATH=${Boost_INCLUDE_DIRS}
                         -DBoost_USE_DEBUG_PYTHON:BOOL=ON
                         -DBoost_USE_MULTITHREADED:BOOL=ON
                         -DBoost_USE_STATIC_LIBS:BOOL=OFF
