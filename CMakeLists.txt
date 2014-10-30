@@ -28,7 +28,6 @@ if(NOT ANDROID)
 else()
     list(APPEND SUBDIRECTORIES opencv)
     list(APPEND SUBDIRECTORIES aruco)
-    list(APPEND SUBDIRECTORIES eigen)
 endif()
 
 foreach(subdir ${SUBDIRECTORIES})

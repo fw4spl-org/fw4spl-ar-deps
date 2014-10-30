@@ -12,7 +12,7 @@ set(ARUCO_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
                         -DBUILD_UTILS:BOOL=OFF
 )
 if(ANDROID)
-    list(APPEND ARUCO_CMAKE_ARGS -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+    list(APPEND ARUCO_CMAKE_ARGS
          -DOpenCV_LIB_DIR="${CMAKE_INSTALL_PREFIX}/lib"        
          )
     set(PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/patch/android/CMakeLists.txt" "<SOURCE_DIR>/trunk/CMakeLists.txt")

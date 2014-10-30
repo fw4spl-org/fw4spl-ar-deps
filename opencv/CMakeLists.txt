@@ -32,6 +32,8 @@ set(OPENCV_CMAKE_ARGS
     -DBUILD_opencv_java:BOOL=OFF
 )
 
+set(OPENCV_PATCH_CMD)
+
 # Have to replace all the following "set" by list(APPEND ...) or not ? 
 if(WIN32)
     set(OPENCV_CMAKE_ARGS ${OPENCV_CMAKE_ARGS}
@@ -46,13 +48,6 @@ elseif(APPLE)
         -DWITH_FFMPEG:BOOL=ON
         )
 else(ANDROID)
-    list(APPEND OPENCV_CMAKE_ARGS
-        -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
-        -DBUILD_JPEG:BOOL=OFF
-        -DBUILD_PNG:BOOL=OFF
-        -DBUILD_TIFF:BOOL=OFF
-        -DBUILD_ZLIB:BOOL=OFF
-    )
     
     set(OPENCV_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)  
     set(OPENCV_PATCH_CMD ${CMAKE_COMMAND} -E  copy_if_different "${OPENCV_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt"
@@ -70,24 +65,17 @@ endif()
 
 getCachedUrl(https://github.com/Itseez/opencv/archive/2.4.8.tar.gz CACHED_URL)
 
+set(EXTRA_DEPENDS)
+if (NOT ANDROID)
+    set(EXTRA_DEPENDS "tiff")
+endif()
 
-if(ANDROID)
 ExternalProject_Add(
     opencv
     URL ${CACHED_URL}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
-    DEPENDS jpeg libpng zlib
+    DEPENDS jpeg libpng zlib ${EXTRA_DEPENDS}
     PATCH_COMMAND ${OPENCV_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${OPENCV_CMAKE_ARGS}
 )
-else()
-    ExternalProject_Add(
-        opencv
-        URL ${CACHED_URL}
-        DOWNLOAD_DIR ${ARCHIVE_DIR}
-        DEPENDS jpeg tiff libpng zlib
-        INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
-        CMAKE_ARGS ${OPENCV_CMAKE_ARGS}
-    )
-endif()
