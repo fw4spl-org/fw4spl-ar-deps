@@ -4,7 +4,7 @@ project(pclBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(https://github.com/PointCloudLibrary/pcl/archive/master.tar.gz CACHED_URL)
+getCachedUrl(https://github.com/PointCloudLibrary/pcl/archive/6951197e3926c1dbe8293f610ae11941d9d807fc.tar.gz CACHED_URL)
 
 include( ${CMAKE_INSTALL_PREFIX}/fw-boost.cmake )
 
