@@ -16,6 +16,7 @@ set(OPENCV_CMAKE_ARGS
     -DWITH_1394:BOOL=OFF
     -DWITH_OPENEXR:BOOL=OFF
     -DWITH_CUDA:BOOL=OFF
+    -DWITH_OPENCL:BOOL=OFF;
                        
     -DWITH_JPEG:BOOL=ON
     -DWITH_PNG:BOOL=ON
@@ -63,7 +64,7 @@ else()
         )
 endif()
 
-getCachedUrl(https://github.com/Itseez/opencv/archive/2.4.8.tar.gz CACHED_URL)
+getCachedUrl(https://github.com/Itseez/opencv/archive/2.4.9.tar.gz CACHED_URL)
 
 set(EXTRA_DEPENDS)
 if (NOT ANDROID)
