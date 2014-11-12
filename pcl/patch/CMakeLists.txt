@@ -281,7 +281,7 @@ endif(NOT PCL_SHARED_LIBS OR WIN32)
 find_package(Qhull)
 
 # Find Qt5
-#include(cmake/pcl_find_qt5.cmake)
+include(cmake/pcl_find_qt5.cmake)
 
 # Find QT4
 if(NOT QT5_FOUND)
@@ -348,7 +348,7 @@ foreach(subdir ${PCL_MODULES_DIRS})
 endforeach(subdir)
 
 ### ---[ Documentation
-add_subdirectory(doc)
+#add_subdirectory(doc)
 
 ### ---[ Configure PCLConfig.cmake
 include(${PCL_SOURCE_DIR}/cmake/pcl_pclconfig.cmake)

@@ -28,9 +28,9 @@ set(BOOST_REQUIRED_MODULES system filesystem thread date_time iostreams)
 # Starting with Boost 1.50, boost_thread depends on chrono. As this is not
 # taken care of automatically on Windows, we add an explicit dependency as a
 # workaround.
-if(WIN32 AND Boost_VERSION VERSION_GREATER "104900")
+if(Boost_VERSION VERSION_GREATER "104900")
   set(BOOST_REQUIRED_MODULES ${BOOST_REQUIRED_MODULES} chrono)
-endif(WIN32 AND Boost_VERSION VERSION_GREATER "104900")
+endif(Boost_VERSION VERSION_GREATER "104900")
 
 find_package(Boost 1.40.0 REQUIRED COMPONENTS ${BOOST_REQUIRED_MODULES})
 
