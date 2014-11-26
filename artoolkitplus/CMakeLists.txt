@@ -18,6 +18,9 @@ endif()
 
 set(ARTKP_PATCH_CMD ${CMAKE_COMMAND} -E  copy_if_different "${ARTKP_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt")
 
+set(ARTKP_PATCH_CMD ${ARTKP_PATCH_CMD}
+    COMMAND ${CMAKE_COMMAND} -E copy ${ARTKP_PATCH_DIR}/../Camera.cpp "<SOURCE_DIR>/src/Camera.cpp"
+    COMMAND ${CMAKE_COMMAND} -E copy ${ARTKP_PATCH_DIR}/../rppMultiGetTransMat.cpp "<SOURCE_DIR>/src/core/rppMultiGetTransMat.cpp")
 
 getCachedUrl(http://launchpad.net/artoolkitplus/trunk/2.2.1/+download/ARToolKitPlus-2.2.1.tar.bz2 CACHED_URL)
 
