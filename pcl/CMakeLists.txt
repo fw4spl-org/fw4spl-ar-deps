@@ -6,7 +6,7 @@ include(ExternalProject)
 
 getCachedUrl(https://github.com/PointCloudLibrary/pcl/archive/6951197e3926c1dbe8293f610ae11941d9d807fc.tar.gz CACHED_URL)
 
-include( ${CMAKE_INSTALL_PREFIX}/fw-boost.cmake )
+include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
 
 find_package(ZLIB REQUIRED)
 
@@ -44,6 +44,7 @@ set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
                         -DBoost_COMPILER:STRING=${Boost_COMPILER}
                         -DBOOST_ROOT:PATH=${CMAKE_INSTALL_PREFIX}
+                        -DBOOST_INCLUDEDIR:PATH=${CMAKE_INSTALL_PREFIX}/include/boost-${BOOST_VERSION}
                         -DBoost_USE_DEBUG_PYTHON:BOOL=ON
                         -DBoost_USE_MULTITHREADED:BOOL=ON
                         -DBoost_USE_STATIC_LIBS:BOOL=OFF
