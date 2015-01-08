@@ -6,7 +6,10 @@ include(ExternalProject)
 
 getCachedUrl(https://bitbucket.org/sinbad/ogre/get/v1-9-0.tar.bz2 CACHED_URL)
 
+include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
+
 set(OGRE_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
+
 set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DBUILD_SHARED_LIBS:BOOL=ON
                     -DZLIB_ROOT=${CMAKE_INSTALL_PREFIX}
@@ -26,6 +29,10 @@ set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DOGRE_INSTALL_DEPENDENCIES:BOOL=OFF
                     -DOGRE_CONFIG_ENABLE_ZIP:BOOL=ON
                     -DOGRE_CONFIG_ENABLE_FREEIMAGE:BOOL=ON
+                    -DBoost_COMPILER:STRING=${Boost_COMPILER}
+                    -DBoost_USE_DEBUG_PYTHON:BOOL=TRUE
+                    -DBOOST_ROOT:PATH=${CMAKE_INSTALL_PREFIX}
+                    -DBOOST_INCLUDEDIR:PATH=${CMAKE_INSTALL_PREFIX}/include/boost-${BOOST_VERSION}
    )
 if(WIN32)
     set(OGRE_CMAKE_ARGS ${OGRE_CMAKE_ARGS} -DOGRE_INSTALL_PDB:BOOL=OFF)
@@ -36,7 +43,7 @@ ExternalProject_Add(
     URL ${CACHED_URL}
     URL_HASH SHA256=3072df52b2bed2a1b52e969f140ae9a4373ec931029d3eaa032e7c609a91ef82
     DOWNLOAD_DIR ${ARCHIVE_DIR}
-    DEPENDS ois zzip freeimage
+    DEPENDS ois zzip freeimage boost
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${OGRE_CMAKE_ARGS}
     STEP_TARGETS CopyConfigFileToInstall
