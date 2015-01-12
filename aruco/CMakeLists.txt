@@ -15,7 +15,9 @@ if(ANDROID)
     list(APPEND ARUCO_CMAKE_ARGS
          -DOpenCV_LIB_DIR="${CMAKE_INSTALL_PREFIX}/lib"        
          )
-    set(PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/patch/android/CMakeLists.txt" "<SOURCE_DIR>/trunk/CMakeLists.txt")
+    set(PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/patch/android/Main_CMakeLists.txt" "<SOURCE_DIR>/trunk/CMakeLists.txt"
+          COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/patch/android/Src_CMakeLists.txt" "<SOURCE_DIR>/trunk/src/CMakeLists.txt")
+    
 else()
     set(PATCH_CMD "")
 endif()
