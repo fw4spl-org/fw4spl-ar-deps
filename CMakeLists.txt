@@ -22,6 +22,7 @@ if(NOT ANDROID)
         list(APPEND SUBDIRECTORIES freeimage)
         list(APPEND SUBDIRECTORIES ogre)
         list(APPEND SUBDIRECTORIES pcl)
+        list(APPEND SUBDIRECTORIES sofa)
     endif()
     
 ##Android Deps##
