@@ -1,44 +1,53 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8)
 
-SET(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin" CACHE PATH "Installation directory for executables")
-SET(INSTALL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/lib" CACHE PATH "Installation directory for libraries")
-SET(INSTALL_INC_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE PATH "Installation directory for headers")
+set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin" CACHE PATH "Installation directory for executables")
+set(INSTALL_LIB_DIR "${CMAKE_INSTALL_PREFIX}/lib" CACHE PATH "Installation directory for libraries")
+set(INSTALL_INC_DIR "${CMAKE_INSTALL_PREFIX}/include" CACHE PATH "Installation directory for headers")
 
-SET(GLEW_EXT_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/GL/glew.h
+set(GLEW_EXT_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/GL/glew.h
                      ${CMAKE_CURRENT_SOURCE_DIR}/include/GL/glxew.h
                      ${CMAKE_CURRENT_SOURCE_DIR}/include/GL/wglew.h)
 
-SET(GLEW_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/glew)
+set(GLEW_SRC ${CMAKE_CURRENT_SOURCE_DIR}/src/glew)
 
-FIND_PACKAGE(OpenGL REQUIRED)
+find_package(OpenGL REQUIRED)
 
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/include)
-INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${OPENGL_INCLUDE_DIR})
 
-OPTION(GLEW_MX "Build Glew with Multiple Rendering Contexts." ON)
-IF(GLEW_MX)
-    ADD_DEFINITIONS(-DGLEW_MX)
-ENDIF(GLEW_MX)
+option(GLEW_MX "Build Glew with Multiple Rendering Contexts." ON)
+if(GLEW_MX)
+    add_definitions(-DGLEW_MX)
+endif()
 
-IF(WIN32)
-    ADD_DEFINITIONS(-D_CRT_SECURE_NO_WARNINGS)
-    LIST(APPEND GLEW_SRC ${CMAKE_CURRENT_SOURCE_DIR}/build/glew.rc)
-ENDIF(WIN32)
+if(WIN32)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+    list(APPEND GLEW_SRC ${CMAKE_CURRENT_SOURCE_DIR}/build/glew.rc)
+endif()
 
-IF(BUILD_SHARED_LIBS)
-    ADD_LIBRARY(glew SHARED ${GLEW_SRC} ${GLEW_EXT_HEADERS})
-    ADD_DEFINITIONS(-DGLEW_BUILD)
-    TARGET_LINK_LIBRARIES(glew ${OPENGL_LIBRARIES})
-ELSE(BUILD_SHARED_LIBS)
-    ADD_LIBRARY(glew STATIC ${GLEW_SRC} ${GLEW_EXT_HEADERS})
-    ADD_DEFINITIONS(-DGLEW_STATIC)
-    SET_TARGET_PROPERTIES(glew PROPERTIES OUTPUT_NAME "glew_static")
-ENDIF(BUILD_SHARED_LIBS)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    set(GLEW_LIB_NAME "glew32")
+else(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    set(GLEW_LIB_NAME "GLEW")
+    set(DLL_PREFIX "lib")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
-INSTALL(TARGETS glew
+if(BUILD_SHARED_LIBS)
+    add_library(glew SHARED ${GLEW_SRC} ${GLEW_EXT_HEADERS})
+    add_definitions(-DGLEW_BUILD)
+    target_link_libraries(glew ${OPENGL_LIBRARIES})
+    set_target_properties(glew PROPERTIES OUTPUT_NAME ${GLEW_LIB_NAME} PREFIX "${DLL_PREFIX}")
+else()
+    add_library(glew STATIC ${GLEW_SRC} ${GLEW_EXT_HEADERS})
+    add_definitions(-DGLEW_STATIC)
+    set_target_properties(glew PROPERTIES OUTPUT_NAME "glew_static")
+    set_target_properties(glew PROPERTIES OUTPUT_NAME ${GLEW_LIB_NAME} PREFIX lib)
+endif()
+
+install(TARGETS glew
         RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
         ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
         LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
 
-INSTALL(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/GL" 
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/GL" 
         DESTINATION "${INSTALL_INC_DIR}")
