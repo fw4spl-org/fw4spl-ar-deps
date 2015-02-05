@@ -4,13 +4,17 @@ project(sofaBuilder)
 
 include(ExternalProject)
 
-set(SOFA_CMAKE_ARGS 
-    ${COMMON_CMAKE_ARGS}    
-#    -DSOFA_LIB_DIR=${CMAKE_INSTALL_PREFIX}
-)
+include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
+
+set(SOFA_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
+                    -DBoost_COMPILER:STRING=${Boost_COMPILER}
+                    -DBoost_USE_DEBUG_PYTHON:BOOL=TRUE
+                    -DBOOST_ROOT:PATH=${CMAKE_INSTALL_PREFIX}
+                    -DBOOST_INCLUDEDIR:PATH=${CMAKE_INSTALL_PREFIX}/include/boost-${BOOST_VERSION})
 
 # Sorry...
 getCachedUrl(https://gforge.inria.fr/git/sofa/sofa.git CACHED_URL)
+
 
 # Getting fixed rev with working compilations in all plateforms (except Mac)
 set(SOFA_REV 49e371eb4f2961b84ff7d29176276bfc6e9d3900)
@@ -23,6 +27,7 @@ ExternalProject_Add(
     GIT_REPOSITORY ${CACHED_URL}
     GIT_TAG ${SOFA_REV}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
+    DEPENDS boost libpng
     PATCH_COMMAND ${SOFA_PATCH_CMD}
     CONFIGURE_COMMAND ${CMAKE_COMMAND} -E chdir <BINARY_DIR> cmake <SOURCE_DIR> ${SOFA_CMAKE_ARGS} && cmake <BINARY_DIR>
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
