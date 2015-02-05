@@ -23,6 +23,7 @@ if(NOT ANDROID)
         list(APPEND SUBDIRECTORIES ogre)
         list(APPEND SUBDIRECTORIES pcl)
         list(APPEND SUBDIRECTORIES sofa)
+        list(APPEND SUBDIRECTORIES geodesic)
     endif()
     
 ##Android Deps##
