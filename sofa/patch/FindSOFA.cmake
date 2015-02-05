@@ -213,7 +213,7 @@ list(APPEND SOFA_LIB_NAME
     #SofaGuiGlut         SOFA_LIB_GUI_GLUT
     #SofaGuiMain         SOFA_LIB_GUI_MAIN
     #SofaModeler         SOFA_LIB_MODELER
-    #SofaSimulation      SOFA_LIB_SIMULATION
+    SofaSimulationTree      SOFA_LIB_SIMULATION
     #SofaObjectCreator   SOFA_OBJECT_CREATOR
     SofaDefaultType     SOFA_LIB_DEFAULT_TYPE
     #SofaGraph           SOFA_LIB_GRAPH
@@ -224,7 +224,7 @@ math(EXPR passToComponent "${sofaLibList}/2")
 
 ## Put the name of the library SOFA COMPONENT to search and put it associate CMakeName
 list(APPEND SOFA_LIB_COMPONENT_NAME
-    #SofaComponent             SOFA_LIB_COMPONENT
+    SofaComponentMain         SOFA_LIB_COMPONENT_MAIN
     #SofaComponentDev          SOFA_LIB_COMPONENT_DEV
     SofaComponentBase         SOFA_LIB_COMPONENT_BASE
     SofaComponentMisc         SOFA_LIB_COMPONENT_MISC
@@ -234,9 +234,8 @@ list(APPEND SOFA_LIB_COMPONENT_NAME
     SofaComponentAdvanced     SOFA_LIB_COMPONENT_ADVANCED
     #SofaComponentAdvancedDev  SOFA_LIB_COMPONENT_ADVANCED_DEV
     )
-#list(LENGTH SOFA_LIB_COMPONENT_NAME sofaLibComponentList)
-#math(EXPR passToBase "${sofaLibComponentList}/2+${passToComponent}")
-math(EXPR passToBase "${passToComponent}")
+list(LENGTH SOFA_LIB_COMPONENT_NAME sofaLibComponentList)
+math(EXPR passToBase "${sofaLibComponentList}/2+${passToComponent}")
 
 
 ## Put the name of the library SOFA BASE to search and put it associate CMakeName
@@ -257,7 +256,7 @@ list(APPEND SOFA_LIB_COMMON_NAME
     SofaDeformable             SOFA_LIB_DEFORMABLE
   #  SofaExplicitOdeSolver      SOFA_LIB_ODE_SOLVER
   #  SofaImplicitOdeSolver      SOFA_LIB_IMPLICIT_ODE_SOLVER
-  #  SofaLoader                 SOFA_LIB_LOADER
+    SofaLoader                 SOFA_LIB_LOADER
     SofaMeshCollision          SOFA_LIB_MESH_COLLISION
     SofaRigid                  SOFA_LIB_RIGID
     SofaSimpleFem              SOFA_LIB_SIMPLE_FEM
@@ -275,16 +274,15 @@ list(APPEND SOFA_LIB_GENERAL_NAME
     SofaEngine                 SOFA_LIB_ENGINE
     SofaExporter               SOFA_LIB_EXPORTER
     SofaGraphComponent         SOFA_LIB_GRAPH_COMPONENT
-    SofaOpenGLVisual           SOFA_LIB_OPENGL_VISUAL
-    SofaPreconditioner         SOFA_LIB_PRECONDITIONER
-    SofaTopologyMapping        SOFA_LIB_TOPOLOGY_MAPPING
-    SofaUserInteraction        SOFA_LIB_USER_INTERACTION
-    SofaValidation             SOFA_LIB_VALIDATION
-    SofaHaptics                SOFA_LIB_HAPTICS
+    SofaOpenglVisual           SOFA_LIB_OPENGL_VISUAL
+    #SofaPreconditioner         SOFA_LIB_PRECONDITIONER
+    #SofaTopologyMapping        SOFA_LIB_TOPOLOGY_MAPPING
+    #SofaUserInteraction        SOFA_LIB_USER_INTERACTION
+    #SofaValidation             SOFA_LIB_VALIDATION
+    #SofaHaptics                SOFA_LIB_HAPTICS
     )
-#list(LENGTH SOFA_LIB_GENERAL_NAME sofaGeneralLibList)
-#math(EXPR passToAdvancedLib "${sofaGeneralLibList}/2+${passToGeneralLib}")
-math(EXPR passToAdvancedLib "${passToGeneralLib}")
+list(LENGTH SOFA_LIB_GENERAL_NAME sofaGeneralLibList)
+math(EXPR passToAdvancedLib "${sofaGeneralLibList}/2+${passToGeneralLib}")
 
 
 ## Put the name of the library SOFA ADVANCED to search and put it associate CMakeName
@@ -292,7 +290,7 @@ list(APPEND SOFA_LIB_ADVANCED_NAME
     #SofaAdvancedConstraint     SOFA_LIB_ADVANCED_CONSTRAINT
     #SofaAdvancedFem            SOFA_LIB_ADVANCED_FEM
     #SofaAdvancedInteraction    SOFA_LIB_ADVANCED_INTERACTION
-    #SofaEigen2Solver           SOFA_LIB_EIGEN2_SOLVER
+    SofaEigen2Solver           SOFA_LIB_EIGEN2_SOLVER
     #SofaEulerianFluid          SOFA_LIB_EULERIAN_FUILD
     #SofaMjedFem                SOFA_LIB_MJED_FEM
     SofaNonUniformFem          SOFA_LIB_NON_UNIFORM_FEM
@@ -312,7 +310,7 @@ list(APPEND SOFA_LIB_MISC_NAME
     #SofaMiscFem               SOFA_LIB_MISC_FEM
     #SofaMiscDev               SOFA_LIB_MISC_DEV
     #SofaMiscFemDev            SOFA_LIB_MISC_FEM_DEV
-    SofaMiscForcefield        SOFA_LIB_MISC_FORCEFIELD
+    SofaMiscForceField        SOFA_LIB_MISC_FORCEFIELD
     #SofaMiscForcefieldDev     SOFA_LIB_MISC_FORCEFIELD_DEV
     #SofaMiscMapping           SOFA_LIB_MISC_MAPPING
     #SofaMiscMappingDev        SOFA_LIB_MISC_MAPPING_DEV
@@ -350,12 +348,12 @@ list(APPEND SOFA_LIB_EXT_NAME
 ## Collect all list of libs names together in one list
 list(APPEND SOFA_LIBS_NAME
     ${SOFA_LIB_NAME}
-    #${SOFA_LIB_COMPONENT_NAME}
+    ${SOFA_LIB_COMPONENT_NAME}
     ${SOFA_LIB_BASE_NAME}
     ${SOFA_LIB_COMMON_NAME}
-    #${SOFA_LIB_GENERAL_NAME}
-    #${SOFA_LIB_ADVANCED_NAME}
-    #${SOFA_LIB_MISC_NAME}
+    ${SOFA_LIB_GENERAL_NAME}
+    ${SOFA_LIB_ADVANCED_NAME}
+    ${SOFA_LIB_MISC_NAME}
     ${SOFA_LIB_EXT_NAME}
     )
 
