@@ -20,14 +20,16 @@ getCachedUrl(https://gforge.inria.fr/git/sofa/sofa.git CACHED_URL)
 set(SOFA_REV 49e371eb4f2961b84ff7d29176276bfc6e9d3900)
 
 set(SOFA_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
-set(SOFA_PATCH_CMD ${CMAKE_COMMAND} -E  copy_if_different "${SOFA_PATCH_DIR}/custom_options.cmake" "<SOURCE_DIR>/cmake/custom_options.cmake")
+set(SOFA_PATCH_CMD ${CMAKE_COMMAND} -E  copy_if_different "${SOFA_PATCH_DIR}/custom_options.cmake" "<SOURCE_DIR>/cmake/custom_options.cmake"
+                   COMMAND ${CMAKE_COMMAND} -E remove_directory "<SOURCE_DIR>/extlibs/miniBoost/"
+)
 
 ExternalProject_Add(
     sofa
     GIT_REPOSITORY ${CACHED_URL}
     GIT_TAG ${SOFA_REV}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
-    DEPENDS boost libpng glew freeglut
+    DEPENDS zlib eigen boost libpng glew freeglut
     PATCH_COMMAND ${SOFA_PATCH_CMD}
     CONFIGURE_COMMAND ${CMAKE_COMMAND} -E chdir <BINARY_DIR> ${CMAKE_COMMAND} <SOURCE_DIR> -G ${CMAKE_GENERATOR} ${SOFA_CMAKE_ARGS} && ${CMAKE_COMMAND} <BINARY_DIR> -G ${CMAKE_GENERATOR}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
