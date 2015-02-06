@@ -21,4 +21,15 @@ ExternalProject_Add(
     CMAKE_ARGS ${FREEGLUT_CMAKE_ARGS}
 )
 
-
+if(WIN32)
+    if(${IS_DEBUG})
+        set(FREEGLUT_LIBNAME freeglutd.lib)
+    else()
+        set(FREEGLUT_LIBNAME freeglut.lib)
+    endif()
+    ExternalProject_Add_Step(freeglut RENAME_FREEGLUT
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FREEGLUT_LIBNAME} glut32.lib
+        WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib
+        DEPENDEES install
+    )
+endif()
