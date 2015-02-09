@@ -207,15 +207,16 @@ set(SOFA_INCLUDE_DIRS
 list(APPEND SOFA_LIB_NAME
     #SofaGui             SOFA_LIB_GUI
     #SofaTree            SOFA_LIB_TREE
-    SofaCore            SOFA_LIB_CORE
+    SofaCore             SOFA_LIB_CORE
     #SofaGuiQt           SOFA_LIB_GUI_QT
-    SofaHelper          SOFA_LIB_HELPER
+    SofaHelper           SOFA_LIB_HELPER
     #SofaGuiGlut         SOFA_LIB_GUI_GLUT
     #SofaGuiMain         SOFA_LIB_GUI_MAIN
     #SofaModeler         SOFA_LIB_MODELER
-    SofaSimulationTree      SOFA_LIB_SIMULATION
+    SofaSimulationCommon SOFA_LIB_SIMULATION_COMMON
+    SofaSimulationTree   SOFA_LIB_SIMULATION
     #SofaObjectCreator   SOFA_OBJECT_CREATOR
-    SofaDefaultType     SOFA_LIB_DEFAULT_TYPE
+    SofaDefaultType      SOFA_LIB_DEFAULT_TYPE
     #SofaGraph           SOFA_LIB_GRAPH
     )
 list(LENGTH SOFA_LIB_NAME sofaLibList)
@@ -490,7 +491,7 @@ find_package_handle_standard_args(SOFA DEFAULT_MSG
     SOFA_LIB_CORE
     SOFA_LIB_HELPER
     SOFA_LIB_DEFAULT_TYPE
-    #SOFA_LIB_SIMULATION
+    SOFA_LIB_SIMULATION
     #SOFA_LIB_COMPONENT
     )
 
