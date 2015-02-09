@@ -52,6 +52,7 @@ ExternalProject_Add(
 
 ExternalProject_Add_Step(sofa CopyConfigFileToInstall
     COMMAND ${CMAKE_COMMAND} -E copy ${SOFA_PATCH_DIR}/FindSOFA.cmake ${CMAKE_INSTALL_PREFIX}/FindSOFA.cmake
+    COMMAND ${CMAKE_COMMAND} -E copy ${SOFA_PATCH_DIR}/find_lib.cmake ${CMAKE_INSTALL_PREFIX}/find_lib.cmake
     DEPENDEES install
     COMMENT "Install configuration file"
 )
