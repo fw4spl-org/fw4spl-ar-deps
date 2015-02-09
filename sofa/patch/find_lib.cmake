@@ -78,7 +78,12 @@ MACRO(find_lib MYLIBRARY MYLIBRARYNAME)
     if(NOT DEFINED FIND_LIB_FORCE_RELEASE)
         set(FIND_LIB_FORCE_RELEASE false)
     endif()
-
+    
+    # default SOFA_VERSION_NUM
+    if(NOT DEFINED SOFA_VERSION_NUM)
+        set(SOFA_VERSION_NUM "1_0")
+    endif()
+    
     # default DEBUG_POSTFIX
     if(NOT DEFINED FIND_LIB_DEBUG_POSTFIX)
         set(FIND_LIB_DEBUG_POSTFIX "d")
@@ -100,7 +105,7 @@ MACRO(find_lib MYLIBRARY MYLIBRARYNAME)
     find_library("${MYLIBRARY}_DEBUG"
         NAMES
         "${MYLIBRARYNAME}${FIND_LIB_DEBUG_POSTFIX}"
-        "${MYLIBRARYNAME}${FIND_LIB_DEBUG_POSTFIX}_${SOFA_VERSION_NUM}"
+        "${MYLIBRARYNAME}_${SOFA_VERSION_NUM}${FIND_LIB_DEBUG_POSTFIX}"
         PATHS
         ${FIND_LIB_PATHSLIST_DEBUG}
         ${FIND_LIB_UNPARSED_ARGUMENTS}
@@ -117,7 +122,7 @@ MACRO(find_lib MYLIBRARY MYLIBRARYNAME)
     find_library(${MYLIBRARY}
         NAMES
         "${MYLIBRARYNAME}${FIND_LIB_RELEASE_POSTFIX}"
-        "${MYLIBRARYNAME}${FIND_LIB_RELEASE_POSTFIX}_${SOFA_VERSION_NUM}"
+        "${MYLIBRARYNAME}_${SOFA_VERSION_NUM}${FIND_LIB_RELEASE_POSTFIX}"
         PATHS
         ${FIND_LIB_PATHSLIST_RELEASE}
         ${FIND_LIB_UNPARSED_ARGUMENTS}
@@ -152,7 +157,7 @@ MACRO(find_lib MYLIBRARY MYLIBRARYNAME)
                 unset(${MYLIBRARY} CACHE)
                 set(${MYLIBRARY} ${${MYLIBRARY}_DEBUG} CACHE FILEPATH "Path to a release library set from debug one")
                 if(FIND_LIB_VERBOSE)
-                    message(STATUS "${MYLIBRARY} NOT FOUND. Set it with the ${MYLIBRARY}_DEBUG content : ${MYLIBRARY}")
+                    message(STATUS "${MYLIBRARY} NOT FOUND. Set it with the ${MYLIBRARY}_DEBUG content : ${${MYLIBRARY}_DEBUG}")
                 endif()
             else()
                 if(FIND_LIB_VERBOSE)
