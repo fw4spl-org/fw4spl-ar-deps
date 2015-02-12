@@ -13,13 +13,16 @@ set(ZZIP_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DBUILD_SHARED_LIBS:BOOL=ON
 )
 
+set(ZZIP_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${ZZIP_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${ZZIP_PATCH_DIR}/fetch.h" "<SOURCE_DIR>/zzip/fetch.h"
+)
 ExternalProject_Add(
     zzip
     URL ${CACHED_URL}
     URL_HASH SHA256=a1b8033f1a1fd6385f4820b01ee32d8eca818409235d22caf5119e0078c7525b
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DEPENDS zlib
-    PATCH_COMMAND ${CMAKE_COMMAND} -E copy_if_different "${ZZIP_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt"
+    PATCH_COMMAND ${ZZIP_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${ZZIP_CMAKE_ARGS}
     STEP_TARGETS CopyConfigFileToInstall
