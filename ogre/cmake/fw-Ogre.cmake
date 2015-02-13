@@ -2,6 +2,8 @@
 macro(useOgre)
     if(WIN32)
         set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH};${EXTERNAL_LIBRARIES}/cmake)
+    elseif(APPLE)
+        set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH};${EXTERNAL_LIBRARIES}/CMake)
     else()
         set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH};${EXTERNAL_LIBRARIES}/lib/OGRE/cmake)
     endif()
