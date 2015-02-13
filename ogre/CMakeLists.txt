@@ -34,16 +34,23 @@ set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DBOOST_ROOT:PATH=${CMAKE_INSTALL_PREFIX}
                     -DBOOST_INCLUDEDIR:PATH=${CMAKE_INSTALL_PREFIX}/include/boost-${BOOST_VERSION}
    )
+
+
 if(WIN32)
     set(OGRE_CMAKE_ARGS ${OGRE_CMAKE_ARGS} -DOGRE_INSTALL_PDB:BOOL=OFF)
 endif()
+
+set(OGRE_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/OgreConfigTargets.cmake" "<SOURCE_DIR>/CMake/Utils/OgreConfigTargets.cmake"
+)
 
 ExternalProject_Add(
     ogre
     URL ${CACHED_URL}
     URL_HASH SHA256=3072df52b2bed2a1b52e969f140ae9a4373ec931029d3eaa032e7c609a91ef82
     DOWNLOAD_DIR ${ARCHIVE_DIR}
-    DEPENDS ois zzip freeimage boost
+    DEPENDS zzip freeimage boost
+    PATCH_COMMAND ${OGRE_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${OGRE_CMAKE_ARGS}
     STEP_TARGETS CopyConfigFileToInstall
