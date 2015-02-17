@@ -368,9 +368,7 @@ if (WIN32)
     endif()
 endif()
 list(APPEND SEARCH_LIB_PATHS
-
-    /home/fbridault-louchez/dev/fw4spl/deps/build/debug/additional_deps/ar/sofa/sofa-prefix/src/sofa-build/lib
-#    ${SOFA_DIR}/lib
+    ${SOFA_DIR}/lib
     ${SOFA_DIR}/lib/linux
     ${SOFA_DIR}/lib/linux/sofa-plugins
     ${SOFA_DIR}/lib/${ARCH_DIR}
