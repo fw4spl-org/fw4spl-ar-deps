@@ -128,7 +128,7 @@ list(APPEND SOFA_INCLUDE_OTHER_DIRS
     ${SOFA_INCLUDE_EXTLIBS}/colladadom
     ${SOFA_INCLUDE_EXTLIBS}/csparse
     ${SOFA_INCLUDE_EXTLIBS}/cudpp
-    ${SOFA_INCLUDE_EXTLIBS}/eigen-3.2.1
+    #${SOFA_INCLUDE_EXTLIBS}/eigen-3.2.1
     ${SOFA_INCLUDE_EXTLIBS}/ffmpeg
     ${SOFA_INCLUDE_EXTLIBS}/fftpack
     ${SOFA_INCLUDE_EXTLIBS}/fishpack
@@ -205,7 +205,7 @@ set(SOFA_INCLUDE_DIRS
 ## ###########################################################################################
 ## Put the name of the library SOFA CORE to search and put it associate CMakeName
 list(APPEND SOFA_LIB_NAME
-    #SofaGui             SOFA_LIB_GUI
+    #SofaGuiCommon             SOFA_LIB_GUI
     #SofaTree            SOFA_LIB_TREE
     SofaCore             SOFA_LIB_CORE
     #SofaGuiQt           SOFA_LIB_GUI_QT
@@ -256,7 +256,7 @@ math(EXPR passToCommon "${sofaLibBaseList}/2+${passToBase}")
 list(APPEND SOFA_LIB_COMMON_NAME
     SofaDeformable             SOFA_LIB_DEFORMABLE
   #  SofaExplicitOdeSolver      SOFA_LIB_ODE_SOLVER
-  #  SofaImplicitOdeSolver      SOFA_LIB_IMPLICIT_ODE_SOLVER
+    SofaImplicitOdeSolver      SOFA_LIB_IMPLICIT_ODE_SOLVER
     SofaLoader                 SOFA_LIB_LOADER
     SofaMeshCollision          SOFA_LIB_MESH_COLLISION
     SofaRigid                  SOFA_LIB_RIGID
@@ -368,7 +368,9 @@ if (WIN32)
     endif()
 endif()
 list(APPEND SEARCH_LIB_PATHS
-    ${SOFA_DIR}/lib
+
+    /home/fbridault-louchez/dev/fw4spl/deps/build/debug/additional_deps/ar/sofa/sofa-prefix/src/sofa-build/lib
+#    ${SOFA_DIR}/lib
     ${SOFA_DIR}/lib/linux
     ${SOFA_DIR}/lib/linux/sofa-plugins
     ${SOFA_DIR}/lib/${ARCH_DIR}

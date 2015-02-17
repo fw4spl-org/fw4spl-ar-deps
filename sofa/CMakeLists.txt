@@ -21,7 +21,9 @@ set(SOFA_REV 49e371eb4f2961b84ff7d29176276bfc6e9d3900)
 
 set(SOFA_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 set(SOFA_PATCH_CMD ${CMAKE_COMMAND} -E  copy_if_different "${SOFA_PATCH_DIR}/custom_options.cmake" "<SOURCE_DIR>/cmake/custom_options.cmake"
+                   COMMAND ${CMAKE_COMMAND} -E  copy_if_different "${SOFA_PATCH_DIR}/dependencies.cmake" "<SOURCE_DIR>/cmake/dependencies.cmake"
                    COMMAND ${CMAKE_COMMAND} -E remove_directory "<SOURCE_DIR>/extlibs/miniBoost/"
+                   COMMAND ${CMAKE_COMMAND} -E remove_directory "<SOURCE_DIR>/extlibs/eigen-3.2.1/"
 )
 
 set(DEPENDENCIES
