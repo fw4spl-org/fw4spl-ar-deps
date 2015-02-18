@@ -10,20 +10,31 @@ set(SOFA_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DBoost_COMPILER:STRING=${Boost_COMPILER}
                     -DBoost_USE_DEBUG_PYTHON:BOOL=TRUE
                     -DBOOST_ROOT:PATH=${CMAKE_INSTALL_PREFIX}
-                    -DBOOST_INCLUDEDIR:PATH=${CMAKE_INSTALL_PREFIX}/include/boost-${BOOST_VERSION})
+                    -DBOOST_INCLUDEDIR:PATH=${CMAKE_INSTALL_PREFIX}/include/boost-${BOOST_VERSION}
+                    -DSOFAADVANCED_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
+                    -DSOFABASE_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
+                    -DSOFACOMMON_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
+                    -DSOFAFRAMEWORK_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
+                    -DSOFAGENERAL_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
+                    -DSOFAGUI_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
+                    -DSOFAMISC_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
+                    -DSOFASIMULATION_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa)
+
 
 # Sorry...
 getCachedUrl(https://gforge.inria.fr/git/sofa/sofa.git CACHED_URL)
 
 
 # Getting fixed rev with working compilations in all plateforms (except Mac)
-set(SOFA_REV 49e371eb4f2961b84ff7d29176276bfc6e9d3900)
+set(SOFA_REV aae029836ef1d2cf829222f16adb0eceef4f60a7)
 
 set(SOFA_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
-set(SOFA_PATCH_CMD ${CMAKE_COMMAND} -E  copy_if_different "${SOFA_PATCH_DIR}/custom_options.cmake" "<SOURCE_DIR>/cmake/custom_options.cmake"
-                   COMMAND ${CMAKE_COMMAND} -E  copy_if_different "${SOFA_PATCH_DIR}/dependencies.cmake" "<SOURCE_DIR>/cmake/dependencies.cmake"
-                   COMMAND ${CMAKE_COMMAND} -E remove_directory "<SOURCE_DIR>/extlibs/miniBoost/"
-                   COMMAND ${CMAKE_COMMAND} -E remove_directory "<SOURCE_DIR>/extlibs/eigen-3.2.1/"
+set(SOFA_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${SOFA_PATCH_DIR}/CMakeParseLibraryList.cmake" "<SOURCE_DIR>/SofaFramework/CMakeParseLibraryList.cmake"
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${SOFA_PATCH_DIR}/SofaGui/CMakeLists.txt" "<SOURCE_DIR>/SofaGui/CMakeLists.txt"
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${SOFA_PATCH_DIR}/miniFlowVR/CMakeLists.txt" "<SOURCE_DIR>/extlibs/miniFlowVR/CMakeLists.txt"
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${SOFA_PATCH_DIR}/eigen/CMakeLists.txt" "<SOURCE_DIR>/extlibs/eigen-3.2.1/CMakeLists.txt"
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${SOFA_PATCH_DIR}/boost/CMakeLists.txt" "<SOURCE_DIR>/extlibs/miniBoost/CMakeLists.txt"
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${SOFA_PATCH_DIR}/SofaGuiConfig.cmake.in" "<SOURCE_DIR>/SofaGui/SofaGuiConfig.cmake.in"
 )
 
 set(DEPENDENCIES
@@ -45,17 +56,16 @@ ExternalProject_Add(
     GIT_REPOSITORY ${CACHED_URL}
     GIT_TAG ${SOFA_REV}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
-    DEPENDS ${DEPENDENCIES}
     PATCH_COMMAND ${SOFA_PATCH_CMD}
+    DEPENDS ${DEPENDENCIES}
     CONFIGURE_COMMAND ${CMAKE_COMMAND} -E chdir <BINARY_DIR> ${CMAKE_COMMAND} <SOURCE_DIR> -G ${CMAKE_GENERATOR} ${SOFA_CMAKE_ARGS} && ${CMAKE_COMMAND} <BINARY_DIR> -G ${CMAKE_GENERATOR}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
-    INSTALL_COMMAND ${CMAKE_COMMAND} -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX} -DSOURCE_DIR:PATH=<SOURCE_DIR> -P ${CMAKE_CURRENT_SOURCE_DIR}/install.cmake
 )
 
-ExternalProject_Add_Step(sofa CopyConfigFileToInstall
-    COMMAND ${CMAKE_COMMAND} -E copy ${SOFA_PATCH_DIR}/FindSOFA.cmake ${CMAKE_INSTALL_PREFIX}/FindSOFA.cmake
-    COMMAND ${CMAKE_COMMAND} -E copy ${SOFA_PATCH_DIR}/find_lib.cmake ${CMAKE_INSTALL_PREFIX}/find_lib.cmake
-    DEPENDEES install
-    COMMENT "Install configuration file"
-)
-
+if(UNIX AND CMAKE_BUILD_TYPE STREQUAL "Debug")
+    ExternalProject_Add_Step(sofa RENAME_TINYXML
+        COMMAND ${CMAKE_COMMAND} -E create_symlink libtinyxml_d.so.2.6.2 libtinyxml.so.2.6.2
+        WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib
+        DEPENDEES install
+        )
+endif()
