@@ -42,6 +42,7 @@ endif()
 
 set(OGRE_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/OgreConfigTargets.cmake" "<SOURCE_DIR>/CMake/Utils/OgreConfigTargets.cmake"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/PrecompiledHeader.cmake" "<SOURCE_DIR>/CMake/Utils/PrecompiledHeader.cmake"
 )
 
 ExternalProject_Add(
@@ -55,17 +56,6 @@ ExternalProject_Add(
     CMAKE_ARGS ${OGRE_CMAKE_ARGS}
     STEP_TARGETS CopyConfigFileToInstall
 )
-
-if(WIN32)
-    ExternalProject_Add_Step(ogre PatchCMake
-        COMMAND ${CMAKE_COMMAND} -DINPUT_FILE:PATH=<SOURCE_DIR>/CMake/Utils/PrecompiledHeader.cmake
-                                 -DSEARCH:STRING=MSVC
-                                 -DREPLACEMENT_TEXT:STRING=MSVC_IDE
-                                 -P ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/patch.cmake
-        DEPENDEES download 
-        COMMENT "Patch PrecompiledHeader.cmake"
-    )
-endif()
 
 ExternalProject_Add_Step(ogre CopyConfigFileToInstall
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/cmake/fw-Ogre.cmake ${CMAKE_INSTALL_PREFIX}/fw-Ogre.cmake
