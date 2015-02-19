@@ -18,23 +18,20 @@ set(SOFA_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DSOFAGENERAL_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
                     -DSOFAGUI_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
                     -DSOFAMISC_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
-                    -DSOFASIMULATION_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa)
+                    -DSOFASIMULATION_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
+)
 
-
-# Sorry...
 getCachedUrl(https://gforge.inria.fr/git/sofa/sofa.git CACHED_URL)
 
 
 # Getting fixed rev with working compilations in all plateforms (except Mac)
 set(SOFA_REV aae029836ef1d2cf829222f16adb0eceef4f60a7)
 
+include(${ArBinPkgs_SOURCE_DIR}/cmake/utils/patch.cmake)
+
 set(SOFA_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
-set(SOFA_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${SOFA_PATCH_DIR}/CMakeParseLibraryList.cmake" "<SOURCE_DIR>/SofaFramework/CMakeParseLibraryList.cmake"
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${SOFA_PATCH_DIR}/SofaGui/CMakeLists.txt" "<SOURCE_DIR>/SofaGui/CMakeLists.txt"
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${SOFA_PATCH_DIR}/miniFlowVR/CMakeLists.txt" "<SOURCE_DIR>/extlibs/miniFlowVR/CMakeLists.txt"
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${SOFA_PATCH_DIR}/eigen/CMakeLists.txt" "<SOURCE_DIR>/extlibs/eigen-3.2.1/CMakeLists.txt"
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${SOFA_PATCH_DIR}/boost/CMakeLists.txt" "<SOURCE_DIR>/extlibs/miniBoost/CMakeLists.txt"
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different "${SOFA_PATCH_DIR}/SofaGuiConfig.cmake.in" "<SOURCE_DIR>/SofaGui/SofaGuiConfig.cmake.in"
+set(SOFA_PATCH_CMD ${CMAKE_COMMAND} -E remove_directory "<SOURCE_DIR>/extlibs/miniBoost/"
+                   COMMAND "${PATCH_EXECUTABLE}" -p1 -i ${SOFA_PATCH_DIR}/sofa.patch -d <SOURCE_DIR>
 )
 
 set(DEPENDENCIES

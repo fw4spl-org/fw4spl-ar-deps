@@ -1,0 +1,201 @@
+diff --git a/SofaDeps/CMakeLists.txt b/SofaDeps/CMakeLists.txt
+index 0fc77d9..933d096 100644
+--- a/SofaDeps/CMakeLists.txt
++++ b/SofaDeps/CMakeLists.txt
+@@ -6,7 +6,7 @@ project(SofaDeps)
+ set(SofaDeps_ACTUAL_SOURCE_DIR ${SofaDeps_SOURCE_DIR}/../extlibs)
+ 
+ # extlibs mandatory
+-add_subdirectory(${SofaDeps_ACTUAL_SOURCE_DIR}/miniBoost ${CMAKE_CURRENT_BINARY_DIR}/miniBoost)
++# add_subdirectory(${SofaDeps_ACTUAL_SOURCE_DIR}/miniBoost ${CMAKE_CURRENT_BINARY_DIR}/miniBoost)
+ add_subdirectory(${SofaDeps_ACTUAL_SOURCE_DIR}/tinyxml ${CMAKE_CURRENT_BINARY_DIR}/tinyxml)
+ set(EIGEN_ROOT ${SofaDeps_ACTUAL_SOURCE_DIR}/eigen-3.2.1 CACHE PATH "Directory for Eigen3 find_package")
+ add_subdirectory(${SofaDeps_ACTUAL_SOURCE_DIR}/eigen-3.2.1 ${CMAKE_CURRENT_BINARY_DIR}/eigen)
+diff --git a/SofaFramework/CMakeLists.txt b/SofaFramework/CMakeLists.txt
+index c9f22e5..9bbcfba 100644
+--- a/SofaFramework/CMakeLists.txt
++++ b/SofaFramework/CMakeLists.txt
+@@ -148,7 +148,7 @@ add_subdirectory( ${SofaFramework_ACTUAL_SOURCE_DIR}/sofa/helper      ${CMAKE_CU
+ add_subdirectory( ${SofaFramework_ACTUAL_SOURCE_DIR}/sofa/defaulttype ${CMAKE_CURRENT_BINARY_DIR}/SofaDefaultType )
+ add_subdirectory( ${SofaFramework_ACTUAL_SOURCE_DIR}/sofa/core        ${CMAKE_CURRENT_BINARY_DIR}/SofaCore )
+ if(TARGET gtest)
+-    add_subdirectory( ${SofaFramework_ACTUAL_SOURCE_DIR}/framework_test        ${CMAKE_CURRENT_BINARY_DIR}/framework_test )
++    # add_subdirectory( ${SofaFramework_ACTUAL_SOURCE_DIR}/framework_test        ${CMAKE_CURRENT_BINARY_DIR}/framework_test )
+ endif()
+ 
+ # set IDE project filter
+diff --git a/SofaFramework/CMakeParseLibraryList.cmake b/SofaFramework/CMakeParseLibraryList.cmake
+index a820bbf..092af43 100644
+--- a/SofaFramework/CMakeParseLibraryList.cmake
++++ b/SofaFramework/CMakeParseLibraryList.cmake
+@@ -41,15 +41,17 @@ function(PARSE_LIBRARY_LIST)
+         _print_usage()
+         message(FATAL_ERROR "Invalid arguments")
+     endif() 
+-    # message( "PARSE_LIBRARY_LIST ${_parse_list}" )
++    #message( "PARSE_LIBRARY_LIST ${_parse_list}" )
++
+     # Now split the list
+     set(_debug_libs "") 
+     set(_opt_libs "") 
+     set(_gen_libs "") 
+     foreach( item ${_parse_list} )
+-        if( ${item} MATCHES debug     OR 
+-            ${item} MATCHES optimized OR 
+-            ${item} MATCHES general )
++
++        if( ${item} STREQUAL debug     OR 
++            ${item} STREQUAL optimized OR 
++            ${item} STREQUAL general )
+ 
+             if( ${item} STREQUAL "debug" )
+                 set( mylist "_debug_libs" )
+diff --git a/SofaGui/CMakeLists.txt b/SofaGui/CMakeLists.txt
+index 838ef67..17c1361 100644
+--- a/SofaGui/CMakeLists.txt
++++ b/SofaGui/CMakeLists.txt
+@@ -33,7 +33,7 @@ set(SOFAGUI_DEPENDENCY_DIR ${SofaGeneral_INCLUDE_DIRS})
+ 
+ set(QT_USE_IMPORTED_TARGETS 1)
+ set(QT4_NO_LINK_QTMAIN 1)
+-find_package(Qt4 COMPONENTS qtcore qtgui qtopengl qtxml qt3support)
++#find_package(Qt4 COMPONENTS qtcore qtgui qtopengl qtxml qt3support)
+ 
+ set(SOFA_HAVE_QT ${Qt4_FOUND} )
+ set(SOFA_QT4 ${Qt4_FOUND} )
+@@ -69,7 +69,7 @@ add_subdirectory(${SofaGui_ACTUAL_SOURCE_DIR}/SofaGuiMain ${CMAKE_CURRENT_BINARY
+ if(Qt4_FOUND)
+     add_subdirectory(${SofaProjects_ACTUAL_SOURCE_DIR}/Modeler            ${CMAKE_CURRENT_BINARY_DIR}/Modeler)
+ endif(Qt4_FOUND)
+-add_subdirectory(${SofaProjects_ACTUAL_SOURCE_DIR}/runSofa            ${CMAKE_CURRENT_BINARY_DIR}/runSofa)
++# add_subdirectory(${SofaProjects_ACTUAL_SOURCE_DIR}/runSofa            ${CMAKE_CURRENT_BINARY_DIR}/runSofa)
+ 
+ foreach(TARGET ${SOFAGUI_TARGETS})
+   # set IDE project filter
+diff --git a/SofaGui/SofaGuiConfig.cmake.in b/SofaGui/SofaGuiConfig.cmake.in
+index ea37666..f317787 100644
+--- a/SofaGui/SofaGuiConfig.cmake.in
++++ b/SofaGui/SofaGuiConfig.cmake.in
+@@ -28,5 +28,5 @@ endif()
+ check_required_components(${SofaGUI_TARGETS})
+ 
+ # For compatibility only
+-set(SofaGui_LIBRARIES SofaGuiCommon)
++set(SofaGui_LIBRARIES @SOFAGUI_TARGETS@)
+ set(SofaGui_INCLUDE_DIRS ${SOFAGUI_INCLUDE_DIR} ${SofaGeneral_INCLUDE_DIRS} ${SofaMisc_INCLUDE_DIRS} ${SofaAdvanced_INCLUDE_DIRS})
+diff --git a/cmake/Modules/CMakeSofaBuildFlags.cmake b/cmake/Modules/CMakeSofaBuildFlags.cmake
+index 2296686..221992a 100644
+--- a/cmake/Modules/CMakeSofaBuildFlags.cmake
++++ b/cmake/Modules/CMakeSofaBuildFlags.cmake
+@@ -39,6 +39,8 @@ set(compilerDefines ${GLOBAL_COMPILER_DEFINES})
+ # windows specific
+ if(WIN32)
+     add_definitions( "-DUNICODE")
++    add_definitions( "-DFREEGLUT_LIB_PRAGMAS=0")
++    add_definitions( "-DBOOST_ALL_NO_LIB")
+     add_definitions("-wd4250 -wd4251 -wd4275 -wd4675 -wd4996 /bigobj")
+ 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+ endif()
+diff --git a/extlibs/eigen-3.2.1/CMakeLists.txt b/extlibs/eigen-3.2.1/CMakeLists.txt
+index 787cdc2..6a7cad9 100644
+--- a/extlibs/eigen-3.2.1/CMakeLists.txt
++++ b/extlibs/eigen-3.2.1/CMakeLists.txt
+@@ -4,22 +4,22 @@ project(Eigen)
+ 
+ set(EIGEN_INSTALL_INCLUDE_DIR include    CACHE PATH "Installation directory for header files relative to CMAKE_INSTALL_PREFIX variable")
+ 
+-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Eigen
+-        COMPONENT Eigen_headers
+-        DESTINATION "${EIGEN_INSTALL_INCLUDE_DIR}"
+-        PATTERN ".svn" EXCLUDE
+-        PATTERN ".git" EXCLUDE
+-        PATTERN "CMakeLists.txt" EXCLUDE
+-        PATTERN ".cxx" EXCLUDE
+-        PATTERN ".cpp" EXCLUDE
+-        )
++#install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/Eigen
++#        COMPONENT Eigen_headers
++#        DESTINATION "${EIGEN_INSTALL_INCLUDE_DIR}"
++#        PATTERN ".svn" EXCLUDE
++#        PATTERN ".git" EXCLUDE
++#        PATTERN "CMakeLists.txt" EXCLUDE
++#        PATTERN ".cxx" EXCLUDE
++#        PATTERN ".cpp" EXCLUDE
++#        )
+ 
+-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/unsupported/Eigen
+-        COMPONENT Eigen_headers
+-        DESTINATION "${EIGEN_INSTALL_INCLUDE_DIR}"
+-        PATTERN ".svn" EXCLUDE
+-        PATTERN ".git" EXCLUDE
+-        PATTERN "CMakeLists.txt" EXCLUDE
+-        PATTERN ".cxx" EXCLUDE
+-        PATTERN ".cpp" EXCLUDE
+-        )
++#install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/unsupported/Eigen
++#        COMPONENT Eigen_headers
++#        DESTINATION "${EIGEN_INSTALL_INCLUDE_DIR}"
++#        PATTERN ".svn" EXCLUDE
++#        PATTERN ".git" EXCLUDE
++#        PATTERN "CMakeLists.txt" EXCLUDE
++#        PATTERN ".cxx" EXCLUDE
++#        PATTERN ".cpp" EXCLUDE
++#        )
+diff --git a/extlibs/miniFlowVR/CMakeLists.txt b/extlibs/miniFlowVR/CMakeLists.txt
+index 1e02abf..84a2b2e 100644
+--- a/extlibs/miniFlowVR/CMakeLists.txt
++++ b/extlibs/miniFlowVR/CMakeLists.txt
+@@ -66,7 +66,7 @@ endif()
+ set(MINI_FLOWVR TRUE)
+ configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/MiniFlowVR.h.in
+                 ${CMAKE_CURRENT_BINARY_DIR}/flowvr/MiniFlowVR.h )
+-install( FILES ${CMAKE_CURRENT_BINARY_DIR}/MiniFlowVR.h
++install( FILES ${CMAKE_CURRENT_BINARY_DIR}/flowvr/MiniFlowVR.h
+          DESTINATION "${MINIFLOWVR_INSTALL_INCLUDE_DIR}/flowvr")
+ 
+ set_target_properties( miniFlowVR  PROPERTIES DEBUG_POSTFIX "_d" )
+diff --git a/framework/sofa/helper/io/ImagePNG.cpp b/framework/sofa/helper/io/ImagePNG.cpp
+index 5f3db89..508d4ac 100644
+--- a/framework/sofa/helper/io/ImagePNG.cpp
++++ b/framework/sofa/helper/io/ImagePNG.cpp
+@@ -29,10 +29,10 @@
+ 
+ #ifdef SOFA_HAVE_PNG
+ #include <png.h>
+-#ifdef _MSC_VER
+-#pragma comment(lib,"libpng.lib")
+-#pragma comment(lib,"zlib.lib")
+-#endif
++// #ifdef _MSC_VER
++// #pragma comment(lib,"libpng.lib")
++// #pragma comment(lib,"zlib.lib")
++// #endif
+ #endif
+ 
+ #if PNG_LIBPNG_VER >= 10209
+diff --git a/modules/SofaBaseMechanics/CMakeLists.txt b/modules/SofaBaseMechanics/CMakeLists.txt
+index 70209f9..07b1c3c 100644
+--- a/modules/SofaBaseMechanics/CMakeLists.txt
++++ b/modules/SofaBaseMechanics/CMakeLists.txt
+@@ -50,7 +50,7 @@ set_target_properties( ${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "${SOFABASEMECHA
+ set_target_properties( ${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${HEADER_FILES}" )
+ 
+ if(TARGET gtest)
+-    add_subdirectory(SofaBaseMechanics_test)
++    # add_subdirectory(SofaBaseMechanics_test)
+ endif()
+ 
+ 
+diff --git a/modules/SofaBaseVisual/CMakeLists.txt b/modules/SofaBaseVisual/CMakeLists.txt
+index 1cb2b6e..a368bbe 100644
+--- a/modules/SofaBaseVisual/CMakeLists.txt
++++ b/modules/SofaBaseVisual/CMakeLists.txt
+@@ -40,7 +40,7 @@ set_target_properties( ${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "${COMPILER_FLAG
+ set_target_properties( ${PROJECT_NAME} PROPERTIES PUBLIC_HEADER "${HEADER_FILES}" )
+ 
+ if(TARGET gtest)
+-    add_subdirectory(SofaBaseVisual_test)
++    # add_subdirectory(SofaBaseVisual_test)
+ endif()
+ 
+ install(TARGETS ${PROJECT_NAME}
