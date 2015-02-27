@@ -31,6 +31,8 @@ set(OPENCV_CMAKE_ARGS
     -DBUILD_TIFF:BOOL=OFF
     -DBUILD_ZLIB:BOOL=OFF
     -DBUILD_opencv_java:BOOL=OFF
+    # Doesn't compile with Clang >= 3.5
+    -DBUILD_opencv_ts:BOOL=OFF
 )
 
 set(OPENCV_PATCH_CMD)
@@ -48,7 +50,7 @@ elseif(APPLE)
         -DWITH_QUICKTIME:BOOL=OFF
         -DWITH_FFMPEG:BOOL=ON
         )
-else(ANDROID)
+elseif(ANDROID)
     
     set(OPENCV_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)  
     set(OPENCV_PATCH_CMD ${CMAKE_COMMAND} -E  copy_if_different "${OPENCV_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt"
@@ -56,15 +58,21 @@ else(ANDROID)
         )
     
 else()
+
+    set(OPENCV_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)  
     set(OPENCV_CMAKE_ARGS ${OPENCV_CMAKE_ARGS}
         #required ffmpeg or libav development packages: libavcodec-dev, libavformat-dev, libswscale-dev
         -DWITH_FFMPEG:BOOL=ON
         -DWITH_V4L:BOOL=ON
         -DWITH_GSTREAMER:BOOL=OFF
         )
+    # Only needed for Clang >= 3.5 because of  -Wtautological-pointer-compare 
+    # but it doesn't hurt for the other compiler
+    set(OPENCV_PATCH_CMD "${PATCH_EXECUTABLE}" -p0 -i ${OPENCV_PATCH_DIR}/calibfilter.cpp.diff -d <SOURCE_DIR>)
 endif()
 
-getCachedUrl(https://github.com/Itseez/opencv/archive/2.4.9.tar.gz CACHED_URL)
+
+getCachedUrl(http://downloads.sourceforge.net/project/opencvlibrary/opencv-unix/2.4.10/opencv-2.4.10.zip CACHED_URL)
 
 set(EXTRA_DEPENDS)
 if (NOT ANDROID)
