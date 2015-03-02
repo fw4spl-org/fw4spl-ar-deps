@@ -39,7 +39,7 @@ set(OPENCV_PATCH_CMD)
 
 # Have to replace all the following "set" by list(APPEND ...) or not ? 
 if(WIN32)
-    set(OPENCV_CMAKE_ARGS ${OPENCV_CMAKE_ARGS}
+    list(APPEND OPENCV_CMAKE_ARGS
         -DWITH_DSHOW:BOOL=ON
         -DWITH_MSMF:BOOL=OFF #required MSVC_2012+
         -DWITH_GSTREAMER:BOOL=OFF
@@ -49,18 +49,12 @@ elseif(APPLE)
     list(APPEND OPENCV_CMAKE_ARGS
         -DWITH_QUICKTIME:BOOL=OFF
         -DWITH_FFMPEG:BOOL=ON
-        )
-elseif(ANDROID)
+        )    
+elseif(NOT ANDROID) #linux
+    include(${ArBinPkgs_SOURCE_DIR}/cmake/utils/patch.cmake)
     
     set(OPENCV_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)  
-    set(OPENCV_PATCH_CMD ${CMAKE_COMMAND} -E  copy_if_different "${OPENCV_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt"
-        COMMAND ${CMAKE_COMMAND} -E  copy_if_different "${OPENCV_PATCH_DIR}/data/CMakeLists.txt" "<SOURCE_DIR>/data/CMakeLists.txt"
-        )
-    
-else()
-
-    set(OPENCV_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)  
-    set(OPENCV_CMAKE_ARGS ${OPENCV_CMAKE_ARGS}
+    list(APPEND OPENCV_CMAKE_ARGS
         #required ffmpeg or libav development packages: libavcodec-dev, libavformat-dev, libswscale-dev
         -DWITH_FFMPEG:BOOL=ON
         -DWITH_V4L:BOOL=ON
@@ -75,7 +69,7 @@ endif()
 getCachedUrl(http://downloads.sourceforge.net/project/opencvlibrary/opencv-unix/2.4.10/opencv-2.4.10.zip CACHED_URL)
 
 set(EXTRA_DEPENDS)
-if (NOT ANDROID)
+if(NOT ANDROID)
     set(EXTRA_DEPENDS "tiff")
 endif()
 
