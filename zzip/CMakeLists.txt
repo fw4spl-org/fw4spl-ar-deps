@@ -13,9 +13,13 @@ set(ZZIP_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DBUILD_SHARED_LIBS:BOOL=ON
 )
 
-set(ZZIP_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${ZZIP_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt"
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${ZZIP_PATCH_DIR}/fetch.h" "<SOURCE_DIR>/zzip/fetch.h"
-)
+set(ZZIP_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${ZZIP_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt")
+
+if(APPLE)
+list(APPEND ZZIP_PATCH_CMD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${ZZIP_PATCH_DIR}/fetch.h" "<SOURCE_DIR>/zzip/fetch.h")
+endif()
+
 ExternalProject_Add(
     zzip
     URL ${CACHED_URL}
