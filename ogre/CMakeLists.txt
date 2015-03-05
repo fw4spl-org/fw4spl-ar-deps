@@ -29,6 +29,7 @@ set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DOGRE_INSTALL_DEPENDENCIES:BOOL=OFF
                     -DOGRE_CONFIG_ENABLE_ZIP:BOOL=ON
                     -DOGRE_CONFIG_ENABLE_FREEIMAGE:BOOL=ON
+                    -DOGRE_BUILD_RENDERSYSTEM_D3D9:BOOL=OFF
                     -DBoost_COMPILER:STRING=${Boost_COMPILER}
                     -DBoost_USE_DEBUG_PYTHON:BOOL=TRUE
                     -DBOOST_ROOT:PATH=${CMAKE_INSTALL_PREFIX}
