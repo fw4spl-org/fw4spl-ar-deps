@@ -46,6 +46,10 @@ if(NOT APPLE)
     list(APPEND DEPENDENCIES
         freeglut
     )
+else()
+    list(APPEND SOFA_CMAKE_ARGS 
+        -DGLUT_glut_LIBRARY=/System/Library/Frameworks/GLUT.framework/GLUT
+    )
 endif()
 
 ExternalProject_Add(
