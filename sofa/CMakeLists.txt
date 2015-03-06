@@ -63,7 +63,7 @@ ExternalProject_Add(
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
 )
 
-if(UNIX AND CMAKE_BUILD_TYPE STREQUAL "Debug")
+if(UNIX AND NOT APPLE AND CMAKE_BUILD_TYPE STREQUAL "Debug")
     ExternalProject_Add_Step(sofa RENAME_TINYXML
         COMMAND ${CMAKE_COMMAND} -E create_symlink libtinyxml_d.so.2.6.2 libtinyxml.so.2.6.2
         WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib
