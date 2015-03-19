@@ -36,6 +36,7 @@ set(OPENCV_CMAKE_ARGS
 )
 
 set(OPENCV_PATCH_CMD)
+set(OPENCV_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 
 # Have to replace all the following "set" by list(APPEND ...) or not ? 
 if(WIN32)
@@ -62,7 +63,10 @@ elseif(NOT ANDROID) #linux
         )
     # Only needed for Clang >= 3.5 because of  -Wtautological-pointer-compare 
     # but it doesn't hurt for the other compiler
-    set(OPENCV_PATCH_CMD "${PATCH_EXECUTABLE}" -p0 -i ${OPENCV_PATCH_DIR}/calibfilter.cpp.diff -d <SOURCE_DIR>)
+    set(OPENCV_PATCH_CMD "${PATCH_EXECUTABLE}" -p0 -i ${OPENCV_PATCH_DIR}/calibfilter.cpp.diff -d <SOURCE_DIR>
+    )
+else()
+     set(OPENCV_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${OPENCV_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt")
 endif()
 
 
