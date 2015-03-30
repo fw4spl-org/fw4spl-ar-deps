@@ -11,7 +11,6 @@ if(NOT ANDROID)
     list(APPEND SUBDIRECTORIES eigen)
     list(APPEND SUBDIRECTORIES flann)
     list(APPEND SUBDIRECTORIES bullet)
-    list(APPEND SUBDIRECTORIES glm)
     
     if(ENABLE_EXPERIMENTAL_DEPS)
         list(APPEND SUBDIRECTORIES artoolkitplus)
