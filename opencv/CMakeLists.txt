@@ -31,6 +31,7 @@ set(OPENCV_CMAKE_ARGS
     -DBUILD_TIFF:BOOL=OFF
     -DBUILD_ZLIB:BOOL=OFF
     -DBUILD_opencv_java:BOOL=OFF
+    -DBUILD_opencv_python:BOOL=OFF
     # Doesn't compile with Clang >= 3.5
     -DBUILD_opencv_ts:BOOL=OFF
 )
@@ -49,7 +50,8 @@ if(WIN32)
 elseif(APPLE)
     list(APPEND OPENCV_CMAKE_ARGS
         -DWITH_QUICKTIME:BOOL=OFF
-        -DWITH_FFMPEG:BOOL=ON
+        -DWITH_FFMPEG:BOOL=OFF
+        -DBUILD_opencv_ts:BOOL=ON
         )    
 elseif(NOT ANDROID) #linux
     include(${ArBinPkgs_SOURCE_DIR}/cmake/utils/patch.cmake)
