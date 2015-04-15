@@ -47,22 +47,25 @@ if(WIN32)
         -DWITH_GSTREAMER:BOOL=OFF
         -DWITH_FFMPEG:BOOL=OFF
         )
-elseif(APPLE)
-    list(APPEND OPENCV_CMAKE_ARGS
-        -DWITH_QUICKTIME:BOOL=OFF
-        -DWITH_FFMPEG:BOOL=OFF
-        -DBUILD_opencv_ts:BOOL=ON
-        )    
 elseif(NOT ANDROID) #linux
-    include(${ArBinPkgs_SOURCE_DIR}/cmake/utils/patch.cmake)
+    if(APPLE)
+        list(APPEND OPENCV_CMAKE_ARGS
+            -DWITH_QUICKTIME:BOOL=OFF
+            -DWITH_FFMPEG:BOOL=OFF
+            -DBUILD_opencv_ts:BOOL=ON
+            )    
+    else()
+        list(APPEND OPENCV_CMAKE_ARGS
+            #required ffmpeg or libav development packages: libavcodec-dev, libavformat-dev, libswscale-dev
+            -DWITH_FFMPEG:BOOL=ON
+            -DWITH_V4L:BOOL=ON
+            -DWITH_GSTREAMER:BOOL=OFF
+            )
+    endif()
     
+    include(${ArBinPkgs_SOURCE_DIR}/cmake/utils/patch.cmake)
     set(OPENCV_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)  
-    list(APPEND OPENCV_CMAKE_ARGS
-        #required ffmpeg or libav development packages: libavcodec-dev, libavformat-dev, libswscale-dev
-        -DWITH_FFMPEG:BOOL=ON
-        -DWITH_V4L:BOOL=ON
-        -DWITH_GSTREAMER:BOOL=OFF
-        )
+    
     # Only needed for Clang >= 3.5 because of  -Wtautological-pointer-compare 
     # but it doesn't hurt for the other compiler
     set(OPENCV_PATCH_CMD "${PATCH_EXECUTABLE}" -p0 -i ${OPENCV_PATCH_DIR}/calibfilter.cpp.diff -d <SOURCE_DIR>
