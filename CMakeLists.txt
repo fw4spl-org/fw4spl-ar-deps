@@ -26,6 +26,7 @@ if(NOT ANDROID)
         list(APPEND SUBDIRECTORIES glext)
         list(APPEND SUBDIRECTORIES sofa)
         list(APPEND SUBDIRECTORIES geodesic)
+        list(APPEND SUBDIRECTORIES openni)
     endif()
     
 ##Android Deps##
