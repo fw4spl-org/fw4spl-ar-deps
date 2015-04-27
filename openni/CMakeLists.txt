@@ -58,3 +58,11 @@ else()
     )
 endif()
 
+ExternalProject_Add_Step(openni CopyFindFileToInstall
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/findBinpkgs/FindOpenNI.cmake 
+                                    ${CMAKE_INSTALL_PREFIX}/FindOpenNI.cmake
+    COMMENT "Install FindOpenNI file"
+    DEPENDEES install
+)
+
+
