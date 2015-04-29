@@ -40,8 +40,6 @@ set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DBoost_USE_DEBUG_PYTHON:BOOL=TRUE
                     -DBOOST_ROOT:PATH=${CMAKE_INSTALL_PREFIX}
                     -DBOOST_INCLUDEDIR:PATH=${CMAKE_INSTALL_PREFIX}/include/boost-${BOOST_VERSION}
-                    # -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk
-                 #    -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9
    )
 
 
@@ -60,8 +58,7 @@ if(APPLE)
     )
     list(APPEND OGRE_CMAKE_ARGS 
     -DCMAKE_OSX_ARCHITECTURES='x86_64'
-    -DOGRE_BUILD_LIBS_AS_FRAMEWORKS=OFF
-    -DOGRE_FULL_RPATH:BOOL=FALSE
+    # -DOGRE_FULL_RPATH:BOOL=FALSE
 )
 endif()
 

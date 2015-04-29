@@ -1,0 +1,12 @@
+diff --git a/RenderSystems/GL/src/OSX/OgreOSXCocoaWindow.mm b/RenderSystems/GL/src/OSX/OgreOSXCocoaWindow.mm
+index 71f8f90..974d279 100644
+--- a/RenderSystems/GL/src/OSX/OgreOSXCocoaWindow.mm
++++ b/RenderSystems/GL/src/OSX/OgreOSXCocoaWindow.mm
+@@ -282,6 +282,7 @@ namespace Ogre {
+             }
+ 
+             mWindow = [mView window];
++            [mWindow retain];
+             mIsExternal = true;
+ 
+             // Add our window to the window event listener class
