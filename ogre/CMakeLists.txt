@@ -4,8 +4,13 @@ project(ogre)
 
 include(ExternalProject)
 
-getCachedUrl(https://bitbucket.org/sinbad/ogre/get/v1-9-0.tar.bz2 CACHED_URL)
-
+if(APPLE)
+    getCachedUrl(https://bitbucket.org/sinbad/ogre/get/v1-9.tar.bz2 CACHED_URL)
+    set(OGRE_HASH 3489a38dbdd7113acd703043e85839d8b61ac3bc1737ef723f067d21bc778de6)
+else()
+    getCachedUrl(https://bitbucket.org/sinbad/ogre/get/v1-9-0.tar.bz2 CACHED_URL)
+    set(OGRE_HASH 3072df52b2bed2a1b52e969f140ae9a4373ec931029d3eaa032e7c609a91ef82)
+endif()
 include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
 
 set(OGRE_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
@@ -30,11 +35,15 @@ set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DOGRE_CONFIG_ENABLE_ZIP:BOOL=ON
                     -DOGRE_CONFIG_ENABLE_FREEIMAGE:BOOL=ON
                     -DOGRE_BUILD_RENDERSYSTEM_D3D9:BOOL=OFF
+                    -DOGRE_BUILD_PLATFORM_APPLE_IOS:BOOL=OFF
                     -DBoost_COMPILER:STRING=${Boost_COMPILER}
                     -DBoost_USE_DEBUG_PYTHON:BOOL=TRUE
                     -DBOOST_ROOT:PATH=${CMAKE_INSTALL_PREFIX}
                     -DBOOST_INCLUDEDIR:PATH=${CMAKE_INSTALL_PREFIX}/include/boost-${BOOST_VERSION}
+                    # -DCMAKE_OSX_SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk
+                 #    -DCMAKE_OSX_DEPLOYMENT_TARGET=10.9
    )
+
 
 
 if(WIN32)
@@ -42,14 +51,24 @@ if(WIN32)
 endif()
 
 set(OGRE_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt"
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/OgreConfigTargets.cmake" "<SOURCE_DIR>/CMake/Utils/OgreConfigTargets.cmake"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/PrecompiledHeader.cmake" "<SOURCE_DIR>/CMake/Utils/PrecompiledHeader.cmake"
 )
+if(APPLE)
+    
+    set(OGRE_PATCH_CMD ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/OSX/fix-1.9-HEAD.patch -d <SOURCE_DIR>
+        COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/OSX/ogre1.9.patch -d <SOURCE_DIR>
+    )
+    list(APPEND OGRE_CMAKE_ARGS 
+    -DCMAKE_OSX_ARCHITECTURES='x86_64'
+    -DOGRE_BUILD_LIBS_AS_FRAMEWORKS=OFF
+    -DOGRE_FULL_RPATH:BOOL=FALSE
+)
+endif()
 
 ExternalProject_Add(
     ogre
     URL ${CACHED_URL}
-    URL_HASH SHA256=3072df52b2bed2a1b52e969f140ae9a4373ec931029d3eaa032e7c609a91ef82
+    URL_HASH SHA256=${OGRE_HASH}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DEPENDS zzip freeimage boost
     PATCH_COMMAND ${OGRE_PATCH_CMD}
