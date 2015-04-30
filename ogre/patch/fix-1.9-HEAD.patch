@@ -4,29 +4,6 @@
 # Branch v1-9
 # Node ID 7a00a8c978afc15e08e5c3e3dcd9ce04afa37ee8
 # Parent  7c776867621e1e41f1be5e49ecc01e8849a80ad2
-Fixes for installation with homebrew.
-
-diff --git a/CMake/Utils/OgreConfigTargets.cmake b/CMake/Utils/OgreConfigTargets.cmake
---- a/CMake/Utils/OgreConfigTargets.cmake
-+++ b/CMake/Utils/OgreConfigTargets.cmake
-@@ -71,7 +71,7 @@
-     set(OGRE_LIB_RELEASE_PATH "/Release")
-   endif(APPLE AND OGRE_BUILD_PLATFORM_APPLE_IOS)
-   if (APPLE)
--    set(OGRE_PLUGIN_PATH "/")
-+    set(OGRE_PLUGIN_PATH "/OGRE")
-   else()
-     set(OGRE_PLUGIN_PATH "/OGRE")
-   endif(APPLE)
-@@ -251,7 +251,7 @@
- endfunction(ogre_config_component)
- 
- function(ogre_config_framework LIBNAME)
--  if (APPLE AND NOT OGRE_BUILD_PLATFORM_APPLE_IOS)
-+  if (OGRE_BUILD_LIBS_AS_FRAMEWORKS)
-       set_target_properties(${LIBNAME} PROPERTIES FRAMEWORK TRUE)
- 
-       # Set the INSTALL_PATH so that frameworks can be installed in the application package
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt

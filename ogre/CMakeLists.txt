@@ -48,18 +48,17 @@ if(WIN32)
     set(OGRE_CMAKE_ARGS ${OGRE_CMAKE_ARGS} -DOGRE_INSTALL_PDB:BOOL=OFF)
 endif()
 
-set(OGRE_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt"
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/PrecompiledHeader.cmake" "<SOURCE_DIR>/CMake/Utils/PrecompiledHeader.cmake"
-)
 if(APPLE)
     
-    set(OGRE_PATCH_CMD ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/OSX/fix-1.9-HEAD.patch -d <SOURCE_DIR>
-        COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/OSX/ogre1.9.patch -d <SOURCE_DIR>
+    set(OGRE_PATCH_CMD 
+        ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/fix-1.9-HEAD.patch -d <SOURCE_DIR>
+        COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/ogre1.9.patch -d <SOURCE_DIR>
+        COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/OgreConfigTargets.patch -d <SOURCE_DIR>
     )
     list(APPEND OGRE_CMAKE_ARGS 
     -DCMAKE_OSX_ARCHITECTURES='x86_64'
-    # -DOGRE_FULL_RPATH:BOOL=FALSE
 )
+
 endif()
 
 ExternalProject_Add(
