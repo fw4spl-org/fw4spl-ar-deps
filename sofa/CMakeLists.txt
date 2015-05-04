@@ -19,13 +19,15 @@ set(SOFA_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DSOFAGUI_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
                     -DSOFAMISC_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
                     -DSOFASIMULATION_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
+                    -DSOFA_USE_MINIBOOST:BOOL=OFF
+                    -DSOFA_FLOATING_POINT_TYPE:STRING=double
 )
 
 getCachedUrl(https://gforge.inria.fr/git/sofa/sofa.git CACHED_URL)
 
 
 # Getting fixed rev with working compilations in all plateforms (except Mac)
-set(SOFA_REV aae029836ef1d2cf829222f16adb0eceef4f60a7)
+set(SOFA_REV bb5b0b0cceb4bb86301effd9eaaa9ff770557103)
 
 include(${ArBinPkgs_SOURCE_DIR}/cmake/utils/patch.cmake)
 
@@ -47,7 +49,7 @@ if(NOT APPLE)
         freeglut
     )
 else()
-    list(APPEND SOFA_CMAKE_ARGS 
+    list(APPEND SOFA_CMAKE_ARGS
         -DGLUT_glut_LIBRARY=/System/Library/Frameworks/GLUT.framework/GLUT
     )
 endif()
