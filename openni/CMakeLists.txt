@@ -32,18 +32,20 @@ else()
     #     sudo apt-get install libusb-1.0-0-dev
     # - LibUDEV
     #     sudo apt-get install libudev-dev
-    # - FreeGLUT3
-    #     sudo apt-get install freeglut3-dev
-    # - JDK 6.0-0
-    #     sudo apt-get install openjdk-6-jdk
+
+
+    #Patch the Makefile to create a minimal target with only OpenNI lib and drivers (it remove also dependencies to jdk and freeglut)
+    set(ONI_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patches)
+    set(ONI_PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${ONI_PATCH_DIR}/Makefile ${CMAKE_CURRENT_BINARY_DIR}/openni-prefix/src/openni/Makefile)
         
     ExternalProject_Add(
             openni
             URL ${CACHED_URL}
             DOWNLOAD_DIR ${ARCHIVE_DIR}
+            PATCH_COMMAND ${ONI_PATCH_COMMAND} 
             BUILD_IN_SOURCE 1
             CONFIGURE_COMMAND ""
-            BUILD_COMMAND ${MAKE} CFG=${CMAKE_BUILD_TYPE} -f <SOURCE_DIR>/Makefile core
+            BUILD_COMMAND ${MAKE} CFG=${CMAKE_BUILD_TYPE} -f <SOURCE_DIR>/Makefile minimum
             INSTALL_COMMAND ""
             STEP_TARGETS CopyConfigFileToInstall
     )
