@@ -12,7 +12,31 @@ index fab378f..38ee6b4 100644
  option(SOFA_USE_MINIBOOST
  "Use the (header-only) subset of Boost distributed in the extlibs/ directory
 diff --git a/SofaFramework/CMakeLists.txt b/SofaFramework/CMakeLists.txt
-index 2020fd8..849c41d 100644
+index 2020fd8..8684668 100644
+--- a/SofaFramework/CMakeLists.txt
++++ b/SofaFramework/CMakeLists.txt
+@@ -75,6 +75,7 @@ if(NOT SOFA_NO_OPENGL)
+     find_package(GLEW)
+     if(GLEW_FOUND)
+         sofa_create_target(GLEW SofaFramework "${GLEW_LIBRARIES}" "${GLEW_INCLUDE_DIRS}")
++        list(APPEND SOFAFRAMEWORK_DEPENDENCY_INCLUDE_DIRECTORIES ${GLEW_INCLUDE_DIRS})
+         list(APPEND SOFAFRAMEWORK_DEPENDENCY_LINK ${GLEW_Target})
+     endif()
+     set(SOFA_HAVE_GLEW ${GLEW_FOUND})
+--- a/SofaFramework/CMakeLists.txt
++++ b/SofaFramework/CMakeLists.txt
+@@ -116,6 +116,11 @@ set(SOFA_HAVE_ZLIB ${ZLIB_FOUND})
+ # PNG
+ find_package(PNG)
+ if(PNG_FOUND)
++    if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
++        set(PNG_LIBRARY  ${PNG_LIBRARY_DEBUG})
++    else()
++        set(PNG_LIBRARY  ${PNG_LIBRARY_RELEASE})
++    endif()
+     sofa_create_target(PNG SofaFramework "${PNG_LIBRARY}" "${PNG_INCLUDE_DIRS}")
+ 	list(APPEND SOFAFRAMEWORK_DEPENDENCY_LINK ${PNG_Target})
+ endif()
 --- a/SofaFramework/CMakeLists.txt
 +++ b/SofaFramework/CMakeLists.txt
 @@ -184,7 +184,7 @@ add_subdirectory(${SofaFramework_ACTUAL_SOURCE_DIR}/sofa/helper ${CMAKE_CURRENT_
@@ -156,10 +180,3 @@ index 5f3db89..b0899c2 100644
 +// #pragma comment(lib,"zlib.lib")
 +// #endif
  #endif
- 
- #if PNG_LIBPNG_VER >= 10209
-@@ -362,4 +362,3 @@ bool ImagePNG::save(std::string filename, int compression_level)
- } // namespace helper
- 
- } // namespace sofa
--
