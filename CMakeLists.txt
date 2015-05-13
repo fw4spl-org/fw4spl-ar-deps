@@ -11,7 +11,7 @@ if(NOT ANDROID)
     list(APPEND SUBDIRECTORIES eigen)
     list(APPEND SUBDIRECTORIES flann)
     list(APPEND SUBDIRECTORIES bullet)
-    
+
     if(ENABLE_EXPERIMENTAL_DEPS)
         list(APPEND SUBDIRECTORIES artoolkitplus)
         list(APPEND SUBDIRECTORIES aram)
@@ -26,9 +26,12 @@ if(NOT ANDROID)
         list(APPEND SUBDIRECTORIES glext)
         list(APPEND SUBDIRECTORIES sofa)
         list(APPEND SUBDIRECTORIES geodesic)
+        if(UNIX)
+            list(APPEND SUBDIRECTORIES libusb)
+        endif()
         list(APPEND SUBDIRECTORIES openni)
     endif()
-    
+
 ##Android Deps##
 else()
     list(APPEND SUBDIRECTORIES opencv)
