@@ -70,6 +70,16 @@ else()
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             DEPENDEES install
     )
+
+    if(NOT APPLE)
+        ExternalProject_Add_Step(openni INSTALL_RULES
+                COMMAND ${CMAKE_COMMAND} -E copy <SOURCE_DIR>/Packaging/Linux/primesense-usb.rules ${CMAKE_INSTALL_PREFIX}/primesense-usb.rules
+                WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                COMMENT "LINUX WARNING : The file '${CMAKE_INSTALL_PREFIX}/primesense-usb.rules' should be copy to '/etc/udev/rules.d/557-primesense-usb.rules' with admin rights (sudo)"
+                DEPENDEES INSTALL_OPENNI
+        )
+    endif()
+
 endif()
 
 ExternalProject_Add_Step(openni CopyFindFileToInstall
