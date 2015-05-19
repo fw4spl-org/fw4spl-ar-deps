@@ -9,7 +9,6 @@ if(WIN32)
     getCachedUrl(https://github.com/fw4spl-org/OpenNI2/archive/70da8eb798048a7c5baa5ae20672b5a2dc6cc7fe.tar.gz CACHED_URL)
     ExternalProject_Add(
             openni
-            DEPENDS ${DEPENDENCIES}
             URL ${CACHED_URL}
             DOWNLOAD_DIR ${ARCHIVE_DIR}
             BUILD_IN_SOURCE 1

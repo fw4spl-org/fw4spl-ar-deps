@@ -10,6 +10,14 @@ include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
 
 find_package(ZLIB REQUIRED)
 
+if(WIN32)
+    set(OPENNI2_LIBRARY "OpenNI2.lib")
+elseif(APPLE)
+    set(OPENNI2_LIBRARY "libOpenNI2.dylib")
+else()
+    set(OPENNI2_LIBRARY "libOpenNI2.so")
+endif()
+
 set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DBUILD_2d:BOOL=OFF
                         -DBUILD_apps:BOOL=OFF
@@ -51,8 +59,9 @@ set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DBoost_USE_DEBUG_PYTHON:BOOL=ON
                         -DBoost_USE_MULTITHREADED:BOOL=ON
                         -DBoost_USE_STATIC_LIBS:BOOL=OFF
+                        -DPCL_BUILD_WITH_BOOST_DYNAMIC_LINKING_WIN32:BOOL=ON
                         -DOPENNI2_INCLUDE_DIRS:PATH=${CMAKE_INSTALL_PREFIX}/include/openni2
-                        -DOPENNI2_LIBRARY:PATH=${CMAKE_INSTALL_PREFIX}/lib/openni2/libOpenNI2.so
+                        -DOPENNI2_LIBRARY:PATH=${CMAKE_INSTALL_PREFIX}/lib/openni2/${OPENNI2_LIBRARY}
                         -DFLANN_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/flann
                         -DVTK_DIR:PATH=${CMAKE_INSTALL_PREFIX}/lib/
                         -DPCL_SHARED_LIBS:BOOL=ON
@@ -66,7 +75,7 @@ ExternalProject_Add(
     pcl
     URL ${CACHED_URL}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
-    DEPENDS zlib boost flann qt vtk eigen
+    DEPENDS zlib boost flann qt vtk eigen openni
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${PCL_CMAKE_ARGS}
 )
