@@ -20,12 +20,7 @@ if (APPLE)
         --disable-dependency-tracking
     )
 else()
-    set(SETENV export CC=${CMAKE_C_COMPILER}
-        CXX=${CMAKE_CXX_COMPILER}
-        "LDFLAGS=-arch i386 -arch x86_64 "
-        "CFLAGS=-arch i386 -arch x86_64 "
-        &&
-    )
+    set(SETENV "")
     set(LIBUSB_CONFIGURE_CMD
         ./configure
         --prefix=${INSTALL_PREFIX_libusb}/${CMAKE_INSTALL_PREFIX}
