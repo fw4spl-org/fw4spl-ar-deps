@@ -6,7 +6,7 @@ include(ExternalProject)
 
 if(WIN32)
     # get archive on commit 70da8eb: Upgrade all VS projects to MSVC12 (Visual Studio 2013).
-    getCachedUrl(https://github.com/occipital/OpenNI2/archive/70da8eb798048a7c5baa5ae20672b5a2dc6cc7fe.tar.gz CACHED_URL)
+    getCachedUrl(https://github.com/fw4spl-org/OpenNI2/archive/70da8eb798048a7c5baa5ae20672b5a2dc6cc7fe.tar.gz CACHED_URL)
     ExternalProject_Add(
             openni
             DEPENDS ${DEPENDENCIES}
@@ -29,7 +29,7 @@ if(WIN32)
             DEPENDEES install
     )
 else()
-    getCachedUrl(https://github.com/occipital/OpenNI2/archive/v2.2.0-debian.tar.gz CACHED_URL)
+    getCachedUrl(https://github.com/fw4spl-org/OpenNI2/archive/a2f6724871cad1fbb8d0b37b914128e8e5e137d4.tar.gz CACHED_URL)
     # Building Prerequisites:
     # - LibUSB 1.0.x
     #     sudo apt-get install libusb-1.0-0-dev
@@ -42,22 +42,14 @@ else()
         set (EXT ".so")
     endif()
 
-    #Patch the Makefile to create a minimal target with only OpenNI lib and drivers (it remove also dependencies to jdk and freeglut)
-    set(ONI_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patches)
-    set(ONI_PATCH_COMMAND ${CMAKE_COMMAND} -E copy ${ONI_PATCH_DIR}/Makefile ${CMAKE_CURRENT_BINARY_DIR}/openni-prefix/src/openni/Makefile
-            COMMAND ${CMAKE_COMMAND} -E copy ${ONI_PATCH_DIR}/PS1080/Makefile ${CMAKE_CURRENT_BINARY_DIR}/openni-prefix/src/openni/Source/Drivers/PS1080/Makefile
-            COMMAND ${CMAKE_COMMAND} -E copy ${ONI_PATCH_DIR}/PSLink/Makefile ${CMAKE_CURRENT_BINARY_DIR}/openni-prefix/src/openni/Source/Drivers/PSLink/Makefile
-    )
-
     ExternalProject_Add(
             openni
             DEPENDS libusb
             URL ${CACHED_URL}
             DOWNLOAD_DIR ${ARCHIVE_DIR}
-            PATCH_COMMAND ${ONI_PATCH_COMMAND}
             BUILD_IN_SOURCE 1
             CONFIGURE_COMMAND ""
-            BUILD_COMMAND ${MAKE} CFG=${CMAKE_BUILD_TYPE} INSTALL_LIB_DIR=${CMAKE_INSTALL_PREFIX}/lib -f <SOURCE_DIR>/Makefile minimum
+            BUILD_COMMAND ${MAKE} CFG=${CMAKE_BUILD_TYPE} INSTALL_LIB_DIR=${CMAKE_INSTALL_PREFIX}/lib INSTALL_INCLUDE_DIR=${CMAKE_INSTALL_PREFIX}/include -f <SOURCE_DIR>/Makefile minimum
             INSTALL_COMMAND ""
             STEP_TARGETS CopyConfigFileToInstall
     )
