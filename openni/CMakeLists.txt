@@ -13,16 +13,18 @@ if(WIN32)
             DOWNLOAD_DIR ${ARCHIVE_DIR}
             BUILD_IN_SOURCE 1
             CONFIGURE_COMMAND ""
-            BUILD_COMMAND devenv OpenNI.sln /project OpenNI /build ${CMAKE_BUILD_TYPE}
+            BUILD_COMMAND devenv OpenNI.sln /project OpenNI /build ${CMAKE_BUILD_TYPE} 
+                  COMMAND devenv OpenNI.sln /project PS1080 /build ${CMAKE_BUILD_TYPE}
             INSTALL_COMMAND ""
             STEP_TARGETS CopyConfigFileToInstall
     )
     ExternalProject_Add_Step(
             openni INSTALL_OPENNI
-            COMMAND ${CMAKE_COMMAND} -E copy_directory <SOURCE_DIR>/Config/ ${CMAKE_INSTALL_PREFIX}/lib/openni2/
             COMMAND ${CMAKE_COMMAND} -E copy_directory <SOURCE_DIR>/Bin/x64-${CMAKE_BUILD_TYPE}/OpenNI2/ ${CMAKE_INSTALL_PREFIX}/lib/openni2/OpenNI2
             COMMAND ${CMAKE_COMMAND} -E copy <SOURCE_DIR>/Bin/x64-${CMAKE_BUILD_TYPE}/OpenNI2.lib ${CMAKE_INSTALL_PREFIX}/lib/openni2/OpenNI2.lib
             COMMAND ${CMAKE_COMMAND} -E copy <SOURCE_DIR>/Bin/x64-${CMAKE_BUILD_TYPE}/OpenNI2.dll ${CMAKE_INSTALL_PREFIX}/bin/OpenNI2.dll
+            COMMAND ${CMAKE_COMMAND} -E copy_directory <SOURCE_DIR>/Bin/x64-${CMAKE_BUILD_TYPE}/OpenNI2 ${CMAKE_INSTALL_PREFIX}/bin/OpenNI2
+            COMMAND ${CMAKE_COMMAND} -E copy_directory <SOURCE_DIR>/Config ${CMAKE_INSTALL_PREFIX}/bin
             COMMAND ${CMAKE_COMMAND} -E copy_directory <SOURCE_DIR>/Include ${CMAKE_INSTALL_PREFIX}/include/openni2
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             DEPENDEES install
