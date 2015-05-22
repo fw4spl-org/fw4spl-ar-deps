@@ -19,9 +19,7 @@ else()
 endif()
 
 set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
-                        -DBUILD_2d:BOOL=OFF
                         -DBUILD_apps:BOOL=OFF
-                        -DBUILD_CUDA:BOOL=OFF
                         -DBUILD_OPENNI:BOOL=OFF
                         -DBUILD_OPENNI2:BOOL=ON
                         -DBUILD_DAVIDSDK:BOOL=OFF
@@ -33,22 +31,10 @@ set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DBUILD_geometry:BOOL=ON
                         -DBUILD_io:BOOL=ON
                         -DBUILD_kdtree:BOOL=ON
-                        -DBUILD_keypoints:BOOL=OFF
-                        -DBUILD_ml:BOOL=OFF
                         -DBUILD_octree:BOOL=ON
-                        -DBUILD_outofcore:BOOL=OFF
-                        -DBUILD_recognition:BOOL=OFF
-                        -DBUILD_registration:BOOL=OFF
                         -DBUILD_sample_consensus:BOOL=ON
                         -DBUILD_search:BOOL=ON
-                        -DBUILD_segmentation:BOOL=OFF
-                        -DBUILD_simulation:BOOL=OFF
-                        -DBUILD_stereo:BOOL=OFF
-                        -DBUILD_surface:BOOL=OFF
-                        -DBUILD_surface_on_nurbs:BOOL=OFF
                         -DBUILD_tools:BOOL=OFF
-                        -DBUILD_tracking:BOOL=OFF
-                        -DBUILD_visualization:BOOL=OFF
                         -DBUILD_TESTS:BOOL=OFF
                         -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
                         -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
@@ -68,8 +54,49 @@ set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DBUILD_WITH_DEBUG_INFO:BOOL=OFF
                         -DZLIB_INCLUDE_DIR:PATH=${ZLIB_INCLUDE_DIRS}
                         -DQT_QMAKE_EXECUTABLE:PATH=${CMAKE_INSTALL_PREFIX}/bin/qmake
+                        -DWITH_PCAP:BOOL=OFF
 )
-    
+
+find_package(CUDA)
+if(CUDA_FOUND)
+    #Enable GPU options
+    list(APPEND PCL_CMAKE_ARGS -DBUILD_CUDA:BOOL=ON
+                               -DBUILD_GPU:BOOL=ON
+                               -DBUILD_gpu_kinfu:BOOL=ON
+                               -DBUILD_gpu_kinfu_large_scale:BOOL=ON
+                               -DBUILD_visualization:BOOL=ON
+                               -DBUILD_surface:BOOL=ON
+    )
+    set(PCL_BUILD_COMMAND ${CMAKE_MAKE_PROGRAM})
+    #Fix fatal error C1041
+    if(WIN32)
+        if(${CMAKE_MAKE_PROGRAM} STREQUAL "jom")
+            set(PCL_TARGETS pcl_common pcl_octree pcl_io pcl_io_ply pcl_kdtree pcl_search pcl_sample_consensus pcl_filters 
+                            pcl_2d pcl_features pcl_ml pcl_segmentation pcl_visualization pcl_surface pcl_registration 
+                            pcl_keypoints pcl_tracking pcl_recognition pcl_stereo pcl_cuda_features pcl_cuda_segmentation 
+                            pcl_cuda_sample_consensus pcl_outofcore pcl_people)
+            set(PCL_GPU_TARGETS pcl_gpu_containers pcl_gpu_utils pcl_gpu_octree pcl_gpu_features pcl_gpu_kinfu pcl_gpu_kinfu_large_scale pcl_gpu_segmentation)
+            set(PCL_BUILD_COMMAND ${CMAKE_MAKE_PROGRAM} ${PCL_TARGETS}
+                COMMAND ${CMAKE_MAKE_PROGRAM} -j1 ${PCL_GPU_TARGETS})
+        endif()
+    else()
+        set(PCL_BUILD_COMMAND ${CMAKE_MAKE_PROGRAM} -j${NUMBER_OF_PARALLEL_BUILD})
+    endif()
+else()
+    message("warning, no acceptable version of CUDA found")
+    list(APPEND PCL_CMAKE_ARGS -DBUILD_2d:BOOL=OFF
+                               -DBUILD_tracking:BOOL=OFF
+                               -DBUILD_segmentation:BOOL=OFF
+                               -DBUILD_simulation:BOOL=OFF
+                               -DBUILD_stereo:BOOL=OFF
+                               -DBUILD_surface_on_nurbs:BOOL=OFF
+                               -DBUILD_outofcore:BOOL=OFF
+                               -DBUILD_recognition:BOOL=OFF
+                               -DBUILD_registration:BOOL=OFF
+                               -DBUILD_keypoints:BOOL=OFF
+                               -DBUILD_ml:BOOL=OFF
+    )
+endif()
 
 ExternalProject_Add(
     pcl
@@ -78,4 +105,5 @@ ExternalProject_Add(
     DEPENDS zlib boost flann qt vtk eigen openni
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${PCL_CMAKE_ARGS}
+    BUILD_COMMAND ${PCL_BUILD_COMMAND}
 )
