@@ -21,13 +21,14 @@ set(SOFA_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DSOFASIMULATION_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
                     -DSOFA_USE_MINIBOOST:BOOL=OFF
                     -DSOFA_FLOATING_POINT_TYPE:STRING=double
+                    -DSOFA_TESTS:BOOL=OFF
 )
 
 getCachedUrl(https://gforge.inria.fr/git/sofa/sofa.git CACHED_URL)
 
 
 # Getting fixed rev with working compilations in all plateforms (except Mac)
-set(SOFA_REV bb5b0b0cceb4bb86301effd9eaaa9ff770557103)
+set(SOFA_REV bb5b0b0cceb4bb86301effd9eaaa9ff770557103) 
 
 include(${ArBinPkgs_SOURCE_DIR}/cmake/utils/patch.cmake)
 
