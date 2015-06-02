@@ -15,6 +15,7 @@ if(WIN32)
             CONFIGURE_COMMAND ""
             BUILD_COMMAND devenv OpenNI.sln /project OpenNI /build ${CMAKE_BUILD_TYPE} 
                   COMMAND devenv OpenNI.sln /project PS1080 /build ${CMAKE_BUILD_TYPE}
+                  COMMAND devenv OpenNI.sln /project Kinect /build ${CMAKE_BUILD_TYPE}
             INSTALL_COMMAND ""
             STEP_TARGETS CopyConfigFileToInstall
     )
