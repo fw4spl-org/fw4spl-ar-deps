@@ -4,7 +4,16 @@ project(openniBuilder)
 
 include(ExternalProject)
 
+
 if(WIN32)
+
+    # make sure Kinect SDK is installed before adding its related build step 
+    if(DEFINED ENV{KINECTSDK10_DIR})
+        set (KINECT_BUILD_STEP devenv OpenNI.sln /project Kinect /build ${CMAKE_BUILD_TYPE}) 
+    else()
+        set (KINECT_BUILD_STEP "")
+    endif()    
+    
     # get archive on commit 70da8eb: Upgrade all VS projects to MSVC12 (Visual Studio 2013).
     getCachedUrl(https://github.com/fw4spl-org/OpenNI2/archive/70da8eb798048a7c5baa5ae20672b5a2dc6cc7fe.tar.gz CACHED_URL)
     ExternalProject_Add(
@@ -15,7 +24,7 @@ if(WIN32)
             CONFIGURE_COMMAND ""
             BUILD_COMMAND devenv OpenNI.sln /project OpenNI /build ${CMAKE_BUILD_TYPE} 
                   COMMAND devenv OpenNI.sln /project PS1080 /build ${CMAKE_BUILD_TYPE}
-                  COMMAND devenv OpenNI.sln /project Kinect /build ${CMAKE_BUILD_TYPE}
+                  COMMAND ${KINECT_BUILD_STEP}
             INSTALL_COMMAND ""
             STEP_TARGETS CopyConfigFileToInstall
     )
