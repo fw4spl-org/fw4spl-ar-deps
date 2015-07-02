@@ -19,10 +19,10 @@ macro(useOgre)
         # This is a hack to copy plugins inside the build directory
         # Most developers executes apps inside the build directory so this is done as a convenience
         file(GLOB OGRE_PLUGINS "${OGRE_PLUGIN_DIR}/*${CMAKE_SHARED_LIBRARY_SUFFIX}*")
-        file(INSTALL ${OGRE_PLUGINS} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/../ogreplugins/")
+        file(INSTALL ${OGRE_PLUGINS} DESTINATION "${PROJECT_BINARY_DIR}/ogreplugins/")
 
         # This copies the plugins into the install directory
-        install(DIRECTORY ${OGRE_PLUGIN_DIR} DESTINATION "ogrePlugins/")
+        install(DIRECTORY "${PROJECT_BINARY_DIR}/ogreplugins/" DESTINATION "ogrePlugins/")
         message(" OGRE_PLUGIN_DIR = ${OGRE_PLUGIN_DIR}")
     else()
         set(OGRE_PLUGIN_DIR "{CMAKE_INSTALL_PREFIX}/lib")
