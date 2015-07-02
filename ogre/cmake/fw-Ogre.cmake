@@ -22,7 +22,7 @@ macro(useOgre)
         file(INSTALL ${OGRE_PLUGINS} DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/../ogreplugins/")
 
         # This copies the plugins into the install directory
-        install(DIRECTORY ${OGRE_PLUGIN_DIR} DESTINATION "${CMAKE_INSTALL_PREFIX}/ogrePlugins/")
+        install(DIRECTORY ${OGRE_PLUGIN_DIR} DESTINATION "ogrePlugins/")
         message(" OGRE_PLUGIN_DIR = ${OGRE_PLUGIN_DIR}")
     else()
         set(OGRE_PLUGIN_DIR "{CMAKE_INSTALL_PREFIX}/lib")
