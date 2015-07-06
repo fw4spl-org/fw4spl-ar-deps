@@ -3,14 +3,14 @@ cmake_minimum_required(VERSION 2.8)
 if(NOT PATCH_EXECUTABLE)
 
     message(STATUS "Checking for patch")
-    
+    set(PRGM_FILES_X86 "ProgramFiles(x86))")
     find_program(PATCH_EXECUTABLE 
         NAME patch rustine
         PATHS "usr/bin"
               "$ENV{ProgramFiles}/GnuWin32/bin"
-              "$ENV{ProgramFiles(x86)}/GnuWin32/bin"
+              "$ENV{${PRGM_FILES_X86}}/GnuWin32/bin"
               "$ENV{ProgramFiles}/Git/bin"
-              "$ENV{ProgramFiles(x86)}/Git/bin"
+              "$ENV{${PRGM_FILES_X86}}/Git/bin"
               ${CMAKE_BINARY_DIR}/patch
     )
     
