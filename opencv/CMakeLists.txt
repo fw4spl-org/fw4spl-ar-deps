@@ -37,7 +37,6 @@ set(OPENCV_CMAKE_ARGS
 )
 
 set(OPENCV_PATCH_CMD)
-include(${ArBinPkgs_SOURCE_DIR}/cmake/utils/patch.cmake)
 set(OPENCV_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 
 if(WIN32)
@@ -65,9 +64,10 @@ elseif(NOT ANDROID) #linux
 
 else() #ANDROID
 
-    set(OPENCV_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i ${OPENCV_PATCH_DIR}/android.diff -d <SOURCE_DIR> )
+    list(APPEND OPENCV_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i ${OPENCV_PATCH_DIR}/android.diff -d <SOURCE_DIR> )
 endif()
 
+#Dowload opencv-contrib repository
 
 getCachedUrl(https://github.com/Itseez/opencv/archive/3.0.0.zip CACHED_URL)
 

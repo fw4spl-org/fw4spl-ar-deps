@@ -28,9 +28,7 @@ getCachedUrl(https://gforge.inria.fr/git/sofa/sofa.git CACHED_URL)
 
 
 # Getting fixed rev with working compilations in all plateforms (except Mac)
-set(SOFA_REV bb5b0b0cceb4bb86301effd9eaaa9ff770557103) 
-
-include(${ArBinPkgs_SOURCE_DIR}/cmake/utils/patch.cmake)
+set(SOFA_REV bb5b0b0cceb4bb86301effd9eaaa9ff770557103)
 
 set(SOFA_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 set(SOFA_PATCH_CMD ${CMAKE_COMMAND} -E remove_directory "<SOURCE_DIR>/extlibs/miniBoost/"

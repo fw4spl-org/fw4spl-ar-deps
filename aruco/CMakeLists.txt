@@ -8,7 +8,6 @@ getCachedUrl(http://sourceforge.net/projects/aruco/files/1.3.0/aruco-1.3.0.tgz/d
 
 
 set(ARUCO_PATCH_CMD)
-include(${ArBinPkgs_SOURCE_DIR}/cmake/utils/patch.cmake)
 set(ARUCO_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 
 set(ARUCO_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
