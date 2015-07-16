@@ -24,11 +24,15 @@ if(OPENMP_FOUND)
          )
 endif()
 
+set(ARUCO_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i ${ARUCO_PATCH_DIR}/markerdetector.diff -d <SOURCE_DIR> )
+
 if(ANDROID)
     list(APPEND ARUCO_CMAKE_ARGS
          -DOpenCV_LIB_DIR="${CMAKE_INSTALL_PREFIX}/lib"
          )
-         set(ARUCO_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i ${ARUCO_PATCH_DIR}/android/android.diff -d <SOURCE_DIR> )
+         list(APPEND ARUCO_PATCH_CMD  && "${PATCH_EXECUTABLE}" -p1 -i ${ARUCO_PATCH_DIR}/android/android.diff -d <SOURCE_DIR> )
+else()
+
 endif()
 
 ExternalProject_Add(
