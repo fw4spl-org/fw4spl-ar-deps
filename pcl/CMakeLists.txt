@@ -58,6 +58,13 @@ set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DWITH_PCAP:BOOL=OFF
 )
 
+#OpenMP
+find_package(OpenMP)
+if(OPENMP_FOUND)
+    list(APPEND PCL_CMAKE_ARGS -DENABLE_OPENMP=ON)
+endif()
+
+#CUDA
 find_package(CUDA)
 if(CUDA_FOUND)
     #Enable GPU options
@@ -102,11 +109,18 @@ else()
     )
 endif()
 
+set(PCL_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
+set(PCL_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i "${PCL_PATCH_DIR}/kinfu.diff" -d "<SOURCE_DIR>")
+if (UNIX AND NOT APPLE AND NOT ANDROID)
+    list (APPEND PCL_PATCH_CMD && "${PATCH_EXECUTABLE}" -p1 -i "${PCL_PATCH_DIR}/CMakeLists.diff" -d "<SOURCE_DIR>")
+endif()
+
 ExternalProject_Add(
     pcl
     URL ${CACHED_URL}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DEPENDS zlib boost flann qt vtk eigen openni
+    PATCH_COMMAND ${PCL_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${PCL_CMAKE_ARGS}
     BUILD_COMMAND ${PCL_BUILD_COMMAND}
