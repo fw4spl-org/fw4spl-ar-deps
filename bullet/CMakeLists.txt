@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(bulletBuilder)
 
@@ -23,7 +23,7 @@ else(UNIX)
     )
 endif(UNIX)
 
-getCachedUrl(http://bullet.googlecode.com/files/bullet-2.82-r2704.tgz CACHED_URL)
+set(CACHED_URL http://bullet.googlecode.com/files/bullet-2.82-r2704.tgz)
 
 ExternalProject_Add(
     bullet

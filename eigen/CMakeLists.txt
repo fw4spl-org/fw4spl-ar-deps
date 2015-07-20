@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(eigenBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(http://bitbucket.org/eigen/eigen/get/3.1.2.tar.gz CACHED_URL)
+set(CACHED_URL http://bitbucket.org/eigen/eigen/get/3.1.2.tar.gz)
 
 set(EIGEN_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
                         -DBUILD_SHARED_LIBS:BOOL=ON
@@ -19,7 +19,7 @@ if(ANDROID)
         -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
         -DBUILD_TESTING:BOOL=OFF
     )
-    
+
     if (${CMAKE_HOST_WIN32})
         set(EIGEN_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
         set(EIGEN_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/eigen-prefix/src/eigen)
@@ -34,6 +34,7 @@ ExternalProject_Add(
     eigen
     URL ${CACHED_URL}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
+    DOWNLOAD_NAME eigen_3.1.2.tar.gz
     PATCH_COMMAND ${EIGEN_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${EIGEN_CMAKE_ARGS}

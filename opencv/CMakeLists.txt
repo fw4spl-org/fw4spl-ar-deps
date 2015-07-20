@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(opencvBuilder)
 
@@ -69,7 +69,7 @@ endif()
 
 #Dowload opencv-contrib repository
 
-getCachedUrl(https://github.com/Itseez/opencv/archive/3.0.0.zip CACHED_URL)
+set(CACHED_URL https://github.com/Itseez/opencv/archive/3.0.0.zip)
 
 set(EXTRA_DEPENDS)
 if(NOT ANDROID)
@@ -80,6 +80,7 @@ ExternalProject_Add(
     opencv
     URL ${CACHED_URL}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
+    DOWNLOAD_NAME opencv_3.0.0.zip
     DEPENDS jpeg libpng zlib ${EXTRA_DEPENDS}
     PATCH_COMMAND ${OPENCV_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}

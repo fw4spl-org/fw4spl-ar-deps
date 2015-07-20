@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(ndkgui)
 
 include(ExternalProject)
 
-getCachedUrl(https://github.com/FredChamp/ndkGui/archive/c250c4aaf21f670b2fd07a1a7f37efa725ac8df9.tar.gz CACHED_URL)
+set(CACHED_URL https://github.com/FredChamp/ndkGui/archive/c250c4aaf21f670b2fd07a1a7f37efa725ac8df9.tar.gz)
 
 set(NDKGUI_CMAKE_ARGS ${COMMON_CMAKE_ARGS})
 
@@ -12,6 +12,7 @@ ExternalProject_Add(
     ndkgui
     URL ${CACHED_URL}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
+    DOWNLOAD_NAME ndkGui.tar.gz
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${NDKGUI_CMAKE_ARGS}
 )

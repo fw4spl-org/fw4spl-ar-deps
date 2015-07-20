@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(openniBuilder)
 
@@ -7,22 +7,22 @@ include(ExternalProject)
 
 if(WIN32)
 
-    # make sure Kinect SDK is installed before adding its related build step 
+    # make sure Kinect SDK is installed before adding its related build step
     if(DEFINED ENV{KINECTSDK10_DIR})
-        set (KINECT_BUILD_STEP devenv OpenNI.sln /project Kinect /build ${CMAKE_BUILD_TYPE}) 
+        set (KINECT_BUILD_STEP devenv OpenNI.sln /project Kinect /build ${CMAKE_BUILD_TYPE})
     else()
         set (KINECT_BUILD_STEP "")
-    endif()    
-    
+    endif()
+
     # get archive on commit 70da8eb: Upgrade all VS projects to MSVC12 (Visual Studio 2013).
-    getCachedUrl(https://github.com/fw4spl-org/OpenNI2/archive/70da8eb798048a7c5baa5ae20672b5a2dc6cc7fe.tar.gz CACHED_URL)
+    set(CACHED_URL https://github.com/fw4spl-org/OpenNI2/archive/70da8eb798048a7c5baa5ae20672b5a2dc6cc7fe.tar.gz)
     ExternalProject_Add(
             openni
             URL ${CACHED_URL}
             DOWNLOAD_DIR ${ARCHIVE_DIR}
             BUILD_IN_SOURCE 1
             CONFIGURE_COMMAND ""
-            BUILD_COMMAND devenv OpenNI.sln /project OpenNI /build ${CMAKE_BUILD_TYPE} 
+            BUILD_COMMAND devenv OpenNI.sln /project OpenNI /build ${CMAKE_BUILD_TYPE}
                   COMMAND devenv OpenNI.sln /project PS1080 /build ${CMAKE_BUILD_TYPE}
                   COMMAND ${KINECT_BUILD_STEP}
             INSTALL_COMMAND ""
@@ -40,7 +40,7 @@ if(WIN32)
             DEPENDEES install
     )
 else()
-    getCachedUrl(https://github.com/fw4spl-org/OpenNI2/archive/a2f6724871cad1fbb8d0b37b914128e8e5e137d4.tar.gz CACHED_URL)
+    set(CACHED_URL https://github.com/fw4spl-org/OpenNI2/archive/a2f6724871cad1fbb8d0b37b914128e8e5e137d4.tar.gz)
     # Building Prerequisites:
     # - LibUSB 1.0.x
     #     sudo apt-get install libusb-1.0-0-dev
@@ -58,6 +58,7 @@ else()
             DEPENDS libusb
             URL ${CACHED_URL}
             DOWNLOAD_DIR ${ARCHIVE_DIR}
+            DOWNLOAD_NAME openni_2.2.0.xx.tar.gz
             BUILD_IN_SOURCE 1
             CONFIGURE_COMMAND ""
             BUILD_COMMAND ${MAKE} CFG=${CMAKE_BUILD_TYPE} INSTALL_LIB_DIR=${CMAKE_INSTALL_PREFIX}/lib INSTALL_INCLUDE_DIR=${CMAKE_INSTALL_PREFIX}/include -f <SOURCE_DIR>/Makefile minimum

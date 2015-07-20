@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(sofaBuilder)
 
@@ -24,7 +24,7 @@ set(SOFA_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DSOFA_TESTS:BOOL=OFF
 )
 
-getCachedUrl(https://gforge.inria.fr/git/sofa/sofa.git CACHED_URL)
+set(CACHED_URL https://gforge.inria.fr/git/sofa/sofa.git)
 
 
 # Getting fixed rev with working compilations in all plateforms (except Mac)

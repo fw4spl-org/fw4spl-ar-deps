@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(glewBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(http://sourceforge.net/projects/glew/files/glew/1.12.0/glew-1.12.0.tgz/download CACHED_URL)
+set(CACHED_URL http://sourceforge.net/projects/glew/files/glew/1.12.0/glew-1.12.0.tgz/download)
 
 set(GLEW_CMAKE_ARGS ${COMMON_CMAKE_ARGS} 
         -DGLEW_MX:BOOL=OFF 

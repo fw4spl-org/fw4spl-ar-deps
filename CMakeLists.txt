@@ -1,8 +1,11 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(ArBinPkgs)
 
 option(ENABLE_EXPERIMENTAL_DEPS "Set to ON to build experimentals libraries" OFF)
+option(ENABLED_OGRE_DEPS "Set to ON to build ogre" OFF)
+option(ENABLED_SOFA_DEPS "Set to ON to build sofa" OFF)
+option(ENABLED_PCL_DEPS "Set to ON to build PCL" OFF)
 
 ##Desktop Deps##
 if(NOT ANDROID)
@@ -11,21 +14,27 @@ if(NOT ANDROID)
     list(APPEND SUBDIRECTORIES eigen)
     list(APPEND SUBDIRECTORIES flann)
     list(APPEND SUBDIRECTORIES bullet)
+    list(APPEND SUBDIRECTORIES geodesic)
 
-    if(ENABLE_EXPERIMENTAL_DEPS)
-        list(APPEND SUBDIRECTORIES artoolkitplus)
-        list(APPEND SUBDIRECTORIES aram)
-        # igstkAurora does not compile, at least on windows, and it is not used (or so have I been told), so just SKIP this !
-        #list(APPEND SUBDIRECTORIES igstkAurora)
-        list(APPEND SUBDIRECTORIES ois)
+    if(ENABLED_OGRE_DEPS)
         list(APPEND SUBDIRECTORIES zzip)
         list(APPEND SUBDIRECTORIES freeimage)
+        if (NOT APPLE)
+            list(APPEND SUBDIRECTORIES ois)
+        endif()
         list(APPEND SUBDIRECTORIES ogre)
+    endif()
+
+    if(ENABLED_SOFA_DEPS)
         list(APPEND SUBDIRECTORIES glew)
-        list(APPEND SUBDIRECTORIES freeglut)
+        if (NOT APPLE)
+            list(APPEND SUBDIRECTORIES freeglut)
+        endif()
         list(APPEND SUBDIRECTORIES glext)
         list(APPEND SUBDIRECTORIES sofa)
-        list(APPEND SUBDIRECTORIES geodesic)
+    endif()
+
+    if(ENABLED_PCL_DEPS)
         if(UNIX)
             list(APPEND SUBDIRECTORIES libusb)
         endif()
@@ -33,6 +42,12 @@ if(NOT ANDROID)
         list(APPEND SUBDIRECTORIES pcl)
     endif()
 
+    if(ENABLE_EXPERIMENTAL_DEPS)
+        list(APPEND SUBDIRECTORIES artoolkitplus)
+        list(APPEND SUBDIRECTORIES aram)
+        # igstkAurora does not compile, at least on windows, and it is not used (or so have I been told), so just SKIP this !
+        #list(APPEND SUBDIRECTORIES igstkAurora)
+    endif()
 ##Android Deps##
 else()
     list(APPEND SUBDIRECTORIES opencv)

@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(flannBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(http://people.cs.ubc.ca/~mariusm/uploads/FLANN/flann-1.8.4-src.zip CACHED_URL)
+set(CACHED_URL http://people.cs.ubc.ca/~mariusm/uploads/FLANN/flann-1.8.4-src.zip)
 
 set(FLANN_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
                         -DBUILD_C_BINDINGS:BOOL=OFF

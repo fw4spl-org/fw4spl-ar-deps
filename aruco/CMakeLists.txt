@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(arucoBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(http://sourceforge.net/projects/aruco/files/1.3.0/aruco-1.3.0.tgz/download CACHED_URL)
+set(CACHED_URL http://sourceforge.net/projects/aruco/files/1.3.0/aruco-1.3.0.tgz/download)
 
 
 set(ARUCO_PATCH_CMD)

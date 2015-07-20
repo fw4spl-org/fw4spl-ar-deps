@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(freeGLUTBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(https://github.com/dcnieho/FreeGLUT/archive/FG_3_0_0_RC2.tar.gz CACHED_URL)
+set(CACHED_URL https://github.com/dcnieho/FreeGLUT/archive/FG_3_0_0_RC2.tar.gz)
 
 set(FREEGLUT_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                       -DINSTALL_PDB:BOOL=OFF

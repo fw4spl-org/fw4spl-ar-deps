@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(libusbBuilder)
 
 include(ExternalProject)
 
-# getCachedUrl(https://github.com/libusb/libusb/archive/v1.0.19.tar.gz CACHED_URL)
-getCachedUrl(http://sourceforge.net/projects/libusb/files/libusb-1.0/libusb-1.0.19/libusb-1.0.19.tar.bz2/download CACHED_URL)
+# set(CACHED_URL https://github.com/libusb/libusb/archive/v1.0.19.tar.gz)
+set(CACHED_URL http://sourceforge.net/projects/libusb/files/libusb-1.0/libusb-1.0.19/libusb-1.0.19.tar.bz2)
 
 if (APPLE)
     set(SETENV export CC=${CMAKE_C_COMPILER}
@@ -31,6 +31,7 @@ ExternalProject_Add(
     libusb
     URL ${CACHED_URL}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
+    DOWNLOAD_NAME libusb-1.0.19.tar.bz2
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ${SETENV} ${LIBUSB_CONFIGURE_CMD}
     BUILD_COMMAND ${MAKE}

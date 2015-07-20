@@ -1,14 +1,14 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(ogre)
 
 include(ExternalProject)
 
 if(APPLE)
-    getCachedUrl(https://bitbucket.org/sinbad/ogre/get/55e89ae88219.tar.bz2 CACHED_URL)
+    set(CACHED_URL https://bitbucket.org/sinbad/ogre/get/55e89ae88219.tar.bz2)
     set(OGRE_HASH 5419d26a1ff411e2b2316814aa375f7d41aa41d88550b6e29f430989ca800e0a)
 else()
-    getCachedUrl(https://bitbucket.org/sinbad/ogre/get/v1-9-0.tar.bz2 CACHED_URL)
+    set(CACHED_URL https://bitbucket.org/sinbad/ogre/get/v1-9-0.tar.bz2)
     set(OGRE_HASH 3072df52b2bed2a1b52e969f140ae9a4373ec931029d3eaa032e7c609a91ef82)
 endif()
 include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
@@ -53,8 +53,8 @@ set(OGRE_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/CMak
 )
 
 if(APPLE)
-    
-    set(OGRE_PATCH_CMD 
+
+    set(OGRE_PATCH_CMD
         ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/fix-1.9-HEAD.patch -d <SOURCE_DIR>
         COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/ogre1.9.patch -d <SOURCE_DIR>
         COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/OgreConfigTargets.patch -d <SOURCE_DIR>
@@ -70,6 +70,7 @@ ExternalProject_Add(
     URL ${CACHED_URL}
     URL_HASH SHA256=${OGRE_HASH}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
+    DOWNLOAD_NAME v1-9-0.tar.bz2
     DEPENDS zzip freeimage boost
     PATCH_COMMAND ${OGRE_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
@@ -81,4 +82,3 @@ ExternalProject_Add_Step(ogre CopyConfigFileToInstall
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/cmake/fw-Ogre.cmake ${CMAKE_INSTALL_PREFIX}/fw-Ogre.cmake
     COMMENT "Install CMake helper file"
 )
-

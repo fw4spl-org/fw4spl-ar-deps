@@ -1,15 +1,16 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(geodesicBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(https://github.com/jabooth/exactgeodesic/archive/b5c2cc4a59193e7cee6cd84c9378696e053b931a.tar.gz CACHED_URL)
+set(CACHED_URL https://github.com/jabooth/exactgeodesic/archive/b5c2cc4a59193e7cee6cd84c9378696e053b931a.tar.gz)
 
 ExternalProject_Add(
     geodesic
     URL ${CACHED_URL}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
+    DOWNLOAD_NAME geodesic.tar.gz
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/geodesic-prefix/src/geodesic" "${CMAKE_INSTALL_PREFIX}/include/geodesic"
     INSTALL_COMMAND ""

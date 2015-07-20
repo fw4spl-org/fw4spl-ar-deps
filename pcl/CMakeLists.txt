@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(pclBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(https://github.com/PointCloudLibrary/pcl/archive/085e13a04c1d6c0c2a65ae91ddb6f1d77a884693.tar.gz CACHED_URL)
+set(CACHED_URL https://github.com/PointCloudLibrary/pcl/archive/085e13a04c1d6c0c2a65ae91ddb6f1d77a884693.tar.gz)
 
 include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
 
@@ -119,6 +119,7 @@ ExternalProject_Add(
     pcl
     URL ${CACHED_URL}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
+    DOWNLOAD_NAME pcl-1.7.2.x.tar.gz
     DEPENDS zlib boost flann qt vtk eigen openni
     PATCH_COMMAND ${PCL_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
