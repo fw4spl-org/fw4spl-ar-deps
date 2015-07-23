@@ -8,8 +8,6 @@ set(CACHED_URL https://github.com/PointCloudLibrary/pcl/archive/085e13a04c1d6c0c
 
 include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
 
-find_package(ZLIB REQUIRED)
-
 if(WIN32)
     set(OPENNI2_LIBRARY "OpenNI2.lib")
 elseif(APPLE)
@@ -53,7 +51,7 @@ set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DVTK_DIR:PATH=${CMAKE_INSTALL_PREFIX}/lib/
                         -DPCL_SHARED_LIBS:BOOL=ON
                         -DBUILD_WITH_DEBUG_INFO:BOOL=OFF
-                        -DZLIB_INCLUDE_DIR:PATH=${ZLIB_INCLUDE_DIRS}
+                        -DZLIB_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include
                         -DQT_QMAKE_EXECUTABLE:PATH=${CMAKE_INSTALL_PREFIX}/bin/qmake
                         -DWITH_PCAP:BOOL=OFF
 )
