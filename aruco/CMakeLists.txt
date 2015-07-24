@@ -16,12 +16,13 @@ set(ARUCO_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
                         -DBUILD_UTILS:BOOL=OFF
 )
 
-#OpenMP
-find_package(OpenMP)
-if(OPENMP_FOUND)
-    list(APPEND ARUCO_CMAKE_ARGS
-         -DENABLE_OPENMP=ON
-         )
+if(ENABLE_OPEN_MP)
+    find_package(OpenMP)
+    if(OPENMP_FOUND)
+        list(APPEND ARUCO_CMAKE_ARGS
+             -DENABLE_OPENMP=ON
+             )
+    endif()
 endif()
 
 set(ARUCO_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i ${ARUCO_PATCH_DIR}/markerdetector.diff -d <SOURCE_DIR> )

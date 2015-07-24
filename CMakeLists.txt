@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.0)
 project(ArBinPkgs)
 
 option(ENABLE_EXPERIMENTAL_DEPS "Set to ON to build experimentals libraries" OFF)
+option(ENABLE_OPEN_MP "Set to ON use allow the use of OpenMP" OFF)
 option(ENABLED_OGRE_DEPS "Set to ON to build ogre" OFF)
 option(ENABLED_SOFA_DEPS "Set to ON to build sofa" OFF)
 option(ENABLED_PCL_DEPS "Set to ON to build PCL" OFF)
