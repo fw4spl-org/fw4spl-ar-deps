@@ -64,7 +64,9 @@ elseif(NOT ANDROID) #linux
     endif()
 
 else() #ANDROID
-
+    list(APPEND OPENCV_CMAKE_ARGS
+        -DOPENCV_OTHER_INSTALL_PATH=share/OpenCV
+    )
     list(APPEND OPENCV_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i ${OPENCV_PATCH_DIR}/android.diff -d <SOURCE_DIR> )
 endif()
 
