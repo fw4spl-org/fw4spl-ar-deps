@@ -16,6 +16,7 @@ set(ARUCO_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
                         -DBUILD_UTILS:BOOL=OFF
 )
 
+#seems to be not revelant since there is a fin_package(OpenMP in the aruco CMakeLists.txt)
 if(ENABLE_OPEN_MP)
     find_package(OpenMP)
     if(OPENMP_FOUND)

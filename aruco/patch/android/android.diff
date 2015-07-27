@@ -1,5 +1,5 @@
---- ./CMakeLists.txt	2015-06-24 16:33:43.000000000 +0200
-+++ ./CMakeLists.txt	2015-07-07 11:42:03.918340828 +0200
+--- a/CMakeLists.txt	2015-06-24 16:33:43.000000000 +0200
++++ b/CMakeLists.txt	2015-07-07 11:42:03.918340828 +0200
 @@ -64,6 +64,10 @@
      SET(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${GLUT_PATH}/lib)
  ENDIF()
@@ -11,3 +11,17 @@
  ##LOOK FOR OPENGL AND GLUT
  #FIND OPENGL LIBRARY. In Android, there is no need since it is included
  IF(NOT ANDROID_CREATION)
+
+--- a/src/CMakeLists.txt	2010-11-19 10:00:27.000000000 +0100
++++ b/src/CMakeLists_aruco.txt	2015-07-27 12:48:03.000000000 +0200
+@@ -12,8 +12,8 @@
+ MESSAGE(STATUS "OpenCV_LIB_DIR=${OpenCV_LIB_DIR}")
+ SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES 				# create *nix style library versions + symbolic links
+ 	DEFINE_SYMBOL DSO_EXPORTS
+-	VERSION ${PROJECT_VERSION}
+-	SOVERSION ${PROJECT_SOVERSION}
++	#VERSION ${PROJECT_VERSION}
++	#SOVERSION ${PROJECT_SOVERSION}
+ 	CLEAN_DIRECT_OUTPUT 1 					# allow creating static and shared libs without conflicts
+ 	OUTPUT_NAME "${PROJECT_NAME}${PROJECT_DLLVERSION}" 	# avoid conflicts between library and binary target names
+ )
