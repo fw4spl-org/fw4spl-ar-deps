@@ -4,7 +4,7 @@ project(ndkgui)
 
 include(ExternalProject)
 
-set(CACHED_URL https://github.com/FredChamp/ndkGui/archive/c250c4aaf21f670b2fd07a1a7f37efa725ac8df9.tar.gz)
+set(CACHED_URL https://github.com/FredChamp/ndkGui/archive/fdaca972d10eb959199b089e6bc2b152de37c9fd.tar.gz)
 
 set(NDKGUI_CMAKE_ARGS ${COMMON_CMAKE_ARGS})
 
