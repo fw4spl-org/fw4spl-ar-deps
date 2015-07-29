@@ -39,6 +39,7 @@ set(OPENCV_CMAKE_ARGS
 
 set(OPENCV_PATCH_CMD)
 set(OPENCV_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
+set(OPENCV_DEPENDS libpng zlib)
 
 if(WIN32)
     list(APPEND OPENCV_CMAKE_ARGS
@@ -66,7 +67,6 @@ elseif(NOT ANDROID) #linux
 else() #ANDROID
     list(APPEND OPENCV_CMAKE_ARGS
         -DENABLE_PRECOMPILED_HEADERS=OFF
-        -DOPENCV_OTHER_INSTALL_PATH=share/OpenCV
     )
     list(APPEND OPENCV_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i ${OPENCV_PATCH_DIR}/android.diff -d <SOURCE_DIR> )
 endif()
@@ -77,7 +77,9 @@ set(CACHED_URL https://github.com/Itseez/opencv/archive/3.0.0.zip)
 
 set(EXTRA_DEPENDS)
 if(NOT ANDROID)
-    set(EXTRA_DEPENDS "tiff")
+    list(OPENCV_DEPENDS jpeg tiff)
+else()
+    
 endif()
 
 ExternalProject_Add(
@@ -85,7 +87,7 @@ ExternalProject_Add(
     URL ${CACHED_URL}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DOWNLOAD_NAME opencv_3.0.0.zip
-    DEPENDS jpeg libpng zlib ${EXTRA_DEPENDS}
+    DEPENDS ${OPENCV_DEPENDS}
     PATCH_COMMAND ${OPENCV_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     BUILD_COMMAND ${BUILD_PARALLEL_COMMAND}
