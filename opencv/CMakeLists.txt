@@ -75,9 +75,8 @@ endif()
 
 set(CACHED_URL https://github.com/Itseez/opencv/archive/3.0.0.zip)
 
-set(EXTRA_DEPENDS)
 if(NOT ANDROID)
-    list(OPENCV_DEPENDS jpeg tiff)
+    list(APPEND OPENCV_DEPENDS jpeg tiff)
 else()
     
 endif()
