@@ -39,22 +39,22 @@ set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DBOOST_INCLUDEDIR:PATH=${CMAKE_INSTALL_PREFIX}/include/boost-${BOOST_VERSION}
    )
 
-
+set(OGRE_PATCH_CMD ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/fix-GL3Plus-firstRender.patch -d <SOURCE_DIR>)
 
 if(WIN32)
     set(OGRE_CMAKE_ARGS ${OGRE_CMAKE_ARGS} -DOGRE_INSTALL_PDB:BOOL=OFF)
-    set(OGRE_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/PrecompiledHeader.cmake" "<SOURCE_DIR>/CMake/Utils/PrecompiledHeader.cmake")
+    list(APPEND OGRE_PATCH_CMD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/PrecompiledHeader.cmake" "<SOURCE_DIR>/CMake/Utils/PrecompiledHeader.cmake")
 endif()
 
 if(APPLE)
 
-    set(OGRE_PATCH_CMD
-        ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/fix-1.9-HEAD.patch -d <SOURCE_DIR>
+    list(APPEND OGRE_PATCH_CMD
+        COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/fix-1.9-HEAD.patch -d <SOURCE_DIR>
         COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/ogre1.9.patch -d <SOURCE_DIR>
         COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/OgreConfigTargets.patch -d <SOURCE_DIR>
     )
     list(APPEND OGRE_CMAKE_ARGS 
-        -DCMAKE_OSX_ARCHITECTURES='x86_64'
+    -DCMAKE_OSX_ARCHITECTURES='x86_64'
     )
 
 endif()
