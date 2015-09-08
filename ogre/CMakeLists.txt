@@ -4,13 +4,9 @@ project(ogre)
 
 include(ExternalProject)
 
-if(APPLE)
-    set(CACHED_URL https://bitbucket.org/sinbad/ogre/get/55e89ae88219.tar.bz2)
-    set(OGRE_HASH 5419d26a1ff411e2b2316814aa375f7d41aa41d88550b6e29f430989ca800e0a)
-else()
-    set(CACHED_URL https://bitbucket.org/sinbad/ogre/get/v1-9-0.tar.bz2)
-    set(OGRE_HASH 3072df52b2bed2a1b52e969f140ae9a4373ec931029d3eaa032e7c609a91ef82)
-endif()
+set(CACHED_URL https://bitbucket.org/sinbad/ogre/get/ef3d24815985.tar.bz2)
+set(OGRE_HASH 8e94504ea98f0ce01ae913190250eebd5432daf08e05aee2c9181f8f4865a8d4)
+
 include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
 
 set(OGRE_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
@@ -28,6 +24,7 @@ set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DOGRE_INSTALL_TOOLS:BOOL=OFF
                     -DOGRE_COPY_DEPENDENCIES:BOOL=OFF
                     -DOGRE_BUILD_RENDERSYSTEM_GL:BOOL=ON
+                    -DOGRE_BUILD_RENDERSYSTEM_GL3PLUS:BOOL=ON
                     -DOGRE_BUILD_DOCS:BOOL=OFF
                     -DOGRE_INSTALL_DOCS:BOOL=OFF
                     -DOGRE_BUILD_PLUGIN_CG:BOOL=OFF
@@ -70,7 +67,7 @@ ExternalProject_Add(
     URL ${CACHED_URL}
     URL_HASH SHA256=${OGRE_HASH}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
-    DOWNLOAD_NAME v1-9-0.tar.bz2
+    DOWNLOAD_NAME v1-10-0.tar.bz2
     DEPENDS zzip freeimage boost
     PATCH_COMMAND ${OGRE_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
