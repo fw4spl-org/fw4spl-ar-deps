@@ -1,6 +1,17 @@
 diff -uNr a/RenderSystems/GL3Plus/src/OgreGL3PlusRenderSystem.cpp b/RenderSystems/GL3Plus/src/OgreGL3PlusRenderSystem.cpp
 --- a/RenderSystems/GL3Plus/src/OgreGL3PlusRenderSystem.cpp	2015-08-28 23:31:58.000000000 +0200
 +++ b/RenderSystems/GL3Plus/src/OgreGL3PlusRenderSystem.cpp	2015-09-08 19:28:49.287239877 +0200
+@@ -914,9 +914,7 @@
+             }
+         }
+ 
+-        //FIXME Points do not seem affected by setting this.
+-        // OGRE_CHECK_GL_ERROR(glPointSize(size));
+-        OGRE_CHECK_GL_ERROR(glPointSize(30.0));
++        OGRE_CHECK_GL_ERROR(glPointSize(size));
+ 
+         //OGRE_CHECK_GL_ERROR(glPointParameterf(GL_POINT_FADE_THRESHOLD_SIZE, 64.0));
+     }
 @@ -1780,6 +1780,37 @@
                  }
  
@@ -39,34 +50,3 @@ diff -uNr a/RenderSystems/GL3Plus/src/OgreGL3PlusRenderSystem.cpp b/RenderSystem
  
                  separableProgram->getVertexArrayObject()->bind();
              }
-@@ -2890,12 +2921,12 @@
-         }
-     }
- #if OGRE_NO_QUAD_BUFFER_STEREO == 0
--	bool GL3PlusRenderSystem::setDrawBuffer(ColourBufferType colourBuffer)
--	{
--		bool result = true;
-+    bool GL3PlusRenderSystem::setDrawBuffer(ColourBufferType colourBuffer)
-+    {
-+        bool result = true;
- 
--		switch (colourBuffer)
--		{
-+        switch (colourBuffer)
-+        {
-             case CBT_BACK:
-                 OGRE_CHECK_GL_ERROR(glDrawBuffer(GL_BACK));
-                 break;
-@@ -2907,9 +2938,9 @@
- //                break;
-             default:
-                 result = false;
--		}
-+        }
- 
--		return result;
--	}
-+        return result;
-+    }
- #endif
- }
