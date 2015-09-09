@@ -50,3 +50,15 @@ diff -uNr a/RenderSystems/GL3Plus/src/OgreGL3PlusRenderSystem.cpp b/RenderSystem
  
                  separableProgram->getVertexArrayObject()->bind();
              }
+diff -uNr a/ogre/OgreMain/src/OgreGpuProgramParams.cpp b/ogre/OgreMain/src/OgreGpuProgramParams.cpp
+--- a/ogre/OgreMain/src/OgreGpuProgramParams.cpp	2015-09-09 11:48:52.899943084 +0200
++++ b/ogre/OgreMain/src/OgreGpuProgramParams.cpp	2015-09-09 11:48:46.732170968 +0200
+@@ -3493,7 +3493,7 @@
+                     }
+                     // we'll use this map to resolve autos later
+                     // ignore the [0] aliases
+-                    if (!StringUtil::endsWith(paramName, "[0]"))
++                    if (!StringUtil::endsWith(paramName, "[0]") && this->getAutoConstantDefinition(paramName))
+                         srcToDestNamedMap[olddef.physicalIndex] = paramName;
+                 }
+             }
