@@ -10,14 +10,15 @@ macro(useOgre)
 
     find_package(OGRE REQUIRED)
 
+    if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+        set(OGRE_PLUGIN_DIR "${OGRE_PLUGIN_DIR_DBG}")
+    else()
+        set(OGRE_PLUGIN_DIR "${OGRE_PLUGIN_DIR_REL}")
+    endif()
+
+    # This is a hack to copy plugins inside the build directory
+    # Most developers executes apps inside the build directory so this is done as a convenience
     if(NOT APPLE)
-        if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-            set(OGRE_PLUGIN_DIR "${OGRE_PLUGIN_DIR_DBG}")
-        else()
-            set(OGRE_PLUGIN_DIR "${OGRE_PLUGIN_DIR_REL}")
-        endif()
-        # This is a hack to copy plugins inside the build directory
-        # Most developers executes apps inside the build directory so this is done as a convenience
         file(GLOB OGRE_PLUGINS "${OGRE_PLUGIN_DIR}/*${CMAKE_SHARED_LIBRARY_SUFFIX}*")
         file(INSTALL ${OGRE_PLUGINS} DESTINATION "${PROJECT_BINARY_DIR}/ogreplugins/")
 
@@ -25,7 +26,13 @@ macro(useOgre)
         install(DIRECTORY "${PROJECT_BINARY_DIR}/ogreplugins/" DESTINATION "ogrePlugins/")
         message(" OGRE_PLUGIN_DIR = ${OGRE_PLUGIN_DIR}")
     else()
-        set(OGRE_PLUGIN_DIR "{CMAKE_INSTALL_PREFIX}/lib")
+        # Ogre search frameworks plugings in /Contents/Frameworks/
+        set(FRAMEWORKS_DIR "${PROJECT_BINARY_DIR}/bin/Contents/Frameworks/")
+        file(GLOB OGRE_PLUGINS "${OGRE_PLUGIN_DIR}/*")
+        file(INSTALL ${OGRE_PLUGINS} DESTINATION ${FRAMEWORKS_DIR})
+
+        # This copies the plugins into the install directory
+        install(DIRECTORY ${FRAMEWORKS_DIR} DESTINATION "/bin/Contents/Frameworks/")
         message(" OGRE_PLUGIN_DIR = ${OGRE_PLUGIN_DIR}")
     endif()
 

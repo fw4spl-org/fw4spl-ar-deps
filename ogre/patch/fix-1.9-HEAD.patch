@@ -1,24 +1,52 @@
-# HG changeset patch
-# User Nikolaus Demmel <nikolaus@nikolaus-demmel.de>
-# Date 1405647279 -7200
-# Branch v1-9
-# Node ID 7a00a8c978afc15e08e5c3e3dcd9ce04afa37ee8
-# Parent  7c776867621e1e41f1be5e49ecc01e8849a80ad2
 diff --git a/CMakeLists.txt b/CMakeLists.txt
 --- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -385,6 +385,7 @@
- cmake_dependent_option(OGRE_BUILD_XSIEXPORTER "Build the Softimage exporter" FALSE "Softimage_FOUND" FALSE)
++++ b/CMakeLists.
+@@ -45,7 +45,7 @@
+   SET(CMAKE_SIZEOF_VOID_P 4)
+   set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "com.apple.compilers.llvm.clang.1_0")
+   set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++11")
+-  set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++")
++  set(CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libstdc++")
+ endif ()
+ 
+ 
+@@ -340,13 +340,13 @@
+       if(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
+         set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_64_BIT}")
+       else()
+-        set(CMAKE_OSX_ARCHITECTURES "$(ARCHS_STANDARD_64_BIT)")
++        set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_64_BIT}")
+       endif()
+     else()
+       if(CMAKE_GENERATOR STREQUAL "Unix Makefiles")
+         set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_32_64_BIT}")
+       else()
+-        set(CMAKE_OSX_ARCHITECTURES "$(ARCHS_STANDARD_32_64_BIT)")
++        set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD_32_64_BIT}")
+       endif()
+     endif()
+   endif()
+@@ -352,7 +352,7 @@
+   endif()
+ 
+   # 10.7 is the minimum for libc++ support
+-  set(CMAKE_OSX_DEPLOYMENT_TARGET 10.7)
++  set(CMAKE_OSX_DEPLOYMENT_TARGET 10.10)
+ 
+   # Make sure that the OpenGL render system is selected for non-iOS Apple builds
+   set(OGRE_BUILD_RENDERSYSTEM_GLES FALSE)
+@@ -413,6 +413,7 @@
  option(OGRE_BUILD_TESTS "Build the unit tests & PlayPen" FALSE)
  option(OGRE_CONFIG_DOUBLE "Use doubles instead of floats in Ogre" FALSE)
+ option(OGRE_CONFIG_NODE_INHERIT_TRANSFORM "Tells the node whether it should inherit full transform from it's parent node or derived position, orientation and scale" FALSE)
 +cmake_dependent_option(OGRE_BUILD_LIBS_AS_FRAMEWORKS "Build frameworks for libraries on OS X." TRUE "APPLE;NOT OGRE_BUILD_PLATFORM_APPLE_IOS" FALSE)
  
- if (OGRE_BUILD_PLATFORM_WINRT)
+ if (WINDOWS_STORE OR WINDOWS_PHONE)
  # WinRT can only use the standard allocator
 diff --git a/OgreMain/CMakeLists.txt b/OgreMain/CMakeLists.txt
 --- a/OgreMain/CMakeLists.txt
 +++ b/OgreMain/CMakeLists.txt
-@@ -334,7 +334,9 @@
+@@ -357,7 +357,9 @@
    endif ()
  
    # Framework is called 'Ogre'
@@ -29,3 +57,34 @@ diff --git a/OgreMain/CMakeLists.txt b/OgreMain/CMakeLists.txt
  endif ()
  target_link_libraries(OgreMain ${LIBRARIES})
  if (MINGW)
+diff --git a/CMake/Utils/OgreConfigTargets.cmake b/CMake/Utils/OgreConfigTargets.cmake
+--- a/CMake/Utils/OgreConfigTargets.cmake
++++ b/CMake/Utils/OgreConfigTargets.cmake
+@@ -56,17 +56,11 @@
+   set(OGRE_RELEASE_PATH "")
+   set(OGRE_RELWDBG_PATH "")
+   set(OGRE_MINSIZE_PATH "")
+-  set(OGRE_DEBUG_PATH "/debug")
+-  if (NOT APPLE)
+-	set(OGRE_DEBUG_PATH "")
+-  endif ()
++  set(OGRE_DEBUG_PATH "")
+   set(OGRE_LIB_RELEASE_PATH "")
+   set(OGRE_LIB_RELWDBG_PATH "")
+   set(OGRE_LIB_MINSIZE_PATH "")
+   set(OGRE_LIB_DEBUG_PATH "")
+-  if(APPLE AND NOT OGRE_BUILD_PLATFORM_APPLE_IOS)
+-    set(OGRE_RELEASE_PATH "/${PLATFORM_NAME}")
+-  endif()
+   if(APPLE AND OGRE_BUILD_PLATFORM_APPLE_IOS)
+     set(OGRE_LIB_RELEASE_PATH "/Release")
+   endif(APPLE AND OGRE_BUILD_PLATFORM_APPLE_IOS)
+@@ -251,7 +245,7 @@
+ endfunction(ogre_config_component)
+ 
+ function(ogre_config_framework LIBNAME)
+-  if (APPLE AND NOT OGRE_BUILD_PLATFORM_APPLE_IOS)
++  if (OGRE_BUILD_LIBS_AS_FRAMEWORKS)
+       set_target_properties(${LIBNAME} PROPERTIES FRAMEWORK TRUE)
+
+       # Set the INSTALL_PATH so that frameworks can be installed in the application package

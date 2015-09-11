@@ -13,7 +13,6 @@ set(OGRE_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 
 set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DBUILD_SHARED_LIBS:BOOL=ON
-                    -DZLIB_ROOT=${CMAKE_INSTALL_PREFIX}
                     -DOIS_HOME:PATH=${CMAKE_INSTALL_PREFIX}
                     -DOGRE_USE_BOOST:BOOL=ON
                     -DOGRE_BUILD_SAMPLES:BOOL=OFF
@@ -25,7 +24,6 @@ set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DOGRE_COPY_DEPENDENCIES:BOOL=OFF
                     -DOGRE_BUILD_RENDERSYSTEM_GL:BOOL=ON
                     -DOGRE_BUILD_RENDERSYSTEM_GL3PLUS:BOOL=ON
-                    -DOGRE_BUILD_DOCS:BOOL=OFF
                     -DOGRE_INSTALL_DOCS:BOOL=OFF
                     -DOGRE_BUILD_PLUGIN_CG:BOOL=OFF
                     -DOGRE_INSTALL_DEPENDENCIES:BOOL=OFF
@@ -50,11 +48,7 @@ if(APPLE)
 
     list(APPEND OGRE_PATCH_CMD
         COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/fix-1.9-HEAD.patch -d <SOURCE_DIR>
-        COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/ogre1.9.patch -d <SOURCE_DIR>
-        COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/OgreConfigTargets.patch -d <SOURCE_DIR>
-    )
-    list(APPEND OGRE_CMAKE_ARGS 
-    -DCMAKE_OSX_ARCHITECTURES='x86_64'
+        COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/FindOGRE.patch -d <SOURCE_DIR>
     )
 
 endif()
