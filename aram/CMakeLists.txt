@@ -9,7 +9,7 @@ set(ARAM_CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=ON
 )
 
-set(CACHED_URL https://github.com/greenjava/ARAM/archive/86d2a03746f953358d323b8a3ce9c3a5d2d640f1.tar.gz)
+set (CACHED_URL https://github.com/AltranResearchMedica/ARAM/archive/c147bbe8aff2fb5be63e1c6d3875c15bb3dab356.tar.gz)
 
 ExternalProject_Add(
     aram
