@@ -1,17 +1,6 @@
 diff -uNr a/RenderSystems/GL3Plus/src/OgreGL3PlusRenderSystem.cpp b/RenderSystems/GL3Plus/src/OgreGL3PlusRenderSystem.cpp
 --- a/RenderSystems/GL3Plus/src/OgreGL3PlusRenderSystem.cpp	2015-08-28 23:31:58.000000000 +0200
 +++ b/RenderSystems/GL3Plus/src/OgreGL3PlusRenderSystem.cpp	2015-09-08 19:28:49.287239877 +0200
-@@ -914,9 +914,7 @@
-             }
-         }
- 
--        //FIXME Points do not seem affected by setting this.
--        // OGRE_CHECK_GL_ERROR(glPointSize(size));
--        OGRE_CHECK_GL_ERROR(glPointSize(30.0));
-+        OGRE_CHECK_GL_ERROR(glPointSize(size));
- 
-         //OGRE_CHECK_GL_ERROR(glPointParameterf(GL_POINT_FADE_THRESHOLD_SIZE, 64.0));
-     }
 @@ -1780,6 +1780,37 @@
                  }
  
@@ -49,16 +38,4 @@ diff -uNr a/RenderSystems/GL3Plus/src/OgreGL3PlusRenderSystem.cpp b/RenderSystem
 +                }
  
                  separableProgram->getVertexArrayObject()->bind();
-             }
-diff -uNr a/ogre/OgreMain/src/OgreGpuProgramParams.cpp b/ogre/OgreMain/src/OgreGpuProgramParams.cpp
---- a/OgreMain/src/OgreGpuProgramParams.cpp	2015-09-09 11:48:52.899943084 +0200
-+++ b/OgreMain/src/OgreGpuProgramParams.cpp	2015-09-09 11:48:46.732170968 +0200
-@@ -3493,7 +3493,7 @@
-                     }
-                     // we'll use this map to resolve autos later
-                     // ignore the [0] aliases
--                    if (!StringUtil::endsWith(paramName, "[0]"))
-+                    if (!StringUtil::endsWith(paramName, "[0]") && this->getAutoConstantDefinition(paramName))
-                         srcToDestNamedMap[olddef.physicalIndex] = paramName;
-                 }
              }

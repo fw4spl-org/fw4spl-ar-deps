@@ -4,8 +4,8 @@ project(ogre)
 
 include(ExternalProject)
 
-set(CACHED_URL https://bitbucket.org/sinbad/ogre/get/ef3d24815985.tar.bz2)
-set(OGRE_HASH 8e94504ea98f0ce01ae913190250eebd5432daf08e05aee2c9181f8f4865a8d4)
+set(CACHED_URL https://bitbucket.org/fw4splorg/ogre/get/default.tar.bz2)
+set(OGRE_HASH 00d67cca9e23d87617428312a8eb3df8b6e5ea9371724173536e8b84ebd3424a)
 
 include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
 
@@ -38,22 +38,10 @@ set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
    )
 
 set(OGRE_PATCH_CMD ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/fix-GL3Plus.patch -d <SOURCE_DIR>)
-list(APPEND OGRE_PATCH_CMD
-    COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/ogreWin32Window.patch -d <SOURCE_DIR>
-    )
 
 if(WIN32)
     set(OGRE_CMAKE_ARGS ${OGRE_CMAKE_ARGS} -DOGRE_INSTALL_PDB:BOOL=OFF)
     list(APPEND OGRE_PATCH_CMD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/PrecompiledHeader.cmake" "<SOURCE_DIR>/CMake/Utils/PrecompiledHeader.cmake")
-endif()
-
-if(APPLE)
-
-    list(APPEND OGRE_PATCH_CMD
-        COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/fix-1.9-HEAD.patch -d <SOURCE_DIR>
-        COMMAND ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/FindOGRE.patch -d <SOURCE_DIR>
-    )
-
 endif()
 
 ExternalProject_Add(
