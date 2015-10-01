@@ -34,7 +34,6 @@ set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DBUILD_sample_consensus:BOOL=ON
                         -DBUILD_search:BOOL=ON
                         -DBUILD_tools:BOOL=OFF
-                        -DBUILD_TESTS:BOOL=OFF
                         -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
                         -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
                         -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
@@ -45,16 +44,43 @@ set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DBoost_USE_MULTITHREADED:BOOL=ON
                         -DBoost_USE_STATIC_LIBS:BOOL=OFF
                         -DPCL_BUILD_WITH_BOOST_DYNAMIC_LINKING_WIN32:BOOL=ON
-                        -DOPENNI2_INCLUDE_DIRS:PATH=${CMAKE_INSTALL_PREFIX}/include/openni2
-                        -DOPENNI2_LIBRARY:PATH=${CMAKE_INSTALL_PREFIX}/lib/openni2/${OPENNI2_LIBRARY}
                         -DFLANN_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/flann
                         -DVTK_DIR:PATH=${CMAKE_INSTALL_PREFIX}/lib/
                         -DPCL_SHARED_LIBS:BOOL=ON
-                        -DBUILD_WITH_DEBUG_INFO:BOOL=OFF
                         -DZLIB_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include
-                        -DQT_QMAKE_EXECUTABLE:PATH=${CMAKE_INSTALL_PREFIX}/bin/qmake
                         -DWITH_PCAP:BOOL=OFF
 )
+
+set(PCL_DEPENDS
+    zlib
+    boost
+    eigen
+    flann
+)
+
+if(NOT ANDROID)
+    list(APPEND PCL_DEPENDS
+        qt
+        vtk
+        openni
+    )
+    
+    list(APPEND PCL_CMAKE_ARGS
+        -DBUILD_TESTS:BOOL=OFF
+        -DBUILD_WITH_DEBUG_INFO:BOOL=OFF
+        -DOPENNI2_INCLUDE_DIRS:PATH=${CMAKE_INSTALL_PREFIX}/include/openni2
+        -DOPENNI2_LIBRARY:PATH=${CMAKE_INSTALL_PREFIX}/lib/openni2/${OPENNI2_LIBRARY}
+        -DQT_QMAKE_EXECUTABLE:PATH=${CMAKE_INSTALL_PREFIX}/bin/qmake
+    )
+else()
+    list(APPEND PCL_CMAKE_ARGS
+        -DBUILD_visualization:BOOL=OFF 
+        -DBUILD_global_tests:BOOL=OFF 
+        -DBUILD_people:BOOL=OFF
+        -DWITH_OPENGL:BOOL=OFF
+        -DHAVE_POSIX_MEMALIGN_EXITCODE:BOOL=OFF
+    )
+endif()
 
 #OpenMP
 find_package(OpenMP)
@@ -111,6 +137,8 @@ set(PCL_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 set(PCL_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i "${PCL_PATCH_DIR}/kinfu.diff" -d "<SOURCE_DIR>")
 if (UNIX AND NOT APPLE AND NOT ANDROID)
     list (APPEND PCL_PATCH_CMD && "${PATCH_EXECUTABLE}" -p1 -i "${PCL_PATCH_DIR}/CMakeLists.diff" -d "<SOURCE_DIR>")
+elseif(ANDROID)
+    list (APPEND PCL_PATCH_CMD && "${PATCH_EXECUTABLE}" -p1 -i ${PCL_PATCH_DIR}/pcl_targets.diff -d <SOURCE_DIR>)
 endif()
 
 ExternalProject_Add(
@@ -118,7 +146,7 @@ ExternalProject_Add(
     URL ${CACHED_URL}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DOWNLOAD_NAME pcl-1.7.2.x.tar.gz
-    DEPENDS zlib boost flann qt vtk eigen openni
+    DEPENDS ${PCL_DEPENDS}
     PATCH_COMMAND ${PCL_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${PCL_CMAKE_ARGS}
