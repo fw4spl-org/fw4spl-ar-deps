@@ -4,7 +4,7 @@ project(eigenBuilder)
 
 include(ExternalProject)
 
-set(CACHED_URL http://bitbucket.org/eigen/eigen/get/3.1.2.tar.gz)
+set(CACHED_URL https://bitbucket.org/eigen/eigen/get/3.2.6.tar.gz)
 
 set(EIGEN_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
                         -DBUILD_SHARED_LIBS:BOOL=ON
