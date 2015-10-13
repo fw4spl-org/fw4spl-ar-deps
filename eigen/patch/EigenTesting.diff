@@ -1,20 +1,29 @@
---- a/cmake/EigenTesting.cmake	2012-11-05 22:22:49.000000000 +0100
-+++ b/cmake/EigenTesting.cmake	2015-10-01 09:21:16.000000000 +0200
-@@ -373,7 +373,7 @@
+--- a/cmake/EigenTesting.cmake	2015-10-01 09:06:10.000000000 +0200
++++ b/cmake/EigenTesting.cmake	2015-10-13 12:10:25.000000000 +0200
+@@ -320,6 +320,8 @@
+     else()
+       set(${VAR} "na")
+     endif()
++  elseif(ANDROID)
++    set(${VAR} "g++")
+   else()
+     # on all other system we rely on ${CMAKE_CXX_COMPILER}
+     # supporting a "--version" or "/version" flag
+@@ -389,7 +391,7 @@
  
  macro(ei_get_cxxflags VAR)
    set(${VAR} "")
 -  ei_is_64bit_env(IS_64BIT_ENV)
-+  # ei_is_64bit_env(IS_64BIT_ENV) crash in cross compiling
++  #ei_is_64bit_env(IS_64BIT_ENV)
    if(EIGEN_TEST_NEON)
      set(${VAR} NEON)
    elseif(EIGEN_TEST_ALTIVEC)
-@@ -420,7 +420,7 @@
+@@ -436,7 +438,7 @@
      set(TMP_BUILD_STRING ${TMP_BUILD_STRING}-${LOCAL_COMPILER_FLAGS})
    endif()
  
 -  ei_is_64bit_env(IS_64BIT_ENV)
-+  # ei_is_64bit_env(IS_64BIT_ENV) crash in cross compiling
++  #ei_is_64bit_env(IS_64BIT_ENV)
    if(NOT IS_64BIT_ENV)
      set(TMP_BUILD_STRING ${TMP_BUILD_STRING}-32bit)
    else()
