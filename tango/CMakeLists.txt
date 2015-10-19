@@ -19,7 +19,6 @@ ExternalProject_Add(
     INSTALL_COMMAND ""
 )
 
-message(" SOURCE_DIR = <SOURCE_DIR>")
 ExternalProject_Add_Step(tango copy_files
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_BINARY_DIR}/tango-prefix/src/tango/libtango_client_api.so  ${CMAKE_INSTALL_PREFIX}/lib/libtango_client_api.so 
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_BINARY_DIR}/tango-prefix/src/tango/tango_client_api.h   ${CMAKE_INSTALL_PREFIX}/include/tango_client_api.h
