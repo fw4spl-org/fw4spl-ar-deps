@@ -8,9 +8,8 @@ include(ExternalProject)
 set(CACHED_URL http://sourceforge.net/projects/libusb/files/libusb-1.0/libusb-1.0.19/libusb-1.0.19.tar.bz2)
 
 if (APPLE)
-    set(SETENV export CC=${CMAKE_C_COMPILER}
-        CXX=${CMAKE_CXX_COMPILER}
-        "LDFLAGS=-framework IOKit -framework CoreFoundation -arch i386 -arch x86_64 "
+    set(SETENV
+        export "LDFLAGS=-framework IOKit -framework CoreFoundation -arch i386 -arch x86_64 "
         "CFLAGS=-arch i386 -arch x86_64 "
         &&
     )
