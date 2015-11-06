@@ -5,7 +5,7 @@ project(ogre)
 include(ExternalProject)
 
 set(CACHED_URL https://bitbucket.org/fw4splorg/ogre/get/default.tar.bz2)
-set(OGRE_HASH 1f294d9559a35542d6cf4e938fada12d4b32e653d1e668e3f1c5f68f8cd3c51c)
+set(OGRE_HASH be16662593dd4bc0311b976ff91580cca89c42717c31ad7e19d42bfa8a9faa9a)
 
 include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
 
@@ -22,7 +22,7 @@ set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DOGRE_BUILD_TOOLS:BOOL=OFF
                     -DOGRE_INSTALL_TOOLS:BOOL=OFF
                     -DOGRE_COPY_DEPENDENCIES:BOOL=OFF
-                    -DOGRE_BUILD_RENDERSYSTEM_GL:BOOL=ON
+                    -DOGRE_BUILD_RENDERSYSTEM_GL:BOOL=OFF
                     -DOGRE_BUILD_RENDERSYSTEM_GL3PLUS:BOOL=ON
                     -DOGRE_INSTALL_DOCS:BOOL=OFF
                     -DOGRE_BUILD_PLUGIN_CG:BOOL=OFF
