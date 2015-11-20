@@ -21,7 +21,7 @@ if (APPLE)
 else()
     set(SETENV "")
     set(LIBUSB_CONFIGURE_CMD
-        ./configure
+        ${SET_COMPILER_ENV} ./configure
         --prefix=${INSTALL_PREFIX_libusb}/${CMAKE_INSTALL_PREFIX}
     )
 endif()
