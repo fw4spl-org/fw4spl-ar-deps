@@ -5,7 +5,7 @@ project(ogre)
 include(ExternalProject)
 
 set(CACHED_URL https://bitbucket.org/fw4splorg/ogre/get/default.tar.bz2)
-set(OGRE_HASH be16662593dd4bc0311b976ff91580cca89c42717c31ad7e19d42bfa8a9faa9a)
+set(OGRE_HASH b26bc68858751245c126e0813d2eb6a98ef7ee56aada4a3054f6d572fa06825e)
 
 include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
 
