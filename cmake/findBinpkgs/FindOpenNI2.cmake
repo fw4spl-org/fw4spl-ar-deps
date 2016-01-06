@@ -9,6 +9,18 @@
 
 find_package(PkgConfig QUIET)
 
+# Find lib (not useful for windows)
+find_library(OPENNI2_LIBRARY
+    NAMES OpenNI2
+    PATH_SUFFIXES lib/openni2/
+)
+
+# Find include (not useful for windows)
+find_path(OPENNI2_INCLUDE_DIR
+    NAMES OpenNI.h
+    PATH_SUFFIXES include/openni2/
+)
+
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(OpenNI2 DEFAULT_MSG OPENNI2_LIBRARY OPENNI2_INCLUDE_DIRS)
 
