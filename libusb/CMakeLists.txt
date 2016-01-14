@@ -29,6 +29,7 @@ endif()
 ExternalProject_Add(
     libusb
     URL ${CACHED_URL}
+    URL_HASH SHA256=6c502c816002f90d4f76050a6429c3a7e0d84204222cbff2dce95dd773ba6840
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DOWNLOAD_NAME libusb-1.0.19.tar.bz2
     BUILD_IN_SOURCE 1

@@ -124,6 +124,7 @@ configure_file(
 ExternalProject_Add(
     opencv
     URL ${CACHED_URL}
+    URL_HASH SHA256=07094ea2f996f2622d572f0f3a162d698c8a547520341ca9109fbaf9363fb001
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DOWNLOAD_NAME opencv_3.0.0.zip
     DEPENDS ${OPENCV_DEPENDS}

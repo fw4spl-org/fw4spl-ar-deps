@@ -27,6 +27,7 @@ set(CACHED_URL http://launchpad.net/artoolkitplus/trunk/2.2.1/+download/ARToolKi
 ExternalProject_Add(
     artoolkitplus
     URL ${CACHED_URL}
+    URL_HASH SHA256=4f7488cdd0d87b14cbdd7975d122b8121f9071bab6cb27140adc8a8295b1ca06
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     PATCH_COMMAND ${ARTKP_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}

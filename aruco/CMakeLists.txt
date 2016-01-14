@@ -40,6 +40,7 @@ endif()
 ExternalProject_Add(
     aruco
     URL ${CACHED_URL}
+    URL_HASH SHA256=1ff21334e7ec143dfbfe39a458511d21c4c9d363fb176a09739a8d657e0f3cec
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DEPENDS opencv
     PATCH_COMMAND ${ARUCO_PATCH_CMD}

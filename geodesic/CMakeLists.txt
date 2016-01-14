@@ -9,6 +9,7 @@ set(CACHED_URL https://github.com/jabooth/exactgeodesic/archive/b5c2cc4a59193e7c
 ExternalProject_Add(
     geodesic
     URL ${CACHED_URL}
+    URL_HASH SHA256=b86542500e39008595442a9a9008fd5fa70f8d843bcbd34ad733078b0d113ad5
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DOWNLOAD_NAME geodesic.tar.gz
     CONFIGURE_COMMAND ""

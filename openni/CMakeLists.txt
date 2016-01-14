@@ -19,6 +19,7 @@ if(WIN32)
     ExternalProject_Add(
             openni
             URL ${CACHED_URL}
+            URL_HASH SHA256=af82d50e2134e9ff41c07a1adf70a4e3db5049f643c3421570b83d2c08f9db23
             DOWNLOAD_DIR ${ARCHIVE_DIR}
             BUILD_IN_SOURCE 1
             CONFIGURE_COMMAND ""
@@ -57,6 +58,7 @@ else()
             openni
             DEPENDS libusb
             URL ${CACHED_URL}
+            URL_HASH SHA256=ab10b74db61e3d40fdd3abb1c16df9d0cf415bcf08bde159cb7af27d3b32b311
             DOWNLOAD_DIR ${ARCHIVE_DIR}
             DOWNLOAD_NAME openni_2.2.0.xx.tar.gz
             BUILD_IN_SOURCE 1
