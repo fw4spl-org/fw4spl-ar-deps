@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(sofaBuilder)
 
@@ -19,15 +19,16 @@ set(SOFA_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DSOFAGUI_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
                     -DSOFAMISC_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
                     -DSOFASIMULATION_INSTALL_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include/sofa
+                    -DSOFA_USE_MINIBOOST:BOOL=OFF
+                    -DSOFA_FLOATING_POINT_TYPE:STRING=double
+                    -DSOFA_TESTS:BOOL=OFF
 )
 
-getCachedUrl(https://gforge.inria.fr/git/sofa/sofa.git CACHED_URL)
+set(CACHED_URL https://gforge.inria.fr/git/sofa/sofa.git)
 
 
 # Getting fixed rev with working compilations in all plateforms (except Mac)
-set(SOFA_REV aae029836ef1d2cf829222f16adb0eceef4f60a7)
-
-include(${ArBinPkgs_SOURCE_DIR}/cmake/utils/patch.cmake)
+set(SOFA_REV bb5b0b0cceb4bb86301effd9eaaa9ff770557103)
 
 set(SOFA_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 set(SOFA_PATCH_CMD ${CMAKE_COMMAND} -E remove_directory "<SOURCE_DIR>/extlibs/miniBoost/"
@@ -47,7 +48,7 @@ if(NOT APPLE)
         freeglut
     )
 else()
-    list(APPEND SOFA_CMAKE_ARGS 
+    list(APPEND SOFA_CMAKE_ARGS
         -DGLUT_glut_LIBRARY=/System/Library/Frameworks/GLUT.framework/GLUT
     )
 endif()

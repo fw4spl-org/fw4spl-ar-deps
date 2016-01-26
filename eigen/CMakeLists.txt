@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(eigenBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(http://bitbucket.org/eigen/eigen/get/3.1.2.tar.gz CACHED_URL)
+set(CACHED_URL https://bitbucket.org/eigen/eigen/get/3.2.6.tar.gz)
 
 set(EIGEN_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
                         -DBUILD_SHARED_LIBS:BOOL=ON
@@ -20,12 +20,11 @@ if(ANDROID)
         -DBUILD_TESTING:BOOL=OFF
     )
     
-    if (${CMAKE_HOST_WIN32})
-        set(EIGEN_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
-        set(EIGEN_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/eigen-prefix/src/eigen)
-        # Fixed compiler check (macro ei_get_compilerver)
-        set(EIGEN_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${EIGEN_PATCH_DIR}/EigenTesting.cmake" "${EIGEN_SRC_DIR}/CMake/EigenTesting.cmake")
-    endif()
+    set(EIGEN_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
+    set(EIGEN_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/eigen-prefix/src/eigen)
+    set(EIGEN_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i ${EIGEN_PATCH_DIR}/EigenTesting.diff -d <SOURCE_DIR>
+        COMMAND "${PATCH_EXECUTABLE}" -p1 -i ${EIGEN_PATCH_DIR}/EigenConfigureTesting.diff -d <SOURCE_DIR>
+    )
 endif()
 
 set(EIGEN_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/eigen-prefix/src/eigen)
@@ -33,7 +32,9 @@ set(EIGEN_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/eigen-prefix/src/eigen)
 ExternalProject_Add(
     eigen
     URL ${CACHED_URL}
+    URL_HASH SHA256=b6e14e15c77146d1608476644207941ff8542b546cdc81fc1fe5c9398e7fc957
     DOWNLOAD_DIR ${ARCHIVE_DIR}
+    DOWNLOAD_NAME eigen_3.2.6.tar.gz
     PATCH_COMMAND ${EIGEN_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${EIGEN_CMAKE_ARGS}
