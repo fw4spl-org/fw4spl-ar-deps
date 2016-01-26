@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(artoolkitplusBuilder)
 
@@ -22,11 +22,12 @@ set(ARTKP_PATCH_CMD ${ARTKP_PATCH_CMD}
     COMMAND ${CMAKE_COMMAND} -E copy ${ARTKP_PATCH_DIR}/../Camera.cpp "<SOURCE_DIR>/src/Camera.cpp"
     COMMAND ${CMAKE_COMMAND} -E copy ${ARTKP_PATCH_DIR}/../rppMultiGetTransMat.cpp "<SOURCE_DIR>/src/core/rppMultiGetTransMat.cpp")
 
-getCachedUrl(http://launchpad.net/artoolkitplus/trunk/2.2.1/+download/ARToolKitPlus-2.2.1.tar.bz2 CACHED_URL)
+set(CACHED_URL http://launchpad.net/artoolkitplus/trunk/2.2.1/+download/ARToolKitPlus-2.2.1.tar.bz2)
 
 ExternalProject_Add(
     artoolkitplus
     URL ${CACHED_URL}
+    URL_HASH SHA256=4f7488cdd0d87b14cbdd7975d122b8121f9071bab6cb27140adc8a8295b1ca06
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     PATCH_COMMAND ${ARTKP_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}

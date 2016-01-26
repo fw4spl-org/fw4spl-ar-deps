@@ -1,10 +1,10 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(freeGLUTBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(https://github.com/dcnieho/FreeGLUT/archive/FG_3_0_0_RC2.tar.gz CACHED_URL)
+set(CACHED_URL https://github.com/dcnieho/FreeGLUT/archive/FG_3_0_0_RC2.tar.gz)
 
 set(FREEGLUT_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                       -DINSTALL_PDB:BOOL=OFF
@@ -16,6 +16,7 @@ set(FREEGLUT_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
 ExternalProject_Add(
     freeglut
     URL ${CACHED_URL}
+    URL_HASH SHA256=c377562a3cfda117a28dd23682992183b0a49e6241db803ab7d56bd644ad7f7d
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${FREEGLUT_CMAKE_ARGS}

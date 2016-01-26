@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(zzip)
 
@@ -6,16 +6,24 @@ include(ExternalProject)
 
 set(ZZIP_VERSION 0.13.62)
 
-getCachedUrl(http://freefr.dl.sourceforge.net/project/zziplib/zziplib13/${ZZIP_VERSION}/zziplib-${ZZIP_VERSION}.tar.bz2 CACHED_URL)
+set(CACHED_URL http://freefr.dl.sourceforge.net/project/zziplib/zziplib13/${ZZIP_VERSION}/zziplib-${ZZIP_VERSION}.tar.bz2)
 
 set(ZZIP_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
-set(ZZIP_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
-                    -DBUILD_SHARED_LIBS:BOOL=ON
-)
+
+if(NOT ANDROID)
+    set(ZZIP_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
+                        -DBUILD_SHARED_LIBS:BOOL=ON
+    )
+else()
+    set(ZZIP_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
+                        -DBUILD_SHARED_LIBS:BOOL=OFF
+    )
+endif()
+
 
 set(ZZIP_PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${ZZIP_PATCH_DIR}/CMakeLists.txt" "<SOURCE_DIR>/CMakeLists.txt")
 
-if(APPLE)
+if(APPLE )
 list(APPEND ZZIP_PATCH_CMD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different "${ZZIP_PATCH_DIR}/fetch.h" "<SOURCE_DIR>/zzip/fetch.h")
 endif()

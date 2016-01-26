@@ -1,37 +1,56 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 project(arucoBuilder)
 
 include(ExternalProject)
 
-getCachedUrl(https://github.com/greenjava/aruco/archive/1.2.5a.tar.gz CACHED_URL)
+set(CACHED_URL http://sourceforge.net/projects/aruco/files/1.3.0/aruco-1.3.0.tgz/download)
+
+
+set(ARUCO_PATCH_CMD)
+set(ARUCO_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 
 set(ARUCO_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
                         -DBUILD_SHARED_LIBS:BOOL=ON
                         -DINSTALL_DOC:BOOL=OFF
                         -DBUILD_UTILS:BOOL=OFF
 )
-if(ANDROID)
-    list(APPEND ARUCO_CMAKE_ARGS
-         -DOpenCV_LIB_DIR="${CMAKE_INSTALL_PREFIX}/lib"        
-         )
-    set(PATCH_CMD ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/patch/android/Main_CMakeLists.txt" "<SOURCE_DIR>/trunk/CMakeLists.txt"
-          COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_SOURCE_DIR}/patch/android/Src_CMakeLists.txt" "<SOURCE_DIR>/trunk/src/CMakeLists.txt")
-    
-else()
-    set(PATCH_CMD "")
+
+#seems to be not revelant since there is a fin_package(OpenMP in the aruco CMakeLists.txt)
+if(ENABLE_OPEN_MP)
+    find_package(OpenMP)
+    if(OPENMP_FOUND)
+        list(APPEND ARUCO_CMAKE_ARGS
+             -DENABLE_OPENMP=ON
+             )
+    endif()
 endif()
 
-set(ARUCO_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/aruco-prefix/src/aruco/trunk)
+set(ARUCO_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i ${ARUCO_PATCH_DIR}/markerdetector.diff -d <SOURCE_DIR> )
+
+if(ANDROID)
+    list(APPEND ARUCO_CMAKE_ARGS
+         -DOpenCV_LIB_DIR="${CMAKE_INSTALL_PREFIX}/lib"
+         )
+         list(APPEND ARUCO_PATCH_CMD  && "${PATCH_EXECUTABLE}" -p1 -i ${ARUCO_PATCH_DIR}/android/android.diff -d <SOURCE_DIR> )
+else()
+
+endif()
 
 ExternalProject_Add(
     aruco
     URL ${CACHED_URL}
+    URL_HASH SHA256=1ff21334e7ec143dfbfe39a458511d21c4c9d363fb176a09739a8d657e0f3cec
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DEPENDS opencv
-    PATCH_COMMAND ${PATCH_CMD}
+    PATCH_COMMAND ${ARUCO_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
-    CONFIGURE_COMMAND ${CMAKE_COMMAND} -G ${CMAKE_GENERATOR} ${ARUCO_CMAKE_ARGS} ${ARUCO_SRC_DIR}
-    BUILD_COMMAND ${MAKE} ${ARUCO_SRC_DIR}
+    CMAKE_ARGS ${ARUCO_CMAKE_ARGS}
+    STEP_TARGETS CopyConfigFileToInstall
 )
 
+ExternalProject_Add_Step(aruco CopyConfigFileToInstall
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_INSTALL_PREFIX}/lib/cmake/Findaruco.cmake ${CMAKE_INSTALL_PREFIX}/Findaruco.cmake
+    COMMENT "Install Findaruco.cmake"
+    DEPENDEES install
+)
