@@ -24,7 +24,6 @@ macro(useOgre)
 
         # This copies the plugins into the install directory
         install(DIRECTORY "${PROJECT_BINARY_DIR}/ogreplugins/" DESTINATION "ogrePlugins/")
-        message(" OGRE_PLUGIN_DIR = ${OGRE_PLUGIN_DIR}")
     else()
         # Ogre search frameworks plugings in /Contents/Frameworks/
         set(FRAMEWORKS_DIR "${PROJECT_BINARY_DIR}/bin/Contents/Frameworks/")
@@ -33,7 +32,6 @@ macro(useOgre)
 
         # This copies the plugins into the install directory
         install(DIRECTORY ${FRAMEWORKS_DIR} DESTINATION "/bin/Contents/Frameworks/")
-        message(" OGRE_PLUGIN_DIR = ${OGRE_PLUGIN_DIR}")
     endif()
 
     fwInclude(
