@@ -49,6 +49,7 @@ set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DPCL_SHARED_LIBS:BOOL=ON
                         -DZLIB_INCLUDE_DIR:PATH=${CMAKE_INSTALL_PREFIX}/include
                         -DWITH_PCAP:BOOL=OFF
+                        -DCUDA_TOOLKIT_ROOT_DIR:BOOL=${CUDA_TOOLKIT_ROOT_DIR}
 )
 
 set(PCL_DEPENDS
@@ -64,7 +65,7 @@ if(NOT ANDROID)
         vtk
         openni
     )
-    
+
     list(APPEND PCL_CMAKE_ARGS
         -DBUILD_TESTS:BOOL=OFF
         -DBUILD_WITH_DEBUG_INFO:BOOL=OFF
@@ -74,8 +75,8 @@ if(NOT ANDROID)
     )
 else()
     list(APPEND PCL_CMAKE_ARGS
-        -DBUILD_visualization:BOOL=OFF 
-        -DBUILD_global_tests:BOOL=OFF 
+        -DBUILD_visualization:BOOL=OFF
+        -DBUILD_global_tests:BOOL=OFF
         -DBUILD_people:BOOL=OFF
         -DWITH_OPENGL:BOOL=OFF
         -DHAVE_POSIX_MEMALIGN_EXITCODE:BOOL=OFF
