@@ -17,6 +17,10 @@ if(NOT ANDROID)
     list(APPEND SUBDIRECTORIES bullet)
     list(APPEND SUBDIRECTORIES geodesic)
 
+    if(UNIX AND NOT APPLE)
+        list(APPEND SUBDIRECTORIES vlc)
+    endif()
+
     if(ENABLED_OGRE_DEPS)
         list(APPEND SUBDIRECTORIES zzip)
         list(APPEND SUBDIRECTORIES freeimage)
