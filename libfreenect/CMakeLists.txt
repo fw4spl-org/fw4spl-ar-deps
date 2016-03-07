@@ -8,6 +8,7 @@ set(CACHED_URL https://github.com/OpenKinect/libfreenect/archive/v0.5.3.tar.gz)
     
 set(LIBFREENECT_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                            -DBUILD_OPENNI2_DRIVER=ON
+                           -DBUILD_EXAMPLES=OFF
 )
     
 ExternalProject_Add(
