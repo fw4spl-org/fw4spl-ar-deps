@@ -35,21 +35,23 @@ endif()
 string(FIND ${VLC_LIBRARY} "/" PATH_FILE_INDEX REVERSE)
 string(SUBSTRING ${VLC_LIBRARY} 0 ${PATH_FILE_INDEX} PATH_DIR)
 
+# We use cp command directly from a shell to be able to use a wildcard
+# This is not the most elegant way but as we are only on Linux this is okish...
 ExternalProject_Add(
     vlc
     DOWNLOAD_COMMAND echo "Nothing to download..."
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     CONFIGURE_COMMAND echo "Nothing to configure..."
     BUILD_COMMAND echo "Nothing to build..."
-    INSTALL_COMMAND ${CMAKE_COMMAND} -E copy ${VLC_LIBRARY} ${CMAKE_INSTALL_PREFIX}/lib
-            COMMAND ${CMAKE_COMMAND} -E copy ${VLC_CORE_LIBRARY} ${CMAKE_INSTALL_PREFIX}/lib
+    INSTALL_COMMAND sh -c "cp ${VLC_LIBRARY}* ${CMAKE_INSTALL_PREFIX}/lib"
+            COMMAND sh -c "cp ${VLC_CORE_LIBRARY}* ${CMAKE_INSTALL_PREFIX}/lib"
             COMMAND ${CMAKE_COMMAND} -E copy_directory ${PATH_DIR}/vlc ${CMAKE_INSTALL_PREFIX}/lib/vlc
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     STEP_TARGETS CopyConfigFileToInstall
 )
 
 ExternalProject_Add_Step(vlc CopyConfigFileToInstall
-    COMMAND ${CMAKE_INSTALL_PREFIX}/lib/vlc/vlc-cache-gen
+    COMMAND ${CMAKE_INSTALL_PREFIX}/lib/vlc/vlc-cache-gen ${CMAKE_INSTALL_PREFIX}/lib/vlc/plugins/
     COMMENT "Generate plugin cache"
     DEPENDEES install
 )
