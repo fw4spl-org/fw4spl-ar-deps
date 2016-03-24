@@ -57,7 +57,3 @@ ExternalProject_Add(
     STEP_TARGETS CopyConfigFileToInstall
 )
 
-ExternalProject_Add_Step(ogre CopyConfigFileToInstall
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/cmake/fw-Ogre.cmake ${CMAKE_INSTALL_PREFIX}/fw-Ogre.cmake
-    COMMENT "Install CMake helper file"
-)
