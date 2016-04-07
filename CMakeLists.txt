@@ -16,6 +16,7 @@ if(NOT ANDROID)
     list(APPEND SUBDIRECTORIES flann)
     list(APPEND SUBDIRECTORIES bullet)
     list(APPEND SUBDIRECTORIES geodesic)
+    list(APPEND SUBDIRECTORIES vlfeat)
 
     if(UNIX AND NOT APPLE)
         list(APPEND SUBDIRECTORIES vlc)
