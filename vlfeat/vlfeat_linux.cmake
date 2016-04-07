@@ -9,5 +9,10 @@ ExternalProject_Add(
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ${MAKE} MEX="" DEBUG=${DEBUG} INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
     INSTALL_COMMAND ${MAKE} install MEX="" DEBUG=${DEBUG} INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+    STEP_TARGETS CopyConfigFileToInstall
 )
 
+ExternalProject_Add_Step(vlfeat CopyConfigFileToInstall
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/../cmake/findBinpkgs/fw-vlfeat.cmake ${CMAKE_INSTALL_PREFIX}/fw-vlfeat.cmake
+    COMMENT "Install configuration file"
+)

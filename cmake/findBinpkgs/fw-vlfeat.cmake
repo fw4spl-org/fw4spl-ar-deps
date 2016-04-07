@@ -1,0 +1,5 @@
+set(VLFEAT_INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR}/include/vl)
+if(UNIX AND NOT APPLE)
+    set(VLFEAT_LIBRARY ${CMAKE_CURRENT_LIST_DIR}/lib/libvl.so)
+elseif(APPLE)
+elseif(WIN32)
