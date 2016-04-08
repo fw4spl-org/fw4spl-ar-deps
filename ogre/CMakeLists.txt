@@ -4,12 +4,10 @@ project(ogre)
 
 include(ExternalProject)
 
-set(CACHED_URL https://bitbucket.org/fw4splorg/ogre/get/default.tar.bz2)
-set(OGRE_HASH 2526481b03f05d7854a60fb732e1f0ebe4e106cf024dc82408440048a5fc5fac)
+set(CACHED_URL https://bitbucket.org/fw4splorg/ogre-fw4spl/get/v1-10.tar.bz2)
+set(OGRE_HASH 36ae20a359d7a1839ae02e83f6609bd6a6a6f20b3481427030b579a5d8e755e6)
 
 include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
-
-set(OGRE_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 
 set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DBUILD_SHARED_LIBS:BOOL=ON
@@ -36,8 +34,6 @@ set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DBOOST_ROOT:PATH=${CMAKE_INSTALL_PREFIX}
                     -DBOOST_INCLUDEDIR:PATH=${CMAKE_INSTALL_PREFIX}/include/boost-${BOOST_VERSION}
    )
-
-set(OGRE_PATCH_CMD ${PATCH_EXECUTABLE} -p1 -i ${OGRE_PATCH_DIR}/fix-GL3Plus.patch -d <SOURCE_DIR>)
 
 if(WIN32)
     set(OGRE_CMAKE_ARGS ${OGRE_CMAKE_ARGS} -DOGRE_INSTALL_PDB:BOOL=OFF)
