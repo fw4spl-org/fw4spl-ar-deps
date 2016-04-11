@@ -19,7 +19,6 @@ ExternalProject_Add(
     DEPENDS opencv
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${ARAM_CMAKE_ARGS}
-    STEP_TARGETS CopyFindFileToInstall
 )
 
 ExternalProject_Add_Step(aram CopyFindFileToInstall

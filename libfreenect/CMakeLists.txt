@@ -19,7 +19,6 @@ ExternalProject_Add(
     DEPENDS openni
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${LIBFREENECT_CMAKE_ARGS}
-    STEP_TARGETS CopyConfigFileToInstall
 )
 
 ExternalProject_Add_Step(libfreenect INSTALL_LIBFREENECT

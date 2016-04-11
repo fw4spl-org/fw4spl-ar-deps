@@ -15,7 +15,6 @@ ExternalProject_Add(
     CONFIGURE_COMMAND ""
     BUILD_COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/geodesic-prefix/src/geodesic" "${CMAKE_INSTALL_PREFIX}/include/geodesic"
     INSTALL_COMMAND ""
-    STEP_TARGETS CopyConfigFileToInstall
 )
 
 ExternalProject_Add_Step(geodesic CopyConfigFileToInstall

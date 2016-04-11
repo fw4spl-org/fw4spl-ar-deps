@@ -37,6 +37,5 @@ ExternalProject_Add(
     PATCH_COMMAND ${ZZIP_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${ZZIP_CMAKE_ARGS}
-    STEP_TARGETS CopyConfigFileToInstall
 )
 

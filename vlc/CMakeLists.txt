@@ -47,7 +47,6 @@ ExternalProject_Add(
             COMMAND sh -c "cp ${VLC_CORE_LIBRARY}* ${CMAKE_INSTALL_PREFIX}/lib"
             COMMAND ${CMAKE_COMMAND} -E copy_directory ${PATH_DIR}/vlc ${CMAKE_INSTALL_PREFIX}/lib/vlc
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
-    STEP_TARGETS CopyConfigFileToInstall
 )
 
 ExternalProject_Add_Step(vlc CopyConfigFileToInstall

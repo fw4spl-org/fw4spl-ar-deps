@@ -32,7 +32,6 @@ ExternalProject_Add(
     PATCH_COMMAND ${ARTKP_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${ARTKP_CMAKE_ARGS}
-    STEP_TARGETS CopyConfigFileToInstall
 )
 
 ExternalProject_Add_Step(artoolkitplus CopyConfigFileToInstall

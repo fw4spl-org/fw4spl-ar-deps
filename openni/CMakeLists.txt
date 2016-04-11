@@ -27,7 +27,6 @@ if(WIN32)
                   COMMAND devenv OpenNI.sln /project PS1080 /build ${CMAKE_BUILD_TYPE}
                   COMMAND ${KINECT_BUILD_STEP}
             INSTALL_COMMAND ""
-            STEP_TARGETS CopyConfigFileToInstall
     )
     ExternalProject_Add_Step(
             openni INSTALL_OPENNI
@@ -65,7 +64,6 @@ else()
             CONFIGURE_COMMAND ""
             BUILD_COMMAND ${SET_COMPILER_ENV} ${MAKE} CFG=${CMAKE_BUILD_TYPE} INSTALL_LIB_DIR=${CMAKE_INSTALL_PREFIX}/lib INSTALL_INCLUDE_DIR=${CMAKE_INSTALL_PREFIX}/include -f <SOURCE_DIR>/Makefile minimum
             INSTALL_COMMAND ""
-            STEP_TARGETS CopyConfigFileToInstall
     )
 
     ExternalProject_Add_Step(openni INSTALL_OPENNI
