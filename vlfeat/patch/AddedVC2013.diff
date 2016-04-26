@@ -1,0 +1,17 @@
+# HG changeset patch
+# Parent  af7c79b852eb25e6a0e71b0a9d3ec1cab3f1aea8
+
+diff --git a/make/nmake_helper.mak b/make/nmake_helper.mak
+--- a/make/nmake_helper.mak
++++ b/make/nmake_helper.mak
+@@ -72,6 +72,10 @@
+ VL_MSVC = 11.0
+ VL_MSVS = 110
+ VL_MSC = 1700
++!ELSEIF "$(_NMAKE_VER)" == "12.00.21005.1"
++VL_MSVC = 12.0
++VL_MSVS = 120
++VL_MSC = 1800
+ !ELSE
+ VL_MSVC =
+ VL_MSVS =

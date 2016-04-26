@@ -18,8 +18,5 @@ if(APPLE)
 elseif(UNIX)
 include(vlfeat_linux.cmake)
 elseif(WIN32)
-
+include(vlfeat_windows.cmake)
 endif()
-
-
-
