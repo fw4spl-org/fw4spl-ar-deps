@@ -13,9 +13,7 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     set(${DEBUG} "debug")
 endif()
 
-if(APPLE)
-
-elseif(UNIX)
+if(UNIX)
 include(vlfeat_linux.cmake)
 elseif(WIN32)
 include(vlfeat_windows.cmake)
