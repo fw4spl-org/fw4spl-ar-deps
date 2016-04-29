@@ -4,7 +4,7 @@ project(vlfeatBuilder)
 
 include(ExternalProject)
 
-set(CACHED_URL https://github.com/schweitzer/vlfeat/archive/master.zip)
+set(CACHED_URL https://github.com/schweitzer/vlfeat/archive/v0.9.21.tar.gz)
 set(VLFEAT_SRC_DIR ${CMAKE_CURRENT_BINARY_DIR}/vlfeat-prefix/src/vlfeat)
 
 set(${DEBUG} "")
