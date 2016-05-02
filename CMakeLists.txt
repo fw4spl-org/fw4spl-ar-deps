@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.3)
 
 project(ArBinPkgs)
 
@@ -7,6 +7,7 @@ option(ENABLE_OPEN_MP "Set to ON use allow the use of OpenMP" OFF)
 option(ENABLED_OGRE_DEPS "Set to ON to build ogre" OFF)
 option(ENABLED_SOFA_DEPS "Set to ON to build sofa" OFF)
 option(ENABLED_PCL_DEPS "Set to ON to build PCL" OFF)
+option(ENABLED_BUILD_REALSENSE "Set to ON to build libRealSense" OFF)
 
 ##Desktop Deps##
 if(NOT ANDROID)
@@ -47,7 +48,15 @@ if(NOT ANDROID)
         endif()
         list(APPEND SUBDIRECTORIES pcl)
     endif()
-
+    
+    if(ENABLED_BUILD_REALSENSE)
+        if (NOT ENABLED_PCL_DEPS AND UNIX AND NOT APPLE)
+            # On Linux, libusb is required by libRealSense
+            list(APPEND SUBDIRECTORIES libusb)
+        endif()
+        list(APPEND SUBDIRECTORIES realsense)
+    endif()
+    
     if(ENABLE_EXPERIMENTAL_DEPS)
         list(APPEND SUBDIRECTORIES artoolkitplus)
         list(APPEND SUBDIRECTORIES aram)
