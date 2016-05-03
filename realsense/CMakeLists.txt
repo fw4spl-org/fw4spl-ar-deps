@@ -16,7 +16,7 @@ endif()
 ExternalProject_Add(
     realsense
     URL ${CACHED_URL}
-    URL_HASH SHA256=b137095c0ef53b7ed2f3d235eddb0992de86d0c69134f594c4acd3deda1d87ec
+    URL_HASH SHA256=238a61e1938340c4929f2d9af6db36c22c86a589a351f054c6ff5f4fab0c951b
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DOWNLOAD_NAME librealsense-0.9.1.1.tar.gz
     DEPENDS ${REALSENSE_DEPENDS}
