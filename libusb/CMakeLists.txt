@@ -15,14 +15,14 @@ if (APPLE)
     )
     set(LIBUSB_CONFIGURE_CMD
         ./configure
-        --prefix=${INSTALL_PREFIX_libusb}/${CMAKE_INSTALL_PREFIX}
+        --prefix=${CMAKE_INSTALL_PREFIX}
         --disable-dependency-tracking
     )
 else()
     set(SETENV "")
     set(LIBUSB_CONFIGURE_CMD
         ${SET_COMPILER_ENV} ./configure
-        --prefix=${INSTALL_PREFIX_libusb}/${CMAKE_INSTALL_PREFIX}
+        --prefix=${CMAKE_INSTALL_PREFIX}
     )
 endif()
 
@@ -35,7 +35,7 @@ ExternalProject_Add(
     BUILD_IN_SOURCE 1
     CONFIGURE_COMMAND ${SETENV} ${LIBUSB_CONFIGURE_CMD}
     BUILD_COMMAND ${MAKE}
-    INSTALL_COMMAND ${MAKE} install
+    INSTALL_COMMAND ${MAKE} install DESTDIR=${INSTALL_PREFIX_libusb}
 )
 
 ExternalProject_Add_Step(libusb COPY_FILES
