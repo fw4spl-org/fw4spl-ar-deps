@@ -50,11 +50,12 @@ if(NOT ANDROID)
     endif()
     
     if(ENABLED_BUILD_REALSENSE)
-        if (NOT ENABLED_PCL_DEPS AND UNIX AND NOT APPLE)
-            # On Linux, libusb is required by libRealSense
+        if (NOT ENABLED_PCL_DEPS AND UNIX)
+            # On Linux and OSX, libusb is required by libRealSense
             list(APPEND SUBDIRECTORIES libusb)
         endif()
         list(APPEND SUBDIRECTORIES realsense)
+        list(APPEND SUBDIRECTORIES infinitam)
     endif()
     
     if(ENABLE_EXPERIMENTAL_DEPS)
