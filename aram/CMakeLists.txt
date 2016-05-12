@@ -22,7 +22,7 @@ ExternalProject_Add(
 )
 
 ExternalProject_Add_Step(aram CopyFindFileToInstall
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/aram-prefix/src/ARAM/cmake/FindARAM.cmake
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/aram-prefix/src/aram/cmake/FindARAM.cmake
                                      ${CMAKE_INSTALL_PREFIX}/FindARAM.cmake
     COMMENT "Install FindARAM file"
     DEPENDEES install
