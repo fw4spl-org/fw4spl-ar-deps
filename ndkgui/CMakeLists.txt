@@ -4,14 +4,14 @@ project(ndkgui)
 
 include(ExternalProject)
 
-set(CACHED_URL https://github.com/FredChamp/ndkGui/archive/fdaca972d10eb959199b089e6bc2b152de37c9fd.tar.gz)
+set(CACHED_URL https://github.com/FredChamp/ndkGui/archive/8ed75fde182f200359d871ae1840ff2ce65113bb.tar.gz)
 
 set(NDKGUI_CMAKE_ARGS ${COMMON_CMAKE_ARGS})
 
 ExternalProject_Add(
     ndkgui
     URL ${CACHED_URL}
-    URL_HASH SHA256=a93d7021e24a7ad2204d1e39eb76cac2c2e0c484b1bad836435548c1e2191223
+    URL_HASH SHA256=ab0bce2dd5a69e2645d6349a5b271838f336320dbce535c641978767e28d93b3
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DOWNLOAD_NAME ndkGui.tar.gz
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
