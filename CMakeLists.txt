@@ -8,6 +8,7 @@ option(ENABLED_OGRE_DEPS "Set to ON to build ogre" OFF)
 option(ENABLED_SOFA_DEPS "Set to ON to build sofa" OFF)
 option(ENABLED_PCL_DEPS "Set to ON to build PCL" OFF)
 option(ENABLED_BUILD_REALSENSE "Set to ON to build libRealSense" OFF)
+option(ENABLED_BUILD_ORB_SLAM2 "Set to ON to build ORB Slam 2" OFF)
 
 ##Desktop Deps##
 if(NOT ANDROID)
@@ -56,6 +57,15 @@ if(NOT ANDROID)
         endif()
         list(APPEND SUBDIRECTORIES realsense)
         list(APPEND SUBDIRECTORIES infinitam)
+    endif()
+    
+    if(ENABLED_BUILD_ORB_SLAM2)
+        if (NOT ENABLED_SOFA_DEPS)
+            # GLEW is required by Pangolin
+            list(APPEND SUBDIRECTORIES glew)
+        endif()
+        list(APPEND SUBDIRECTORIES pangolin)
+        list(APPEND SUBDIRECTORIES orbslam2)
     endif()
     
     if(ENABLE_EXPERIMENTAL_DEPS)
