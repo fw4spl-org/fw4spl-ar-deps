@@ -27,8 +27,10 @@ ExternalProject_Add(pangolin
     CMAKE_ARGS ${PANGOLIN_CMAKE_ARGS}
 )
 
-ExternalProject_Add_Step(pangolin pangolinExportInstall 
-    COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/Pangolin-prefix/src/Pangolin-build/src/include/pangolin/pangolin_export.h"
-            "${CMAKE_INSTALL_PREFIX}/include/pangolin/pangolin_export.h"
-    COMMENT "Install pangolin_export"
-    DEPENDEES install)
+if(WIN32)
+    ExternalProject_Add_Step(pangolin pangolinExportInstall 
+        COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/Pangolin-prefix/src/Pangolin-build/src/include/pangolin/pangolin_export.h"
+                "${CMAKE_INSTALL_PREFIX}/include/pangolin/pangolin_export.h"
+        COMMENT "Install pangolin_export"
+        DEPENDEES install)
+endif()
