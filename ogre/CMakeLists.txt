@@ -35,6 +35,8 @@ set(OGRE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                     -DBOOST_INCLUDEDIR:PATH=${CMAKE_INSTALL_PREFIX}/include/boost-${BOOST_VERSION}
    )
 
+set(OGRE_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
+   
 if(WIN32)
     set(OGRE_CMAKE_ARGS ${OGRE_CMAKE_ARGS} -DOGRE_INSTALL_PDB:BOOL=OFF)
     list(APPEND OGRE_PATCH_CMD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${OGRE_PATCH_DIR}/PrecompiledHeader.cmake" "<SOURCE_DIR>/CMake/Utils/PrecompiledHeader.cmake")
