@@ -48,7 +48,7 @@ ExternalProject_Add(
     URL_HASH SHA256=${OGRE_HASH}
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DOWNLOAD_NAME v1-10-0.tar.bz2
-    DEPENDS zzip freeimage boost
+    DEPENDS zzip freeimage boost freetype
     PATCH_COMMAND ${OGRE_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${OGRE_CMAKE_ARGS}
