@@ -4,7 +4,7 @@ project(orbslam2Builder)
 
 include(ExternalProject)
 
-set(CACHED_URL https://github.com/fw4spl-org/ORB_SLAM2/archive/79eef1bb894b0aed6f098e47c3c91a612e550d76.tar.gz)
+set(CACHED_URL https://github.com/fw4spl-org/ORB_SLAM2/archive/96fe4756a0d365d5720a31b4f8a4fbe94c51500f.tar.gz)
 set(ORBSLAM2_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
     -DPangolin_DIR=${CMAKE_INSTALL_PREFIX}
 )
@@ -12,7 +12,7 @@ set(ORBSLAM2_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
 ExternalProject_Add(
     orbslam2
     URL ${CACHED_URL}
-    URL_HASH SHA256=233443715f5afca1747f99ff6bf6fbcd9e736b6bfb28d9cd92c6219dbb820a7f
+    URL_HASH SHA256=240ff9b4eae295b88f65196599d346bbe3d3e8470491805585f8bd1ad8006e55
     DOWNLOAD_NAME orbslam2-0.1.tar.gz
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DEPENDS opencv eigen pangolin
