@@ -120,8 +120,7 @@ if(CUDA_FOUND)
     endif()
 else()
     message("warning, no acceptable version of CUDA found")
-    list(APPEND PCL_CMAKE_ARGS -DBUILD_2d:BOOL=OFF
-                               -DBUILD_tracking:BOOL=OFF
+    list(APPEND PCL_CMAKE_ARGS -DBUILD_tracking:BOOL=OFF
                                -DBUILD_segmentation:BOOL=OFF
                                -DBUILD_simulation:BOOL=OFF
                                -DBUILD_stereo:BOOL=OFF
