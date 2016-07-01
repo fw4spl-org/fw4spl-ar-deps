@@ -4,11 +4,7 @@ project(arucoBuilder)
 
 include(ExternalProject)
 
-set(CACHED_URL http://sourceforge.net/projects/aruco/files/1.3.0/aruco-1.3.0.tgz/download)
-
-
-set(ARUCO_PATCH_CMD)
-set(ARUCO_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
+set(CACHED_URL https://github.com/fw4spl-org/aruco/archive/1.3.0.tar.gz)
 
 set(ARUCO_CMAKE_ARGS    ${COMMON_CMAKE_ARGS}
                         -DBUILD_SHARED_LIBS:BOOL=ON
@@ -26,13 +22,10 @@ if(ENABLE_OPEN_MP)
     endif()
 endif()
 
-set(ARUCO_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i ${ARUCO_PATCH_DIR}/markerdetector.diff -d <SOURCE_DIR> )
-
 if(ANDROID)
     list(APPEND ARUCO_CMAKE_ARGS
          -DOpenCV_LIB_DIR="${CMAKE_INSTALL_PREFIX}/lib"
          )
-         list(APPEND ARUCO_PATCH_CMD  && "${PATCH_EXECUTABLE}" -p1 -i ${ARUCO_PATCH_DIR}/android/android.diff -d <SOURCE_DIR> )
 else()
 
 endif()
@@ -40,10 +33,9 @@ endif()
 ExternalProject_Add(
     aruco
     URL ${CACHED_URL}
-    URL_HASH SHA256=1ff21334e7ec143dfbfe39a458511d21c4c9d363fb176a09739a8d657e0f3cec
+    URL_HASH SHA256=c53c58414af7de25a5e155588391be50e885d8ebb28da8ba22aaa656f4844ee0
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DEPENDS opencv
-    PATCH_COMMAND ${ARUCO_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${ARUCO_CMAKE_ARGS}
 )
