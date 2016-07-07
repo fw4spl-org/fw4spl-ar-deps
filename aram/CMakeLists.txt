@@ -9,7 +9,7 @@ set(ARAM_CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=ON
 )
 
-set (CACHED_URL https://github.com/schweitzer/ARAM/archive/v1.0.tar.gz)
+set (CACHED_URL https://github.com/schweitzer/ARAM/archive/master.tar.gz)
 
 ExternalProject_Add(
     aram
