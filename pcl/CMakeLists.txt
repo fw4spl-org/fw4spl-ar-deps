@@ -4,7 +4,7 @@ project(pclBuilder)
 
 include(ExternalProject)
 
-set(CACHED_URL https://github.com/PointCloudLibrary/pcl/archive/085e13a04c1d6c0c2a65ae91ddb6f1d77a884693.tar.gz)
+set(CACHED_URL https://github.com/PointCloudLibrary/pcl/archive/pcl-1.8.0.tar.gz)
 
 include( ${CMAKE_SOURCE_DIR}/cmake/findBinpkgs/fw-boost.cmake )
 
@@ -35,7 +35,6 @@ set(PCL_CMAKE_ARGS      ${COMMON_CMAKE_ARGS}
                         -DBUILD_search:BOOL=ON
                         -DBUILD_tools:BOOL=OFF
                         -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
-                        -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
                         -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
                         -DBoost_COMPILER:STRING=${Boost_COMPILER}
                         -DBOOST_ROOT:PATH=${CMAKE_INSTALL_PREFIX}
@@ -135,18 +134,15 @@ endif()
 
 set(PCL_PATCH_DIR ${CMAKE_CURRENT_SOURCE_DIR}/patch)
 set(PCL_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i "${PCL_PATCH_DIR}/kinfu.diff" -d "<SOURCE_DIR>")
-if (UNIX AND NOT APPLE AND NOT ANDROID)
-    list (APPEND PCL_PATCH_CMD && "${PATCH_EXECUTABLE}" -p1 -i "${PCL_PATCH_DIR}/CMakeLists.diff" -d "<SOURCE_DIR>")
-elseif(ANDROID)
+if(ANDROID)
     list (APPEND PCL_PATCH_CMD && "${PATCH_EXECUTABLE}" -p1 -i ${PCL_PATCH_DIR}/pcl_targets.diff -d <SOURCE_DIR>)
 endif()
 
 ExternalProject_Add(
     pcl
     URL ${CACHED_URL}
-    URL_HASH SHA256=205ad00650f0dd082723455c94e695d5e4a8e499986a48f5b6f04b36498eb38a
+    URL_HASH SHA256=9e54b0c1b59a67a386b9b0f4acb2d764272ff9a0377b825c4ed5eedf46ebfcf4
     DOWNLOAD_DIR ${ARCHIVE_DIR}
-    DOWNLOAD_NAME pcl-1.7.2.x.tar.gz
     DEPENDS ${PCL_DEPENDS}
     PATCH_COMMAND ${PCL_PATCH_CMD}
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
