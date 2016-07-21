@@ -137,7 +137,7 @@ set(PCL_PATCH_CMD "${PATCH_EXECUTABLE}" -p1 -i "${PCL_PATCH_DIR}/kinfu.diff" -d 
 if(ANDROID)
     list (APPEND PCL_PATCH_CMD && "${PATCH_EXECUTABLE}" -p1 -i ${PCL_PATCH_DIR}/pcl_targets.diff -d <SOURCE_DIR>)
 endif()
-if(WIN)
+if(WIN32)
     list (APPEND PCL_PATCH_CMD && "${PATCH_EXECUTABLE}" -p1 -i ${PCL_PATCH_DIR}/win.diff -d <SOURCE_DIR>)
 endif()
 
