@@ -9,13 +9,15 @@ set(ARAM_CMAKE_ARGS
     -DBUILD_SHARED_LIBS:BOOL=ON
 )
 
-set (CACHED_URL https://github.com/schweitzer/ARAM/archive/master.tar.gz)
+set (CACHED_URL https://github.com/fw4spl-org/ARAM/archive/v1.0.tar.gz)
+
 
 ExternalProject_Add(
     aram
     URL ${CACHED_URL}
-    #URL_HASH SHA256=8acab29f6ed6046b52031976bc15238c3952209903749972cbd43417b8d4a4e1
+    URL_HASH SHA256=efd110f7779dadd17b46258c6cb33a903a57b3003c4aaa467db7a24710fe1eba
     DOWNLOAD_DIR ${ARCHIVE_DIR}
+    DOWNLOAD_NAME ARAM-1.0.tar.gz
     DEPENDS opencv
     INSTALL_DIR ${CMAKE_INSTALL_PREFIX}
     CMAKE_ARGS ${ARAM_CMAKE_ARGS}
