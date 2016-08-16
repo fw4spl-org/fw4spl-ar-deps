@@ -5,7 +5,7 @@ project(realsense)
 include(ExternalProject)
 
 set(CACHED_URL https://github.com/fw4spl-org/librealsense/archive/v0.9.1.1.tar.gz)
-    
+
 set(REALSENSE_CMAKE_ARGS ${COMMON_CMAKE_ARGS}
                          -DBUILD_EXAMPLES=OFF
 )
@@ -16,7 +16,7 @@ endif()
 ExternalProject_Add(
     realsense
     URL ${CACHED_URL}
-    URL_HASH SHA256=2d46d5dd34c828f356af6a09fe3fe182845d389f074e85c50f5c81cccf14beaf
+    URL_HASH SHA256=511721c264b75ce6f41e7191851f69866c0f81702d18e007ac64cc28f950cfbd
     DOWNLOAD_DIR ${ARCHIVE_DIR}
     DOWNLOAD_NAME librealsense-0.9.1.1.tar.gz
     DEPENDS ${REALSENSE_DEPENDS}
